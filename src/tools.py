@@ -1,4 +1,6 @@
 import re
+
+
 #Find csrf token
 def find_csrf(html):
     #Search for the csrfValue using the regular expression
