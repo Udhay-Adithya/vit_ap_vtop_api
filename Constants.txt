@@ -1,5 +1,3 @@
-Udhay Adithya
-
 Student Login
 /vtop/prelogin/setup
 _csrf=54cb0f6f-ba8f-4dfe-903d-a4bd8a4358f1
@@ -88,71 +86,71 @@ Marks
 Weekend Outing
 /vtop/hostel/StudentWeekendOuting
     /vtop/hostel/saveOutingForm
-    ------WebKitFormBoundary5ByrGHEb9JELC9e1
-Content-Disposition: form-data; name="authorizedID"
+            ------WebKitFormBoundary5ByrGHEb9JELC9e1
+        Content-Disposition: form-data; name="authorizedID"
 
-23BCE7625
-------WebKitFormBoundary5ByrGHEb9JELC9e1
-Content-Disposition: form-data; name="BookingId"
+        23BCE7625
+        ------WebKitFormBoundary5ByrGHEb9JELC9e1
+        Content-Disposition: form-data; name="BookingId"
 
 
-------WebKitFormBoundary5ByrGHEb9JELC9e1
-Content-Disposition: form-data; name="regNo"
+        ------WebKitFormBoundary5ByrGHEb9JELC9e1
+        Content-Disposition: form-data; name="regNo"
 
-23BCE7625
-------WebKitFormBoundary5ByrGHEb9JELC9e1
-Content-Disposition: form-data; name="name"
+        23BCE7625
+        ------WebKitFormBoundary5ByrGHEb9JELC9e1
+        Content-Disposition: form-data; name="name"
 
-UDHAY ADITHYA  JOTHI
-------WebKitFormBoundary5ByrGHEb9JELC9e1
-Content-Disposition: form-data; name="applicationNo"
+        UDHAY ADITHYA  JOTHI
+        ------WebKitFormBoundary5ByrGHEb9JELC9e1
+        Content-Disposition: form-data; name="applicationNo"
 
-2023046196
-------WebKitFormBoundary5ByrGHEb9JELC9e1
-Content-Disposition: form-data; name="gender"
+        2023046196
+        ------WebKitFormBoundary5ByrGHEb9JELC9e1
+        Content-Disposition: form-data; name="gender"
 
-MALE
-------WebKitFormBoundary5ByrGHEb9JELC9e1
-Content-Disposition: form-data; name="hostelBlock"
+        MALE
+        ------WebKitFormBoundary5ByrGHEb9JELC9e1
+        Content-Disposition: form-data; name="hostelBlock"
 
-MH-4
-------WebKitFormBoundary5ByrGHEb9JELC9e1
-Content-Disposition: form-data; name="roomNo"
+        MH-4
+        ------WebKitFormBoundary5ByrGHEb9JELC9e1
+        Content-Disposition: form-data; name="roomNo"
 
-706
-------WebKitFormBoundary5ByrGHEb9JELC9e1
-Content-Disposition: form-data; name="outPlace"
+        706
+        ------WebKitFormBoundary5ByrGHEb9JELC9e1
+        Content-Disposition: form-data; name="outPlace"
 
-Vijayawada
-------WebKitFormBoundary5ByrGHEb9JELC9e1
-Content-Disposition: form-data; name="purposeOfVisit"
+        Vijayawada
+        ------WebKitFormBoundary5ByrGHEb9JELC9e1
+        Content-Disposition: form-data; name="purposeOfVisit"
 
-Shopping
-------WebKitFormBoundary5ByrGHEb9JELC9e1
-Content-Disposition: form-data; name="outingDate"
+        Shopping
+        ------WebKitFormBoundary5ByrGHEb9JELC9e1
+        Content-Disposition: form-data; name="outingDate"
 
-24-Mar-2024
-------WebKitFormBoundary5ByrGHEb9JELC9e1
-Content-Disposition: form-data; name="outTime"
+        24-Mar-2024
+        ------WebKitFormBoundary5ByrGHEb9JELC9e1
+        Content-Disposition: form-data; name="outTime"
 
-9:30 AM- 3:30PM
-------WebKitFormBoundary5ByrGHEb9JELC9e1
-Content-Disposition: form-data; name="contactNumber"
+        9:30 AM- 3:30PM
+        ------WebKitFormBoundary5ByrGHEb9JELC9e1
+        Content-Disposition: form-data; name="contactNumber"
 
-9944778017
-------WebKitFormBoundary5ByrGHEb9JELC9e1
-Content-Disposition: form-data; name="parentContactNumber"
+        9944778017
+        ------WebKitFormBoundary5ByrGHEb9JELC9e1
+        Content-Disposition: form-data; name="parentContactNumber"
 
-9840566621
-------WebKitFormBoundary5ByrGHEb9JELC9e1
-Content-Disposition: form-data; name="_csrf"
+        9840566621
+        ------WebKitFormBoundary5ByrGHEb9JELC9e1
+        Content-Disposition: form-data; name="_csrf"
 
-29239f74-b3d1-42fc-b403-98a6113f7cd4
-------WebKitFormBoundary5ByrGHEb9JELC9e1
-Content-Disposition: form-data; name="x="
+        29239f74-b3d1-42fc-b403-98a6113f7cd4
+        ------WebKitFormBoundary5ByrGHEb9JELC9e1
+        Content-Disposition: form-data; name="x="
 
-Fri, 22 Mar 2024 08:55:53 GMT
-------WebKitFormBoundary5ByrGHEb9JELC9e1--
+        Fri, 22 Mar 2024 08:55:53 GMT
+        ------WebKitFormBoundary5ByrGHEb9JELC9e1--
 
 General Outing
 /vtop/hostel/StudentGeneralOuting
