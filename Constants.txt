@@ -1,0 +1,48 @@
+Student Login
+_csrf=54cb0f6f-ba8f-4dfe-903d-a4bd8a4358f1
+flag=VTOP
+
+Vtop Login
+_csrf=54cb0f6f-ba8f-4dfe-903d-a4bd8a4358f1&
+username=23BCE7625&
+password=Adithya%40123&
+captchaStr=R2WQA8
+
+My profile 
+/vtop/studentsRecord/StudentProfileAllView
+verifyMenu=true
+&authorizedID=23BCE7625&
+_csrf=881a3e48-9fe1-456c-ab09-e089e57dab7b&
+nocache=@(new Date().getTime())
+
+Biometric Log
+/vtop/academics/biometriclogdisplay
+verifyMenu=true&
+authorizedID=23BCE7625&
+_csrf=881a3e48-9fe1-456c-ab09-e089e57dab7b&
+nocache=@(new Date().getTime())
+
+/vtop/getStudBioHistory
+_csrf=881a3e48-9fe1-456c-ab09-e089e57dab7b&
+fromDate=13/03/2024
+&authorizedID=23BCE7625
+&x=Fri, 22 Mar 2024 07:49:35 GMT
+
+Mentor Details
+/vtop/proctor/viewProctorDetails
+verifyMenu=true&authorizedID=23BCE7625&_csrf=881a3e48-9fe1-456c-ab09-e089e57dab7b&nocache=@(new Date().getTime())
+
+HOD Details
+/vtop/hrms/viewHodDeanDetails
+verifyMenu=true&authorizedID=23BCE7625&_csrf=881a3e48-9fe1-456c-ab09-e089e57dab7b&nocache=@(new Date().getTime())
+
+My Curriculum
+/vtop/academics/common/Curriculum
+verifyMenu=true&authorizedID=23BCE7625&_csrf=881a3e48-9fe1-456c-ab09-e089e57dab7b&nocache=@(new Date().getTime())
+
+
+Time Table
+/vtop/academics/common/StudentTimeTable
+verifyMenu=true&authorizedID=23BCE7625&_csrf=881a3e48-9fe1-456c-ab09-e089e57dab7b&nocache=@(new Date().getTime())
+
+/vtop/academics/common/StudentAttendance
