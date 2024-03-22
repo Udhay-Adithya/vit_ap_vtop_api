@@ -45,3 +45,6 @@ SAVE_WEEKEND_OUTING_URL='https://vtop.vitap.ac.in/vtop/hostel/saveOutingForm'
 
 #General Outing URL
 GENERAL_OUTING_URL='https://vtop.vitap.ac.in/vtop/hostel/StudentGeneralOuting'
+
+#Responses
+Success=200
