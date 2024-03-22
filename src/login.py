@@ -1,4 +1,3 @@
-import requests
 from constants import *
 import base64
 import PIL.Image as Image
