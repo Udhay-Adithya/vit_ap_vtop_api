@@ -1,6 +1,6 @@
 from login import *
 import requests
-
+from user_profile import my_profile
 def main():
     #Create a new session
     session=requests.Session()
@@ -10,5 +10,5 @@ def main():
     username='23BCE7625'
     password='Adithya@123'
     login(username,password,session,user_captcha)
-
+    my_profile(session,username)
 main()
