@@ -10,5 +10,5 @@ def main():
     username='23BCE7625'
     password='Adithya@123'
     login(username,password,session,user_captcha)
-    my_profile(session,username)
+    #my_profile(session,username)
 main()

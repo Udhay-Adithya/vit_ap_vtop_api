@@ -8,6 +8,12 @@ VTOP_URL='https://vtop.vitap.ac.in/vtop/open/page'
 VTOP_PRELOGIN_URL='https://vtop.vitap.ac.in/vtop/prelogin/setup'
 VTOP_PRELOGIN_INIT_URL='https://vtop.vitap.ac.in/vtop/init/page'
 VTOP_LOGIN_URL='https://vtop.vitap.ac.in/vtop/login'
+VTOP_LOGIN_INIT_URL='https://vtop.vitap.ac.in/vtop/home'
+
+#Home Page URL
+VTOP_HOME_URL='https://vtop.vitap.ac.in/vtop/home'
+
+#Content Page URL
 VTOP_CONTENTS_URL='https://vtop.vitap.ac.in/vtop/content'
 
 #Profile URL
@@ -47,4 +53,5 @@ SAVE_WEEKEND_OUTING_URL='https://vtop.vitap.ac.in/vtop/hostel/saveOutingForm'
 GENERAL_OUTING_URL='https://vtop.vitap.ac.in/vtop/hostel/StudentGeneralOuting'
 
 #Responses
-Success=200
+{'Success':200,
+'The origin server did not find a current representation for the target resource or is not willing to disclose that one exists':404}

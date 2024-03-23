@@ -14,7 +14,6 @@ def prelogin(session):
 
 def captcha(session):
     html=session.get(VTOP_LOGIN_URL,headers=USER_AGENT).text
-    print(html)
     base64_code = find_captcha(html)
     if base64_code:
         captcha_img_binary = base64.b64decode(base64_code)
@@ -26,10 +25,10 @@ def captcha(session):
 def login(username,password,session,captcha_value):
     html=session.get(VTOP_LOGIN_URL).text
     csrf_token=find_csrf(html)
+    print(csrf_token)
     data={'_csrf':csrf_token,
           'username':username,
           'password':password,
           'captchaStr':captcha_value}
-    session.post(VTOP_LOGIN_URL,data=data)
-    print(session.get(VTOP_CONTENTS_URL))#Response <200>
-
+    print(session.post(VTOP_LOGIN_URL,data=data))
+    print(session.get(VTOP_LOGIN_INIT_URL))
