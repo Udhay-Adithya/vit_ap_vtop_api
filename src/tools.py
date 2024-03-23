@@ -1,5 +1,11 @@
 import re
+from urllib.parse import quote
 
+
+def password_validator(password : str):
+    # Encode the input string
+    encoded_string = quote(password)
+    return encoded_string
 
 #Find csrf token
 def find_csrf(html):

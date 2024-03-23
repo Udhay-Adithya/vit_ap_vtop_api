@@ -8,7 +8,7 @@ def main():
     captcha(session)
     user_captcha=input("Enter the displayed Captcha : ").upper()
     username='23BCE7625'
-    password='Adithya@123'
+    password=password_validator('Adithya@123')
     login(username,password,session,user_captcha)
     #my_profile(session,username)
 main()

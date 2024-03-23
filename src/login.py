@@ -23,12 +23,12 @@ def captcha(session):
         return None
 
 def login(username,password,session,captcha_value):
-    html=session.get(VTOP_LOGIN_URL).text
+    html=session.get(VTOP_LOGIN_URL,headers=USER_AGENT).text
     csrf_token=find_csrf(html)
     print(csrf_token)
     data={'_csrf':csrf_token,
           'username':username,
           'password':password,
           'captchaStr':captcha_value}
-    print(session.post(VTOP_LOGIN_URL,data=data))
-    print(session.get(VTOP_LOGIN_INIT_URL))
+    print(session.post(VTOP_LOGIN_URL,data=data,headers=USER_AGENT))
+    print(session.get(VTOP_CONTENT_URL,headers=USER_AGENT).text)

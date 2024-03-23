@@ -14,7 +14,7 @@ VTOP_LOGIN_INIT_URL='https://vtop.vitap.ac.in/vtop/home'
 VTOP_HOME_URL='https://vtop.vitap.ac.in/vtop/home'
 
 #Content Page URL
-VTOP_CONTENTS_URL='https://vtop.vitap.ac.in/vtop/content'
+VTOP_CONTENT_URL='https://vtop.vitap.ac.in/vtop/content'
 
 #Profile URL
 PROFILE_URL= 'https://vtop.vitap.ac.in/vtop/studentsRecord/StudentProfileAllView'
