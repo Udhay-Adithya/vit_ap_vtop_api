@@ -1,36 +1,83 @@
 import requests
 import re
-from constants import *
+import PIL.Image as Image
+import base64
+import io
+from constants import VTOP_URL, VTOP_PRELOGIN_URL, VTOP_LOGIN_URL, USER_AGENT
+from tools import find_csrf, find_captcha
 
-# Create a session object
-session=requests.Session()
-# Make a GET request to VTOP_PRELOGIN_URL to fetch the initial CSRF token
-response=session.get(VTOP_URL,headers=USER_AGENT)
-# Use regex to extract the CSRF token from the response
-pattern = r'<input type="hidden" name="_csrf" value="([0-9a-f-]+)"'
-match = re.search(pattern, response.text)
+MAX_RETRIES=3
 
-if match:
-    csrf_token = match.group(1)
-else:
-    print("CSRF token not found")
-    csrf_token = None
+def fetch_csrf_token(session):
+    try:
+        response = session.get(VTOP_URL, headers=USER_AGENT)
+        response.raise_for_status()
+        match = re.search(r'<input type="hidden" name="_csrf" value="([0-9a-f-]+)"', response.text)
+        if match:
+            return match.group(1)
+        else:
+            print("CSRF token not found")
+            return None
+    except requests.RequestException as e:
+        print("Failed to fetch CSRF token:", e)
+        return None
 
-# Make a POST request to VTOP_PRELOGIN_URL with the extracted CSRF token
-if csrf_token:
-    data = {'_csrf': csrf_token, 'flag': 'VTOP'}
-    response = session.post(VTOP_PRELOGIN_URL, data=data, headers=USER_AGENT)
+def pre_login(session, csrf_token):
+    try:
+        data = {'_csrf': csrf_token, 'flag': 'VTOP'}
+        response = session.post(VTOP_PRELOGIN_URL, data=data, headers=USER_AGENT)
+        response.raise_for_status()
+        if response.ok:
+            print("Pre-login successful")
+        else:
+            print("Pre-login failed")
+    except requests.RequestException as e:
+        print("Pre-login request failed:", e)
 
-    # Check if the POST request was successful
-    if response.ok:
-        print("POST request successful")
-    else:
-        print("POST request failed")
+def fetch_and_display_captcha(session, retries=MAX_RETRIES):
+    try:
+        html = session.get(VTOP_LOGIN_URL, headers=USER_AGENT).text
+        base64_code = find_captcha(html)
+        if base64_code:
+            captcha_img_binary = base64.b64decode(base64_code)
+            img = Image.open(io.BytesIO(captcha_img_binary))
+            img.show()
+            return True
+        else:
+            print("Failed to fetch captcha.")
+            return False
+    except requests.RequestException as e:
+        print("Failed to fetch captcha:", e)
+        if retries > 0:
+            print(f"Retrying... {retries} attempts left.")
+            return fetch_and_display_captcha(session, retries=retries-1)
+        else:
+            print("Maximum retries reached. Aborting.")
+            return False
 
-# Make a GET request to VTOP_PRELOGIN_INIT_URL using the same session
-#response1 = session.get(VTOP_PRELOGIN_INIT_URL, headers=USER_AGENT)
+def login(session, csrf_token, username, password, captcha_value):
+    try:
+        data = {
+            '_csrf': csrf_token,
+            'username': username,
+            'password': password,
+            'captchaStr': captcha_value.upper()  # Ensure captcha is in uppercase
+        }
+        response = session.post(VTOP_LOGIN_URL, data=data, headers=USER_AGENT)
+        print(response.content)
+    except requests.RequestException as e:
+        print("Login request failed:", e)
 
-response2=session.get(VTOP_LOGIN_URL,headers=USER_AGENT)
+def main():
+    session = requests.Session()
+    csrf_token = fetch_csrf_token(session)
+    if csrf_token:
+        pre_login(session, csrf_token)
+        if fetch_and_display_captcha(session):
+            username = '23MIC7175'
+            password = 'Shannu0810'
+            captcha_value = input("Enter the displayed Captcha: ")
+            login(session, csrf_token, username, password, captcha_value)
 
-# Check the response
-print(response2.text)
+if __name__ == "__main__":
+    main()

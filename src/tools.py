@@ -16,4 +16,8 @@ def find_csrf(html):
 #Find base64 code of captcha
 def find_captcha(html):
     pattern = r'data:image/jpeg;base64,([^"]+)'
-    return re.search(pattern, html).group(1)
+    match=re.search(pattern, html).group(1)
+    if match:
+        return re.search(pattern, html).group(1)
+    else:
+        return None
