@@ -11,8 +11,8 @@ def main():
     if login_csrf_token:
         pre_login(session, login_csrf_token)
         if fetch_and_display_captcha(session):
-            username = '23BCE7930'
-            password = 'Vicky12345'
+            username = '23BCE7625'
+            password = '@t6echafuweCo'
             captcha_value = input("Enter the displayed Captcha: ")
             login(session, login_csrf_token, username, password, captcha_value)
             csrf_token=find_csrf(session.get(VTOP_CONTENT_URL).text)
@@ -21,8 +21,8 @@ def main():
                 os.remove("stu_profile.json")
             if os.path.exists("mentor_details.json"):
                 os.remove("mentor_details.json")
-            #stu_profile(session,username,csrf_token)
-            #mentor_details(session,username,csrf_token)
+            stu_profile(session,username,csrf_token)
+            mentor_details(session,username,csrf_token)
             get_biometric(session,username,csrf_token)
 if __name__ == "__main__":
     main()
