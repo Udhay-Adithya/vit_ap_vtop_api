@@ -2,6 +2,7 @@ from login import *
 import requests
 from user_profile import stu_profile
 from mentor_details import mentor_details
+from biometric_log import get_biometric
 import os
 from constants import *
 def main():
@@ -20,7 +21,8 @@ def main():
                 os.remove("stu_profile.json")
             if os.path.exists("mentor_details.json"):
                 os.remove("mentor_details.json")
-            stu_profile(session,username,csrf_token)
-            mentor_details(session,username,csrf_token)
+            #stu_profile(session,username,csrf_token)
+            #mentor_details(session,username,csrf_token)
+            get_biometric(session,username,csrf_token)
 if __name__ == "__main__":
     main()
