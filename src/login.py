@@ -63,6 +63,5 @@ def login(session, csrf_token, username, password, captcha_value):
             'captchaStr': captcha_value.upper()  # Ensure captcha is in uppercase
         }
         response = session.post(VTOP_LOGIN_URL, data=data, headers=USER_AGENT)
-        print(response.url)
     except requests.RequestException as e:
         print("Login request failed:", e)
