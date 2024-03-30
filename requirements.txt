@@ -1,4 +1,9 @@
-requests
-Pillow
 beautifulsoup4
-urllib3
+Flask
+flask-cors
+gunicorn
+lxml
+Pillow
+python-dotenv
+Flask-Session
+uvicorn
