@@ -23,10 +23,10 @@ def main():
                 os.remove("stu_profile.json")
             if os.path.exists("mentor_details.json"):
                 os.remove("mentor_details.json")
-            #stu_profile(session,username,csrf_token)
-            #mentor_details(session,username,csrf_token)
-            #get_biometric(session,username,csrf_token)
-            #exam_schedule(session=session,username=username,csrf_token=csrf_token,semesterSubId="AP2023247")
+            stu_profile(session,username,csrf_token)
+            mentor_details(session,username,csrf_token)
+            get_biometric(session,username,csrf_token)
+            exam_schedule(session=session,username=username,csrf_token=csrf_token,semesterSubId="AP2023247")
             get_time_table(session,username,csrf_token)
 if __name__ == "__main__":
     main()
