@@ -1,0 +1,4 @@
+requests
+Pillow
+beautifulsoup4
+urllib3

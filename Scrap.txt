@@ -47,6 +47,7 @@ Time Table
 /vtop/academics/common/StudentTimeTable
 verifyMenu=true&authorizedID=23BCE7625&_csrf=881a3e48-9fe1-456c-ab09-e089e57dab7b&nocache=@(new Date().getTime())
 
+_csrf=770aea51-2f6a-465c-8f1c-375b4c69fe1b&semesterSubId=AP2023247&authorizedID=23BCE7625&x=Thu, 28 Mar 2024 16:53:19 GMT
 Attendence
 /vtop/academics/common/StudentAttendance
     -Get sem Attendence

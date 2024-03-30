@@ -3,16 +3,15 @@ from tools import find_csrf
 import time
 import json
 from bs4 import BeautifulSoup
-from datetime import datetime,timezone
 
-def exam_schedule(session,username,csrf_token):
+def exam_schedule(session,username,csrf_token,semesterSubId):
     data={'verifyMenu':'true',
           'authorizedID':username,
           '_csrf':csrf_token,
           'nocache':int(round(time.time() * 1000))}
     session.post(EXAM_SCHEDULE_URL,data=data,headers=USER_AGENT)
     data={'authorizedID':username,
-          'semesterSubId':'AP2023247',
+          'semesterSubId':semesterSubId,
           '_csrf':csrf_token
           }
     html=session.post(GET_EXAM_SCHEDULE_URL,data=data,headers=USER_AGENT).text
