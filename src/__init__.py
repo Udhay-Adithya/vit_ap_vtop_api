@@ -1,5 +1,6 @@
 from login import *
 import requests
+from app import username, password
 from user_profile import stu_profile
 from mentor_details import mentor_details
 from biometric_log import get_biometric
@@ -7,14 +8,12 @@ from exam_schedule import exam_schedule
 from time_table import get_time_table
 import os
 from constants import *
-def main():
+def main(username,password):
     session = requests.Session()
     login_csrf_token = fetch_csrf_token(session)
     if login_csrf_token:
         pre_login(session, login_csrf_token)
         if fetch_and_display_captcha(session):
-            username = input("Enter your username : ") #'23MIC7175'
-            password = input("Enter your Password : ")#'Shannu0810'
             captcha_value = input("Enter the displayed Captcha: ")
             login(session, login_csrf_token, username, password, captcha_value)
             csrf_token=find_csrf(session.get(VTOP_CONTENT_URL).text)
@@ -29,4 +28,4 @@ def main():
             exam_schedule(session=session,username=username,csrf_token=csrf_token,semesterSubId="AP2023247")
             get_time_table(session,username,csrf_token)
 if __name__ == "__main__":
-    main()
+    main(username,password)
