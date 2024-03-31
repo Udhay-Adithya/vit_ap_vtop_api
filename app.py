@@ -24,4 +24,4 @@ def login_route():
         return jsonify({'success': False, 'message': 'Username or password not provided'})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True,port=5000)
