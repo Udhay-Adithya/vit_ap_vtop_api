@@ -1,21 +1,22 @@
-from login import *
+'''
+
+from .login import *
 import requests
-from app import username, password
-from user_profile import stu_profile
-from mentor_details import mentor_details
-from biometric_log import get_biometric
-from exam_schedule import exam_schedule
-from time_table import get_time_table
+from .user_profile import stu_profile
+from .mentor_details import mentor_details
+from .biometric_log import get_biometric
+from .exam_schedule import exam_schedule
+from .time_table import get_time_table
+from .captcha import fetch_and_display_captcha
 import os
-from constants import *
+from .constants import *
 def main(username,password):
     session = requests.Session()
-    login_csrf_token = fetch_csrf_token(session)
-    if login_csrf_token:
-        pre_login(session, login_csrf_token)
+    if session:
+        pre_login(session)
         if fetch_and_display_captcha(session):
             captcha_value = input("Enter the displayed Captcha: ")
-            login(session, login_csrf_token, username, password, captcha_value)
+            login(session,username, password, captcha_value)
             csrf_token=find_csrf(session.get(VTOP_CONTENT_URL).text)
             # Check if the file exists and delete it
             if os.path.exists("stu_profile.json"):
@@ -28,4 +29,6 @@ def main(username,password):
             exam_schedule(session=session,username=username,csrf_token=csrf_token,semesterSubId="AP2023247")
             get_time_table(session,username,csrf_token)
 if __name__ == "__main__":
-    main(username,password)
+    main()
+
+'''

@@ -1,5 +1,5 @@
-from constants import *
-from tools import find_csrf
+from .constants import *
+from .tools import find_csrf
 import time
 import json
 from bs4 import BeautifulSoup
@@ -20,7 +20,6 @@ def get_time_table(session,username,csrf_token):
 
       # Find the table with id 'timeTableStyle'
     time_table = soup.find(id='timeTableStyle')
-    list1, list2, list3, list4, list5 = [], [], [], [], []
     lst_table=[]
     if time_table:
     # Find all <tr> tags within the 'timeTableStyle' table starting from Tue

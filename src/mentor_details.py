@@ -1,5 +1,5 @@
-from constants import *
-from tools import find_csrf
+from .constants import *
+from .tools import find_csrf
 import time
 import json
 from bs4 import BeautifulSoup
