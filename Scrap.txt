@@ -159,3 +159,4 @@ verifyMenu=true&authorizedID=23BCE7625&_csrf=29239f74-b3d1-42fc-b403-98a6113f7cd
 
 
 datetime.datetime.now(datetime.timezone.utc).strftime("%c GMT")
+vit-ap-student-app-e1b44cbcf06e.herokuapp.com/
