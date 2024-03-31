@@ -1,25 +1,21 @@
-import requests
-
-# Define your Flask app as usual
-from flask import Flask
+from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-# Define a route to trigger sending test username and password
-@app.route('/send_credentials')
-def send_credentials():
-    # Define the test username and password
-    test_username = '23BCE7625'
-    test_password = 'Adithya@123'
+@app.route('/login', methods=['POST'])
+def login():
+    # Get the data from the request body in JSON format
+    data = request.json
 
-    # Send a POST request with the test credentials
-    response = requests.post('https://vit-ap-student-app-e1b44cbcf06e.herokuapp.com/', json={'username': test_username, 'password': test_password})
+    # Extract the username and password from the JSON data
+    username = data.get('username')
+    password = data.get('password')
 
-    # Check the response from the server
-    if response.status_code == 200:
-        return 'Test credentials sent successfully'
-    else:
-        return 'Failed to send test credentials'
+    # Now you can use the username and password variables as needed
+
+    # For example, you can return a response indicating successful login
+    response = {'message': 'Login successful', 'username': username}
+    return jsonify(response), 200
 
 if __name__ == '__main__':
     app.run(debug=True)
