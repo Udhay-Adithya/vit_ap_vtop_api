@@ -11,7 +11,7 @@ user_data = {
 
 # Send POST request with user data as form data
 response = requests.post(login_url, data=user_data)
-print(response.text)
+print(response)
 # Check if request was successful and print response
 if response.status_code == 200:
     print('Login successful!')
