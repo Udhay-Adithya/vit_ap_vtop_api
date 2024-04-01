@@ -24,24 +24,6 @@ def fetch_and_display_captcha(session, retries=MAX_RETRIES):
         if base64_code:
             return base64_code
         else:
-            return 'Captcha not available'
+            return None
     except requests.RequestException as e:
         print("Failed to fetch captcha:", e)
-
-
-'''            captcha_img_binary = base64.b64decode(base64_code)
-            img = Image.open(io.BytesIO(captcha_img_binary))
-            img.show()
-            return True
-        elif(base64_code==None):
-            print("Failed to fetch captcha.")
-            return False
-    except requests.RequestException as e:
-        print("Failed to fetch captcha:", e)
-        if retries > 0:
-            print(f"Retrying... {retries} attempts left.")
-            return fetch_and_display_captcha(session, retries=retries-1)
-        else:
-            print("Maximum retries reached. Aborting.")
-            return False'''
-print(fetch_and_display_captcha(session))

@@ -5,7 +5,6 @@ from .tools import find_csrf
 
 def fetch_csrf_token(session):
     try:
-        global csrf_token
         csrf_token = find_csrf(session.get(VTOP_URL, headers=USER_AGENT).text)
         if csrf_token:
             return csrf_token
@@ -19,6 +18,7 @@ def fetch_csrf_token(session):
 
 def login(session, username, password, captcha_value):
     try:
+        csrf_token = find_csrf(session.get(VTOP_URL, headers=USER_AGENT).text)
         data = {
             '_csrf': csrf_token,
             'username': username,
