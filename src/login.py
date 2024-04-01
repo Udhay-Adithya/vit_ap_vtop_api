@@ -28,8 +28,7 @@ def login(session, username, password, captcha_value):
         response = session.post(VTOP_LOGIN_URL, data=data, headers=USER_AGENT)
     except requests.RequestException as e:
         print("Login request failed:", e)
-
-    if e :
-        return "Login request failed:",e
-    else:
-        return "Login Successful",response
+        if e :
+            return "Login request failed:",e
+        else:
+            return "Login Successful",response
