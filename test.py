@@ -4,7 +4,8 @@ import PIL.Image as Image
 import base64
 # URL of the Flask login route
 login_url = 'https://vit-ap-vtop-api-8ae845c27c93.herokuapp.com/getCaptcha'
-base64_code = requests.get(login_url)
+base64_code = requests.get(login_url).text
+print(base64_code)
 if base64_code:
     captcha_img_binary = base64.b64decode(base64_code)
     img = Image.open(io.BytesIO(captcha_img_binary))

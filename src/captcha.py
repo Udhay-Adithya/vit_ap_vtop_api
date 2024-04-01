@@ -1,6 +1,6 @@
 import requests
-from constants import VTOP_URL, VTOP_PRELOGIN_URL, VTOP_LOGIN_URL, USER_AGENT
-from tools import find_captcha,find_csrf
+from .constants import VTOP_URL, VTOP_LOGIN_URL,VTOP_PRELOGIN_URL, USER_AGENT
+from .tools import find_captcha,find_csrf
 
 MAX_RETRIES=3
 session = requests.Session()

@@ -1,6 +1,6 @@
 import requests
-from constants import VTOP_URL, VTOP_PRELOGIN_URL, VTOP_LOGIN_URL, USER_AGENT
-from tools import find_csrf, find_captcha
+from .constants import VTOP_URL, VTOP_LOGIN_URL, USER_AGENT
+from .tools import find_csrf
 
 
 def fetch_csrf_token(session):

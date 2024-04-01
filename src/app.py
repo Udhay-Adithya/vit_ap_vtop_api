@@ -2,8 +2,8 @@ import os
 import sys
 import requests
 from flask import Flask, request, jsonify
-from login import login
-from captcha import fetch_and_display_captcha
+from .login import login
+from .captcha import fetch_and_display_captcha
 
 # Add the project directory to sys.path
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
