@@ -3,16 +3,18 @@ import io
 import PIL.Image as Image
 import base64
 # URL of the Flask login route
-login_url = 'https://vit-ap-student-app-e1b44cbcf06e.herokuapp.com/getCaptcha'
+login_url = 'https://vit-ap-vtop-api-8ae845c27c93.herokuapp.com/getCaptcha'
 base64_code = requests.get(login_url)
-print(base64_code)
-captcha_img_binary = base64.b64decode(base64_code)
-img = Image.open(io.BytesIO(captcha_img_binary))
-img.show()
+if base64_code:
+    captcha_img_binary = base64.b64decode(base64_code)
+    img = Image.open(io.BytesIO(captcha_img_binary))
+    img.show()
+captcha=input("Cap : ")
 # User data (replace with actual user input)
 user_data = {
     'username': '23BCE7625',
-    'password': '@t6echafuweCo'
+    'password': '@t6echafuweCo',
+    'captcha' : 'captcha'
 }
 
 # Send POST request with user data as form data

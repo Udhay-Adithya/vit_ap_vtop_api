@@ -1,9 +1,6 @@
-import io
 import os
 import sys
-import base64
 import requests
-import PIL.Image as Image
 from flask import Flask, request, jsonify
 from login import login
 from captcha import fetch_and_display_captcha
@@ -14,6 +11,10 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 session = requests.Session()
 
 app = Flask(__name__)
+
+@app.route('/')
+def helloworld():
+    return "You can acces this api on Github"
 
 @app.route('/getCaptcha')     
 def captcha():
