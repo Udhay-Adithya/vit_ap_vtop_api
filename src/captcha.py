@@ -24,6 +24,6 @@ def fetch_and_display_captcha(session, retries=MAX_RETRIES):
         if base64_code:
             return base64_code
         else:
-            return None
+            return 404
     except requests.RequestException as e:
         print("Failed to fetch captcha:", e)
