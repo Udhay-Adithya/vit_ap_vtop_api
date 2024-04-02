@@ -7,10 +7,10 @@ import base64
 captcha_url = 'https://vit-ap-vtop-api-8ae845c27c93.herokuapp.com/getCaptcha'
 
 # Retrieve the API key
-API_KEY = 'your-api-key'  # Replace 'your-api-key' with your actual API key
+API_KEY = 'test-api-key'  # Replace 'your-api-key' with your actual API key
 
 # Send GET request to fetch captcha image and handle response
-captcha_response = requests.get(captcha_url)
+captcha_response = requests.get(captcha_url,headers={'API-Key': API_KEY})
 
 if captcha_response.status_code == 200:
     # Decode the base64 encoded image
