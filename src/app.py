@@ -10,6 +10,8 @@ from .prelogin import pre_login,fetch_csrf_token
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 session = requests.Session()
+csrf_token = None
+
 
 app = Flask(__name__)
 
@@ -51,6 +53,8 @@ def login_route():
     password = request.form.get('password')
     captcha = request.form.get('captcha')
     global csrf_token
+    if csrf_token is None:
+        return jsonify({'error': 'CSRF token not available'}), 500
     return login(session, csrf_token, username, password, captcha)
     
 
