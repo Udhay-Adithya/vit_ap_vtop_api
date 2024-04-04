@@ -9,7 +9,6 @@ def fetch_and_display_captcha(session, retries=MAX_RETRIES):
     try:
         html = session.get(VTOP_LOGIN_URL, headers=HEADERS).text
         base64_code = find_captcha(html)
-        print(base64_code)
         if base64_code != 'Null':
             return base64_code
         elif retries > 0:

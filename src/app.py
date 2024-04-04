@@ -35,6 +35,7 @@ def check_api_key():
 def helloworld():
     return "You can acces this api on Github"
 
+
 @app.route('/getCaptcha')     
 def captcha():
     global csrf_token
@@ -49,7 +50,7 @@ def login_route():
     username = request.form.get('username')
     password = request.form.get('password')
     captcha = request.form.get('captcha')
-    return login(session, username, password, captcha)
+    return login(session, csrf_token, username, password, captcha)
     
 
 if __name__ == '__main__':
