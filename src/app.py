@@ -49,7 +49,7 @@ def login_route():
     username = request.form.get('username')
     password = request.form.get('password')
     captcha = request.form.get('captcha')
-    return login(session, csrf_token, username, password, captcha)
+    return login(session, username, password, captcha)
     
 
 if __name__ == '__main__':
