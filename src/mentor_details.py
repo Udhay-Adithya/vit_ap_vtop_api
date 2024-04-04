@@ -10,7 +10,7 @@ def mentor_details(session, username, csrf_token):
             '_csrf': csrf_token,
             'nocache': int(round(time.time() * 1000))}
     
-    html = session.post(MENTOR_DETAILS_URL, data=data, headers=USER_AGENT).text
+    html = session.post(MENTOR_DETAILS_URL, data=data, headers=HEADERS).text
 
     soup = BeautifulSoup(html, "html.parser")
     mentor_data = soup.find_all('td')

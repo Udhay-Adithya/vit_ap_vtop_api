@@ -1,18 +1,18 @@
 import requests
-from .constants import VTOP_URL, VTOP_LOGIN_URL, USER_AGENT
+from .constants import VTOP_URL, VTOP_LOGIN_URL, HEADERS
 from .tools import find_csrf
 
 
 def login(session, username, password, captcha_value):
     try:
-        csrf_token = find_csrf(session.get(VTOP_URL, headers=USER_AGENT).text)
+        csrf_token = find_csrf(session.get(VTOP_URL, headers=HEADERS).text)
         data = {
             '_csrf': csrf_token,
             'username': username,
             'password': password,
             'captchaStr': captcha_value.upper()  # Ensure captcha is in uppercase
         }
-        response = session.post(VTOP_LOGIN_URL, data=data, headers=USER_AGENT)
+        response = session.post(VTOP_LOGIN_URL, data=data, headers=HEADERS)
     except requests.RequestException as e:
         print("Login request failed:", e)
         if e :

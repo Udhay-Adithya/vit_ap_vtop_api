@@ -1,5 +1,5 @@
 import requests
-from .constants import VTOP_LOGIN_URL,VTOP_PRELOGIN_URL, USER_AGENT
+from .constants import VTOP_LOGIN_URL, HEADERS
 from .tools import find_captcha,find_csrf
 
 MAX_RETRIES=3
@@ -7,7 +7,7 @@ session = requests.Session()
 def fetch_and_display_captcha(session, retries=MAX_RETRIES):
 
     try:
-        html = session.get(VTOP_LOGIN_URL, headers=USER_AGENT).text
+        html = session.get(VTOP_LOGIN_URL, headers=HEADERS).text
         base64_code = find_captcha(html)
         print(base64_code)
         if base64_code != 'Null':
