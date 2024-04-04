@@ -50,6 +50,7 @@ def login_route():
     username = request.form.get('username')
     password = request.form.get('password')
     captcha = request.form.get('captcha')
+    global csrf_token
     return login(session, csrf_token, username, password, captcha)
     
 
