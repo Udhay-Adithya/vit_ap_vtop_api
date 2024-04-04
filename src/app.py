@@ -4,6 +4,7 @@ import requests
 from flask import Flask, request, jsonify
 from .login import login
 from .captcha import fetch_and_display_captcha
+from .prelogin import pre_login,fetch_csrf_token
 
 # Add the project directory to sys.path
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
@@ -36,18 +37,19 @@ def helloworld():
 
 @app.route('/getCaptcha')     
 def captcha():
-    return fetch_and_display_captcha(session)
+    global csrf_token
+    csrf_token = fetch_csrf_token(session)
+    if csrf_token:
+        pre_login(session, csrf_token)
+        return fetch_and_display_captcha(session)
+
 
 @app.route('/login', methods=['POST'])
 def login_route():
     username = request.form.get('username')
     password = request.form.get('password')
     captcha = request.form.get('captcha')
-    if username and password and captcha:
-        login(session,username,password,captcha,)
-        return jsonify({'message': 'Login successful'})
-    else:
-        return jsonify({'message': 'Login Failed'})
+    return login(session, csrf_token, username, password, captcha)
     
 
 if __name__ == '__main__':
