@@ -3,19 +3,6 @@ from .constants import VTOP_URL, VTOP_LOGIN_URL, USER_AGENT
 from .tools import find_csrf
 
 
-def fetch_csrf_token(session):
-    try:
-        csrf_token = find_csrf(session.get(VTOP_URL, headers=USER_AGENT).text)
-        if csrf_token:
-            return csrf_token
-        else:
-            print("CSRF token not found")
-            return None
-    except requests.RequestException as e:
-        print("Failed to fetch CSRF token:", e)
-        return None
-
-
 def login(session, username, password, captcha_value):
     try:
         csrf_token = find_csrf(session.get(VTOP_URL, headers=USER_AGENT).text)
