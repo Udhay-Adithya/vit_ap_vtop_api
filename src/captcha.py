@@ -3,7 +3,7 @@ from .constants import VTOP_LOGIN_URL, HEADERS
 from .tools import find_captcha
 
 MAX_RETRIES=3
-session = requests.Session()
+#session = requests.Session()
 def fetch_and_display_captcha(session, retries=MAX_RETRIES):
 
     try:

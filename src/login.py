@@ -34,7 +34,7 @@ def login(session, csrf_token, username, password, captcha_value):
         response = session.post(VTOP_LOGIN_URL, data=data, headers=HEADERS)
         if response.status_code == 200:
             if response.url == VTOP_CONTENT_URL:
-                return "Login Successful"
+                return f'Loged in Successfully as {username}'
             else:
                 error_message = login_error_identifier(response.text)
                 return f"Login failed: {error_message}"
