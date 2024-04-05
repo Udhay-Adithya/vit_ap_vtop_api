@@ -1,5 +1,5 @@
 import requests
-from .constants import VTOP_LOGIN_URL, VTOP_CONTENT_URL, HEADERS
+from .constants import VTOP_LOGIN_URL, VTOP_CONTENT_URL, VTOP_LOGIN_ERROR_URL, HEADERS
 from .tools import login_error_identifier
 
 def login(session, csrf_token, username, password, captcha_value):
@@ -35,9 +35,11 @@ def login(session, csrf_token, username, password, captcha_value):
         if response.status_code == 200:
             if response.url == VTOP_CONTENT_URL:
                 return f'Loged in Successfully as {username}'
-            else:
-                error_message = login_error_identifier(response.text)
-                return f"Login failed: {error_message}"
+            
+        elif(response.url == VTOP_LOGIN_ERROR_URL):
+            error_message = login_error_identifier(response.text)
+            
+            return f"Login failed: {error_message}"
         else:
             return f"Login failed: HTTP status code {response.status_code}"
     except requests.RequestException as e:

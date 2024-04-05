@@ -10,6 +10,7 @@ VTOP_PRELOGIN_URL='https://vtop.vitap.ac.in/vtop/prelogin/setup'
 VTOP_PRELOGIN_INIT_URL='https://vtop.vitap.ac.in/vtop/init/page'
 VTOP_LOGIN_URL='https://vtop.vitap.ac.in/vtop/login'
 VTOP_LOGIN_INIT_URL='https://vtop.vitap.ac.in/vtop/init/page'
+VTOP_LOGIN_ERROR_URL='https://vtop.vitap.ac.in/vtop/login/error'
 
 #Home Page URL
 VTOP_HOME_URL='https://vtop.vitap.ac.in/vtop/home'
