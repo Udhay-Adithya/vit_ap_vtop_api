@@ -39,7 +39,7 @@ if captcha_response.status_code == 200:
     # Check if request was successful and print response
     if response.status_code == 200:
         print('Login successful!')
-        print(response.json())
+        print(response.text)
     else:
         print('Login failed.')
 else:

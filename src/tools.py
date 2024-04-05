@@ -1,11 +1,13 @@
 import re
-from urllib.parse import quote
+from bs4 import BeautifulSoup
 
 
-def password_validator(password : str):
-    # Encode the input string
-    encoded_string = quote(password)
-    return encoded_string
+#Find any user error if occurs during login
+def login_error_identifier(html):
+    soup = BeautifulSoup(html,'html.parser')
+    err_msg=soup.find('strong')
+    return err_msg.text
+
 
 #Find csrf token
 def find_csrf(html):
