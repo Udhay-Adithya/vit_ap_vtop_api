@@ -1,5 +1,4 @@
-from .constants import *
-from .tools import find_csrf
+from .constants import PROFILE_URL, HEADERS
 import time
 import json
 from bs4 import BeautifulSoup
@@ -9,7 +8,7 @@ def stu_profile(session,username,csrf_token):
           'authorizedID':username,
           '_csrf':csrf_token,
           'nocache':int(round(time.time() * 1000))}
-      html=(session.post(PROFILE_URL,data=data,headers=USER_AGENT).text)
+      html=(session.post(PROFILE_URL,data=data,headers=HEADERS).text)
 
       soup = BeautifulSoup(html, "html.parser")
       user_data = soup.find_all('td')

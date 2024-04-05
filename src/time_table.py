@@ -1,7 +1,5 @@
-from .constants import *
-from .tools import find_csrf
+from .constants import TIME_TABLE_URL,GET_TIME_TABLE_URL, HEADERS
 import time
-import json
 from bs4 import BeautifulSoup
 from datetime import datetime,timezone
 
@@ -10,12 +8,12 @@ def get_time_table(session,username,csrf_token):
           'authorizedID':username,
           '_csrf':csrf_token,
           'nocache':int(round(time.time() * 1000))}
-    html=session.post(TIME_TABLE_URL,data=data,headers=USER_AGENT)
+    html=session.post(TIME_TABLE_URL,data=data,headers=HEADERS)
     data={'_csrf':csrf_token,
           'semesterSubId':'AP2023247',
           'authorizedID':username,
           'x': datetime.now(timezone.utc).strftime("%a, %d %b %Y %H:%M:%S GMT")}
-    html=session.post(GET_TIME_TABLE_URL,data=data,headers=USER_AGENT).text
+    html=session.post(GET_TIME_TABLE_URL,data=data,headers=HEADERS).text
     soup = BeautifulSoup(html, 'html.parser')
 
       # Find the table with id 'timeTableStyle'
