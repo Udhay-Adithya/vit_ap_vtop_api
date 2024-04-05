@@ -33,14 +33,13 @@ def login(session, csrf_token, username, password, captcha_value):
         }
         response = session.post(VTOP_LOGIN_URL, data=data, headers=HEADERS)
         print(response.url)
-        if response.status_code == 200:
-            if response.url == VTOP_CONTENT_URL:
+        if response.url == VTOP_CONTENT_URL:
                 return f'Loged in Successfully as {username}'
             
         elif(response.url == VTOP_LOGIN_ERROR_URL):
             error_message = login_error_identifier(response.text)
-
             return f"Login failed: {error_message}"
+        
         else:
             return f"Login failed: HTTP status code {response.status_code}"
     except requests.RequestException as e:
