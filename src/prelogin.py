@@ -5,8 +5,18 @@ from .tools import find_csrf
 
 
 def fetch_csrf_token(session):
+    """
+    Fetches CSRF token from the VTOP website.
+
+    Args:
+        session (requests.Session): Session object for making HTTP requests.
+
+    Returns:
+        str or None: CSRF token if found, None otherwise.
+    """
     try:
         response = session.get(VTOP_URL, headers=HEADERS).text
+        response.raise_for_status()
         csrf_token = find_csrf(response)
         if csrf_token:
             return csrf_token
@@ -19,6 +29,16 @@ def fetch_csrf_token(session):
     
 
 def pre_login(session, csrf_token):
+    """
+    Sends pre-login request to VTOP website.
+
+    Args:
+        session (requests.Session): Session object for making HTTP requests.
+        csrf_token (str): CSRF token to be included in the request.
+
+    Returns:
+        None
+    """
     try:
         data = {'_csrf': csrf_token, 'flag': 'VTOP'}
         response = session.post(VTOP_PRELOGIN_URL, data=data, headers=HEADERS)
