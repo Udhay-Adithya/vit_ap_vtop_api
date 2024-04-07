@@ -12,7 +12,6 @@ def mentor_details(session, username, csrf_token):
     html = session.post(MENTOR_DETAILS_URL, data=data, headers=HEADERS).text
 
     soup = BeautifulSoup(html, "html.parser")
-    mentor_data = soup.find_all('td')
     mentor_details_dict = {}
 
 
@@ -28,6 +27,9 @@ def mentor_details(session, username, csrf_token):
             key = columns[0].get_text().strip()
             value = columns[1].get_text().strip()
             mentor_details_dict[key] = value
+
+            
+    return mentor_details_dict
 
     with open('mentor_details.json', 'w') as json_file:
         json.dump(mentor_details_dict, json_file, indent=4)
