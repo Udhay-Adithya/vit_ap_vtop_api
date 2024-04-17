@@ -166,5 +166,5 @@ def parse_time_table(html):
 					del time_table_data[day][time]
 		return update_timetable_with_course_info(time_table_data,get_course_info(html))
 	else:														
-		print("No table with id 'timeTableStyle' found.")
+		return "No table with id 'timeTableStyle' found."
 

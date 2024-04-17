@@ -8,10 +8,10 @@ def get_time_table(session,username,csrf_token):
           'authorizedID':username,
           '_csrf':csrf_token,
           'nocache':int(round(time.time() * 1000))}
-    html=session.post(TIME_TABLE_URL,data=data,headers=HEADERS)
+    response=session.post(TIME_TABLE_URL,data=data,headers=HEADERS)
     data={'_csrf':csrf_token,
           'semesterSubId':'AP2023247',
           'authorizedID':username,
           'x': datetime.now(timezone.utc).strftime("%a, %d %b %Y %H:%M:%S GMT")}
-    response=session.post(GET_TIME_TABLE_URL,data=data,headers=HEADERS)
-    parse_time_table(response.content)
+    html=session.post(GET_TIME_TABLE_URL,data=data,headers=HEADERS)
+    return parse_time_table(html.content)
