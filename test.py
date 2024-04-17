@@ -25,8 +25,8 @@ if captcha_response.status_code == 200:
 
     # Define user data including captcha input
     user_data = {
-        'username': '23MIC7175',
-        'password': 'Shannu0810',
+        'username': '23BCE7625',
+        'password': '@t6echafuweCo',
         'captcha': captcha_input
     }
 
