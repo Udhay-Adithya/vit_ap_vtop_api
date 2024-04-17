@@ -16,7 +16,6 @@ def fetch_csrf_token(session):
     """
     try:
         response = session.get(VTOP_URL, headers=HEADERS).text
-        response.raise_for_status()
         csrf_token = find_csrf(response)
         if csrf_token:
             return csrf_token
