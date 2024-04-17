@@ -38,7 +38,7 @@ def helloworld():
     return "You can acces this api on Github"
 
 
-@app.route('/getCaptcha', methods=['POST'])     
+@app.route('/getCaptcha', methods=['GET'])     
 def captcha():
     global csrf_token
     csrf_token = fetch_csrf_token(session)

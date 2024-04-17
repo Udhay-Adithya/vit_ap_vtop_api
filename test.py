@@ -43,4 +43,4 @@ if captcha_response.status_code == 200:
         print('Login failed.')
         print(response.text)
 else:
-    print("Captcha not found!")
+    print('Error',captcha_response.text)

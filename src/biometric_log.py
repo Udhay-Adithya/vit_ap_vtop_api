@@ -10,12 +10,12 @@ def get_biometric(session,username,csrf_token):
           'authorizedID':username,
           '_csrf':csrf_token,
           'nocache':int(round(time.time() * 1000))}
-    session.post(BIOMETRIC_LOG_URL,data=data,headers=USER_AGENT)
+    session.post(BIOMETRIC_LOG_URL,data=data,headers=HEADERS)
     data={'_csrf':csrf_token,
           'fromDate':'13/03/2024',
           'authorizedID':username,
           'x': datetime.now(timezone.utc).strftime("%a, %d %b %Y %H:%M:%S GMT")}
-    html=session.post(GET_BIOMETRIC_LOG_URL,data=data,headers=USER_AGENT).text
+    html=session.post(GET_BIOMETRIC_LOG_URL,data=data,headers=HEADERS).text
     soup = BeautifulSoup(html, "html.parser")
     user_data = soup.find_all('td')
     # Create a list to store the extracted data
