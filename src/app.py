@@ -68,7 +68,8 @@ def time_table_route():
     else:
         logein = login(session, csrf_token, username, password, captcha)
         if (logein == f'Loged in Successfully as {username}'):
-            return {'timetable' : get_time_table(session,username,csrf_token)}
+            print("Login Success")
+            return {'timetable' : get_time_table(session=session,username=username,csrf_token=csrf_token)}
         else:
             print(logein)
 
