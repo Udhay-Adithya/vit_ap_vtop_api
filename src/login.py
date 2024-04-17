@@ -1,3 +1,4 @@
+from flask import jsonify,make_response
 import requests
 from .constants import VTOP_LOGIN_URL, VTOP_CONTENT_URL, VTOP_LOGIN_ERROR_URL, HEADERS
 from .tools import login_error_identifier
@@ -33,14 +34,16 @@ def login(session, csrf_token, username, password, captcha_value):
         }
         response = session.post(VTOP_LOGIN_URL, data=data, headers=HEADERS)
         if response.url == VTOP_CONTENT_URL:
-                return f'Loged in Successfully as {username}'
+                message=f'Loged in Successfully as {username}'
+                return make_response(jsonify({'message': message}), response.status_code)
             
         elif(response.url == VTOP_LOGIN_ERROR_URL):
-            error_message = login_error_identifier(response.text)
-            return f"Login failed: {error_message}"
+            error_message = f"Login failed: {login_error_identifier(response.text)}"
+            return make_response(jsonify({'message': error_message}), response.status_code)
         
         else:
             return f"Login failed: HTTP status code {response.status_code}"
     except requests.RequestException as e:
         print("Login request failed:", e)
-        return "Login request failed: Network Error"
+        message="Login request failed: Network Error"
+        return make_response(jsonify({'message': message}), response.status_code)
