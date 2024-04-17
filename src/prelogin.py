@@ -18,6 +18,7 @@ def fetch_csrf_token(session):
         response = session.get(VTOP_URL, headers=HEADERS).text
         csrf_token = find_csrf(response)
         if csrf_token:
+            print("Found CSRF token")
             return csrf_token
         else:
             print("CSRF token not found")
