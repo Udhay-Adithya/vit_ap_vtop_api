@@ -37,7 +37,7 @@ if captcha_response.status_code == 200:
     response = requests.post(url, data=user_data, headers={'API-Key': API_KEY})
     # Check if request was successful and print response
     if response.status_code == 200:
-        print('Login successful!')
+        print('Successful!')
         print(response.text)
     else:
         print('Login failed.')
