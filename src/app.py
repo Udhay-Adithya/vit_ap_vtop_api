@@ -38,7 +38,7 @@ def helloworld():
     return "You can acces this api on Github"
 
 
-@app.route('/getCaptcha')     
+@app.route('/getCaptcha', methods=['POST'])     
 def captcha():
     global csrf_token
     csrf_token = fetch_csrf_token(session)
@@ -47,7 +47,7 @@ def captcha():
         return fetch_and_display_captcha(session)
 
 
-@app.route('/login/getAllData', methods=['POST'])
+@app.route('getAllData', methods=['POST'])
 def login_route():
     username = request.form.get('username')
     password = request.form.get('password')
@@ -57,7 +57,7 @@ def login_route():
         return jsonify({'error': 'CSRF token not available'}), 500
     return login(session, csrf_token, username, password, captcha)
 
-@app.route('/login/timeTable', methods=['POST'])
+@app.route('timeTable', methods=['POST'])
 def login_route():
     username = request.form.get('username')
     password = request.form.get('password')
