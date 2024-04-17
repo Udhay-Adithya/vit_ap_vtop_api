@@ -5,7 +5,7 @@ from flask import Flask, request, jsonify
 from .login import login
 from .captcha import fetch_and_display_captcha
 from .prelogin import pre_login,fetch_csrf_token
-
+from .time_table import get_time_table
 # Add the project directory to sys.path
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
@@ -47,7 +47,7 @@ def captcha():
         return fetch_and_display_captcha(session)
 
 
-@app.route('/login', methods=['POST'])
+@app.route('/login/getAllData', methods=['POST'])
 def login_route():
     username = request.form.get('username')
     password = request.form.get('password')
@@ -56,6 +56,18 @@ def login_route():
     if csrf_token is None:
         return jsonify({'error': 'CSRF token not available'}), 500
     return login(session, csrf_token, username, password, captcha)
+
+@app.route('/login/timeTable', methods=['POST'])
+def login_route():
+    username = request.form.get('username')
+    password = request.form.get('password')
+    captcha = request.form.get('captcha')
+    global csrf_token
+    if csrf_token is None:
+        return jsonify({'error': 'CSRF token not available'}), 500
+    else:
+        login(session, csrf_token, username, password, captcha)
+        return get_time_table(session,username,csrf_token)
     
 
 if __name__ == '__main__':

@@ -1,7 +1,7 @@
 from .constants import TIME_TABLE_URL,GET_TIME_TABLE_URL, HEADERS
 import time
-from bs4 import BeautifulSoup
 from datetime import datetime,timezone
+from .tools import parse_time_table
 
 def get_time_table(session,username,csrf_token):
     data={'verifyMenu':'true',
@@ -13,22 +13,5 @@ def get_time_table(session,username,csrf_token):
           'semesterSubId':'AP2023247',
           'authorizedID':username,
           'x': datetime.now(timezone.utc).strftime("%a, %d %b %Y %H:%M:%S GMT")}
-    html=session.post(GET_TIME_TABLE_URL,data=data,headers=HEADERS).text
-    soup = BeautifulSoup(html, 'html.parser')
-
-      # Find the table with id 'timeTableStyle'
-    time_table = soup.find(id='timeTableStyle')
-    lst_table=[]
-    if time_table:
-    # Find all <tr> tags within the 'timeTableStyle' table starting from Tue
-      tr_tags = time_table.find_all('tr')[4:]
-    
-    for tr_tag in tr_tags:
-          tr_string = str(tr_tag.get_text(strip=False))
-          # Split the string into lines
-          lines=tr_string.split('\n')
-          lines= list(filter(None, lines))
-          lst_table.append(lines)
-    else:
-      print("No table with id 'timeTableStyle' found.")
-      print(lst_table)
+    response=session.post(GET_TIME_TABLE_URL,data=data,headers=HEADERS)
+    parse_time_table(response.content)
