@@ -17,12 +17,12 @@ def fetch_csrf_token(session):
     try:
         response = session.get(VTOP_URL, headers=HEADERS).text
         csrf_token = find_csrf(response)
-        if csrf_token:
+        if csrf_token is not None:
             print("Found CSRF token")
             return csrf_token
         else:
             print("CSRF token not found")
-            return None
+            fetch_csrf_token(session)
     except requests.RequestException as e:
         print("Failed to fetch CSRF token:", e)
         return None
