@@ -66,8 +66,9 @@ def time_table_route():
     if csrf_token is None:
         return jsonify({'error': 'CSRF token not available'}), 500
     else:
-        login(session, csrf_token, username, password, captcha)
-        return get_time_table(session,username,csrf_token)
+        
+        return {'login' : login(session, csrf_token, username, password, captcha),
+                'timetable' : get_time_table(session,username,csrf_token)}
     
 
 if __name__ == '__main__':
