@@ -65,9 +65,9 @@ def time_table_route():
     global csrf_token
     if csrf_token is None:
         return jsonify({'error': 'CSRF token not available'}), 500
-    else: 
-        return {'login':login(session, csrf_token, username, password, captcha),
-                'timetable' :get_time_table(session,username)}
+    else:
+        print(login(session, csrf_token, username, password, captcha))
+        return {'timetable' : get_time_table(session,username)}
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
