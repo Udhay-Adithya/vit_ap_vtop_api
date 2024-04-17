@@ -42,7 +42,6 @@ def pre_login(session, csrf_token):
     try:
         data = {'_csrf': csrf_token, 'flag': 'VTOP'}
         response = session.post(VTOP_PRELOGIN_URL, data=data, headers=HEADERS)
-        response.raise_for_status()
         if response.ok:
             print("Pre-login successful")
         else:
