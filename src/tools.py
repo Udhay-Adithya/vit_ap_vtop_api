@@ -152,13 +152,14 @@ def parse_time_table(html):
 		#To access theory classes 	
 		for day,line in zip(['Tuesday','Wednesday','Thursday','Friday','Saturday'],lst_table[::2]):
 			for j in range(min(len(line), len(theory_timings))):
-				time_table_data[day][theory_timings[j]] = line[j]
-
-		#Labs
+				if len(line[j])>8:
+					time_table_data[day][theory_timings[j]] = line[j]
+	    #To access Labs
 		for day,line in zip(['Tuesday','Wednesday','Thursday','Friday','Saturday'],lst_table[1::2]):
 			for j in range(min(len(line), len(lab_timings))):
-				time_table_data[day][lab_timings[j]] = line[j]
-
+				if len(line[j])>8:
+					time_table_data[day][lab_timings[j]] = line[j]
+				
 		for day in time_table_data:
 			for time in list(time_table_data[day]):
 				value=time_table_data[day][time]
