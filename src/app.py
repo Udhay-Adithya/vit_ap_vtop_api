@@ -47,8 +47,8 @@ def captcha():
         return fetch_and_display_captcha(session)
 
 
-@app.route('getAllData', methods=['POST'])
-def login_route():
+@app.route('/login/getAllData', methods=['POST'])
+def new_login_route():
     username = request.form.get('username')
     password = request.form.get('password')
     captcha = request.form.get('captcha')
@@ -57,8 +57,8 @@ def login_route():
         return jsonify({'error': 'CSRF token not available'}), 500
     return login(session, csrf_token, username, password, captcha)
 
-@app.route('timeTable', methods=['POST'])
-def login_route():
+@app.route('/login/timeTable', methods=['POST'])
+def time_table_route():
     username = request.form.get('username')
     password = request.form.get('password')
     captcha = request.form.get('captcha')
