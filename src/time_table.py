@@ -16,5 +16,4 @@ def get_time_table(session,username):
           'authorizedID':username,
           'x': datetime.now(timezone.utc).strftime("%a, %d %b %Y %H:%M:%S GMT")}
       html=session.post(GET_TIME_TABLE_URL,data=data,headers=HEADERS)
-      print(html.content)
-      return parse_time_table(html.content)
+      return parse_time_table(html.text)
