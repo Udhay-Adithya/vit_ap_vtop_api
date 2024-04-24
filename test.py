@@ -31,7 +31,7 @@ if captcha_response.status_code == 200:
     }
 
     # Define the URL of the Flask login route
-    url = 'https://vit-ap-vtop-api-8ae845c27c93.herokuapp.com/login/timeTable'
+    url = 'https://vit-ap-vtop-api-8ae845c27c93.herokuapp.com/login/attendence'
 
     # Send POST request with user data and API key in headers
     response = requests.post(url, data=user_data, headers={'API-Key': API_KEY})
