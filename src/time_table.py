@@ -1,7 +1,8 @@
 from .constants import VTOP_CONTENT_URL,TIME_TABLE_URL,GET_TIME_TABLE_URL, HEADERS
 import time
 from datetime import datetime,timezone
-from .tools import parse_time_table,find_csrf
+from .tools import find_csrf
+from .parser import parse_time_table
 
 def get_time_table(session,username):
       response = session.get(VTOP_CONTENT_URL, headers=HEADERS).text

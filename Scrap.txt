@@ -45,9 +45,17 @@ verifyMenu=true&authorizedID=23BCE7625&_csrf=881a3e48-9fe1-456c-ab09-e089e57dab7
 
 Time Table
 /vtop/academics/common/StudentTimeTable
-verifyMenu=true&authorizedID=23BCE7625&_csrf=881a3e48-9fe1-456c-ab09-e089e57dab7b&nocache=@(new Date().getTime())
+verifyMenu=true
+&authorizedID=23BCE7625
+&_csrf=881a3e48-9fe1-456c-ab09-e089e57dab7b
+&nocache=@(new Date().getTime())
 
-_csrf=770aea51-2f6a-465c-8f1c-375b4c69fe1b&semesterSubId=AP2023247&authorizedID=23BCE7625&x=Thu, 28 Mar 2024 16:53:19 GMT
+_csrf=770aea51-2f6a-465c-8f1c-375b4c69fe1b
+&semesterSubId=AP2023247
+&authorizedID=23BCE7625
+&x=Thu, 28 Mar 2024 16:53:19 GMT
+
+
 Attendence
 /vtop/academics/common/StudentAttendance
     -Get sem Attendence
@@ -56,14 +64,15 @@ Attendence
     semesterSubId=AP2023247&
     authorizedID=23BCE7625&
     x=Fri, 22 Mar 2024 08:26:08 GMT
+
     -Get Attendence Detail of a sem
-    _csrf=29239f74-b3d1-42fc-b403-98a6113f7cd4&
-    semesterSubId=AP2023247&
-    registerNumber=23BCE7625&
-    courseId=AM_CHY1009_00100&
-    courseType=ETH&
-    authorizedID=23BCE7625
-    &x=Fri, 22 Mar 2024 08:28:23 GMT
+        _csrf=29239f74-b3d1-42fc-b403-98a6113f7cd4&
+        semesterSubId=AP2023247&
+        registerNumber=23BCE7625&
+        courseId=AM_CHY1009_00100&
+        courseType=ETH&
+        authorizedID=23BCE7625
+        &x=Fri, 22 Mar 2024 08:28:23 GMT
 
 
 Coursepage

@@ -14,6 +14,11 @@ csrf_token = None
 
 
 app = Flask(__name__)
+app.secret_key = os.urandom(24)
+app.config["SESSION_PERMANENT"] = False
+app.config["PERMANENT_SESSION_LIFETIME"] = 15 * 60
+app.config["SESSION_TYPE"] = "filesystem"
+
 
 # Retrieve the API key from an environment variable
 API_KEY = os.environ.get('API_KEY')
