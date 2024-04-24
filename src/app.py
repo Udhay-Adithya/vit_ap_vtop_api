@@ -63,6 +63,8 @@ def new_login_route():
         return jsonify({'error': 'CSRF token not available'}), 500
     return login(session, csrf_token, username, password, captcha)
 
+
+
 @app.route('/login/timeTable', methods=['POST'])
 def time_table_route():
     username = request.form.get('username')
@@ -77,6 +79,23 @@ def time_table_route():
             return {'timetable' : get_time_table(session,username)}
         else:
             print(login_resp)
+
+
+@app.route('/login/attendence', methods=['POST'])
+def time_table_route():
+    username = request.form.get('username')
+    password = request.form.get('password')
+    captcha = request.form.get('captcha')
+    global csrf_token
+    if csrf_token is None:
+        return jsonify({'error': 'CSRF token not available'}), 500
+    else:
+        login_resp=login(session, csrf_token, username, password, captcha)
+        if login_resp.status_code==200:
+            return {'timetable' : get_attendence(session,username)}
+        else:
+            print(login_resp)
+
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
