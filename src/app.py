@@ -92,7 +92,6 @@ def attendence_route():
     password = request.form.get('password')
     captcha = request.form.get('captcha')
     
-    global csrf_token
     if csrf_token is None:
         return jsonify({'error': 'CSRF token not available'}), 500
     else:
