@@ -83,14 +83,15 @@ def time_table_route():
 
 @app.route('/login/attendence', methods=['POST'])
 def attendence_route():
-    username = request.form.get('username')
-    password = request.form.get('password')
-    captcha = request.form.get('captcha')
     global csrf_token
     csrf_token = fetch_csrf_token(session)
     if csrf_token:
         pre_login(session, csrf_token)
         return fetch_and_display_captcha(session)
+    username = request.form.get('username')
+    password = request.form.get('password')
+    captcha = request.form.get('captcha')
+    
     global csrf_token
     if csrf_token is None:
         return jsonify({'error': 'CSRF token not available'}), 500
