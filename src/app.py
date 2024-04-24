@@ -82,7 +82,7 @@ def time_table_route():
 
 
 @app.route('/login/attendence', methods=['POST'])
-def time_table_route():
+def attendence_route():
     username = request.form.get('username')
     password = request.form.get('password')
     captcha = request.form.get('captcha')
