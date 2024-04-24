@@ -5,7 +5,7 @@ from datetime import datetime,timezone
 from .parser import attendence_parser
 from .tools import find_csrf
 
-def get_time_table(session,username):
+def get_attendence(session,username):
       try:
         response = session.get(VTOP_CONTENT_URL, headers=HEADERS).text
         csrf_token = find_csrf(response)
@@ -16,6 +16,6 @@ def get_time_table(session,username):
         html=session.post(ATTENDENCE_URL,data=data,headers=HEADERS)
       except Exception as e :
           print(e)
-      soup = BeautifulSoup(html,"html.parser")
+      soup = BeautifulSoup(html.content,"html.parser")
       base= soup.find_all('table',id='AttendanceDetailDataTable')
       return attendence_parser(base)

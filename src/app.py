@@ -6,6 +6,7 @@ from .login import login
 from .captcha import fetch_and_display_captcha
 from .prelogin import pre_login,fetch_csrf_token
 from .time_table import get_time_table
+from .attendence import get_attendence
 # Add the project directory to sys.path
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
