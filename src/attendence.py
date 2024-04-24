@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-from .constants import VTOP_CONTENT_URL,ATTENDENCE_URL,GET_ATTENDENCE_URL, HEADERS
+from .constants import VTOP_CONTENT_URL,ATTENDENCE_URL,HEADERS
 import time
 from datetime import datetime,timezone
 from .parser import attendence_parser
