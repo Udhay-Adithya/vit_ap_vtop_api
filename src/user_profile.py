@@ -39,6 +39,4 @@ def stu_profile(session,username,csrf_token):
             elif text == "EMAIL":
                   profile_data["EMAIL"] = user_data[i+1].get_text().strip()
 
-      # Write the selected fields to a JSON file
-      with open("stu_profile.json", 'w') as f:
-            json.dump(profile_data, f, indent=2)
+      return profile_data

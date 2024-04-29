@@ -42,7 +42,7 @@ def login(session, csrf_token, username, password, captcha_value):
             return make_response(jsonify({'message': error_message}), response.status_code)
         
         else:
-            return f"Login failed: HTTP status code {response.status_code}"
+            return make_response(jsonify({'message': f"Login failed: HTTP status code {response.status_code}"}), response.status_code)
     except requests.RequestException as e:
         print("Login request failed:", e)
         message="Login request failed: Network Error"

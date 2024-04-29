@@ -1,19 +1,24 @@
 from bs4 import BeautifulSoup
-from .constants import VTOP_CONTENT_URL,ATTENDENCE_URL,HEADERS
+from .constants import VIEW_ATTENDENCE_URL,ATTENDENCE_URL,HEADERS
 import time
 from datetime import datetime,timezone
 from .parser import attendence_parser
-from .tools import find_csrf
 
-def get_attendence(session,username):
+def get_attendence(session,username,csrf_token):
       try:
-        response = session.get(VTOP_CONTENT_URL, headers=HEADERS).text
-        csrf_token = find_csrf(response)
+        data={'verifyMenu':'true',
+            'authorizedID':username,
+            '_csrf' : csrf_token,
+            'nocache':int(round(time.time() * 1000))}
+        initial_post=session.post(ATTENDENCE_URL,data=data,headers=HEADERS)
+      except Exception as e :
+          print(e)      
+      try:
         data={'_csrf':csrf_token,
             'semesterSubId':'AP2023247',
             'authorizedID':username,
             'x': datetime.now(timezone.utc).strftime("%a, %d %b %Y %H:%M:%S GMT")}
-        html=session.post(ATTENDENCE_URL,data=data,headers=HEADERS)
+        html=session.post(VIEW_ATTENDENCE_URL,data=data,headers=HEADERS)
       except Exception as e :
           print(e)
       soup = BeautifulSoup(html.content,"html.parser")
