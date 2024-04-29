@@ -22,7 +22,7 @@ app.config["PERMANENT_SESSION_LIFETIME"] = 15 * 60
 app.config["SESSION_TYPE"] = "filesystem"
 
 
-
+'''
 # Retrieve the API key from an environment variable
 API_KEY = os.environ.get('API_KEY')
 
@@ -40,7 +40,7 @@ def validate_api_key(func):
 @validate_api_key
 def check_api_key():
     pass
-
+'''
 @app.route('/')
 def helloworld():
     return "You can acces this api on Github"
