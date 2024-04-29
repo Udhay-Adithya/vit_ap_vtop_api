@@ -22,7 +22,7 @@ app.config["PERMANENT_SESSION_LIFETIME"] = 15 * 60
 app.config["SESSION_TYPE"] = "filesystem"
 
 
-'''
+
 # Retrieve the API key from an environment variable
 API_KEY = os.environ.get('API_KEY')
 
@@ -40,7 +40,7 @@ def validate_api_key(func):
 @validate_api_key
 def check_api_key():
     pass
-'''
+
 @app.route('/')
 def helloworld():
     return "You can acces this api on Github"
@@ -69,7 +69,7 @@ def new_login_route():
                 'attendence' : get_attendence(requests_session,username,CSRF_TOKEN),
                 'timetable':get_time_table(requests_session,username,CSRF_TOKEN)}
     else:
-        print(login_resp.message)
+        print(login_resp)
 
 
 
@@ -77,34 +77,32 @@ def new_login_route():
 def time_table_route():
     username = request.form.get('username')
     password = request.form.get('password')
-    captcha = request.form.get('captcha')
-    csrf_token = session.get('csrf_token')
-    if csrf_token is None:
-        return jsonify({'error': 'CSRF token not available'}), 500
+    csrf_token = fetch_csrf_token(requests_session)
+    pre_login(requests_session, csrf_token)   
+    captcha = solve_captcha(fetch_and_display_captcha(requests_session))
+    login_resp=login(requests_session, csrf_token, username, password, captcha)
+    print(login_resp.status_code)
+    if login_resp.status_code==200:
+        CSRF_TOKEN = find_csrf(requests_session.get(VTOP_CONTENT_URL, headers=HEADERS).text)
+        return {'timetable':get_time_table(requests_session,username,CSRF_TOKEN)}
     else:
-        login_resp=login(requests_session, csrf_token, username, password, captcha)
-        if login_resp.status_code==200:
-            return {'timetable' : get_time_table(session,username)}
-        else:
-            print(login_resp)
+        print(login_resp)
 
 
 @app.route('/login/attendence', methods=['POST'])
 def attendence_route():
     username = request.form.get('username')
     password = request.form.get('password')
-    captcha = request.form.get('captcha')
-    csrf_token = session.get('csrf_token')
-    print(csrf_token)
-    if csrf_token is None:
-        return jsonify({'error': 'CSRF token not available'}), 500
+    csrf_token = fetch_csrf_token(requests_session)
+    pre_login(requests_session, csrf_token)   
+    captcha = solve_captcha(fetch_and_display_captcha(requests_session))
+    login_resp=login(requests_session, csrf_token, username, password, captcha)
+    print(login_resp.status_code)
+    if login_resp.status_code==200:
+        CSRF_TOKEN = find_csrf(requests_session.get(VTOP_CONTENT_URL, headers=HEADERS).text)
+        return {'attendence' : get_attendence(requests_session,username,CSRF_TOKEN)}
     else:
-        login_resp=login(requests_session, csrf_token, username, password, captcha)
         print(login_resp)
-        if login_resp.status_code==200:
-            return {'timetable' : get_attendence(requests_session,username)}
-        else:
-            print(login_resp)
 
 
 if __name__ == '__main__':

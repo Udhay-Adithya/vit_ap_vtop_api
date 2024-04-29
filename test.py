@@ -16,10 +16,10 @@ user_data = {
     }
 
     # Define the URL of the Flask login route
-url = 'http://127.0.0.1:5050/login/getAllData'
+url = 'https://vit-ap-vtop-api.vercel.app/login/getAllData'
 
     # Send POST request with user data and API key in headers
-response = requests.post(url, data=user_data)
+response = requests.post(url, data=user_data,headers={'API_KEY' : API_KEY})
     # Check if request was successful and print response
 if response.status_code == 200:
         print('Successful!')
