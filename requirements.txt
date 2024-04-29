@@ -8,4 +8,4 @@ Pillow
 python-dotenv
 Flask-Session
 uvicorn
-nunmpy
+numpy
