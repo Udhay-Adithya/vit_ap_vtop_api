@@ -10,7 +10,7 @@ def attendence_parser(base):
 			base_list=table.get_text().split('\n')[18:]
 			base_list = [item for item in base_list if item.strip()]
 
-	# Iterate over the data_list in steps of 7 (since each subject has 7 entries in the list)
+	# Iterate over the data_list in steps of 9 (since each subject has 9 entries in the list)
 	for i in range(0, len(base_list), 9):
 		# Split the second entry to get course code, name and type
 		course_code, course_name_type = base_list[i+2].split(' - ', 1)

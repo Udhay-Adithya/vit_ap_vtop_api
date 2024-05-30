@@ -9,6 +9,7 @@ from .prelogin import pre_login,fetch_csrf_token,find_csrf
 from .user_profile import stu_profile
 from .time_table import get_time_table
 from .attendence import get_attendence
+from .biometric_log import get_biometric
 # Add the project directory to sys.path
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
@@ -69,7 +70,7 @@ def new_login_route():
                 'attendence' : get_attendence(requests_session,username,CSRF_TOKEN),
                 'timetable':get_time_table(requests_session,username,CSRF_TOKEN)}
     else:
-        print(login_resp)
+        return login_resp
 
 
 
@@ -86,7 +87,7 @@ def time_table_route():
         CSRF_TOKEN = find_csrf(requests_session.get(VTOP_CONTENT_URL, headers=HEADERS).text)
         return {'timetable':get_time_table(requests_session,username,CSRF_TOKEN)}
     else:
-        print(login_resp)
+        return login_resp
 
 
 @app.route('/login/attendence', methods=['POST'])
@@ -102,7 +103,24 @@ def attendence_route():
         CSRF_TOKEN = find_csrf(requests_session.get(VTOP_CONTENT_URL, headers=HEADERS).text)
         return {'attendence' : get_attendence(requests_session,username,CSRF_TOKEN)}
     else:
-        print(login_resp)
+        return login_resp
+
+
+@app.route('/login/biometric', methods=['POST'])
+def biometric_route():
+    username = request.form.get('username')
+    password = request.form.get('password')
+    date = request.form.get('date')
+    csrf_token = fetch_csrf_token(requests_session)
+    pre_login(requests_session, csrf_token)   
+    captcha = solve_captcha(fetch_and_display_captcha(requests_session))
+    login_resp=login(requests_session, csrf_token, username, password, captcha)
+    print(login_resp.status_code)
+    if login_resp.status_code==200:
+        CSRF_TOKEN = find_csrf(requests_session.get(VTOP_CONTENT_URL, headers=HEADERS).text)
+        return {'biometric_log' : get_biometric(requests_session,username,date,CSRF_TOKEN)}
+    else:
+        return login_resp
 
 
 if __name__ == '__main__':
