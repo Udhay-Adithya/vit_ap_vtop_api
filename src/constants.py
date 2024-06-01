@@ -62,6 +62,9 @@ GENERAL_OUTING_URL='https://vtop.vitap.ac.in/vtop/hostel/StudentGeneralOuting'
 {'Success':200,
 'The origin server did not find a current representation for the target resource or is not willing to disclose that one exists':404}
 
+#Profile image path
+PFP_PATH="https://vtop.vitap.ac.in/vtop/users/image/?id="
+
 #Semester Sub ID's
 SemSubID={'WINTER SEM(2023-24) FRESHERS' : 'AP2023247',
           'WIN SEM (2023-24)':'AP2023246',

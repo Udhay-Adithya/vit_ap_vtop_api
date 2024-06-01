@@ -23,4 +23,7 @@ def get_attendence(session,username,csrf_token):
           print(e)
       soup = BeautifulSoup(html.content,"html.parser")
       base= soup.find_all('table',id='AttendanceDetailDataTable')
-      return attendence_parser(base)
+      if base:
+        return attendence_parser(base)
+      else:
+         return f"Error : {base}"

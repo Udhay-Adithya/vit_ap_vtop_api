@@ -55,7 +55,7 @@ def captcha():
         return fetch_and_display_captcha(requests_session)
 
 
-@app.route('/login/getAllData', methods=['POST'])
+@app.route('/login/getalldata', methods=['POST'])
 def new_login_route():
     username = request.form.get('username')
     password = request.form.get('password')
@@ -63,7 +63,6 @@ def new_login_route():
     pre_login(requests_session, csrf_token)   
     captcha = solve_captcha(fetch_and_display_captcha(requests_session))
     login_resp=login(requests_session, csrf_token, username, password, captcha)
-    print(login_resp.status_code)
     if login_resp.status_code==200:
         CSRF_TOKEN = find_csrf(requests_session.get(VTOP_CONTENT_URL, headers=HEADERS).text)
         return {'profile': stu_profile(requests_session,username,CSRF_TOKEN),
@@ -73,16 +72,30 @@ def new_login_route():
         return login_resp
 
 
-
-@app.route('/login/timeTable', methods=['POST'])
-def time_table_route():
+@app.route('/login/profile', methods=['POST'])
+def pfp_route():
     username = request.form.get('username')
     password = request.form.get('password')
     csrf_token = fetch_csrf_token(requests_session)
     pre_login(requests_session, csrf_token)   
     captcha = solve_captcha(fetch_and_display_captcha(requests_session))
     login_resp=login(requests_session, csrf_token, username, password, captcha)
-    print(login_resp.status_code)
+    if login_resp.status_code==200:
+        CSRF_TOKEN = find_csrf(requests_session.get(VTOP_CONTENT_URL, headers=HEADERS).text)
+        return {'profile': stu_profile(requests_session,username,CSRF_TOKEN)}
+    else:
+        return login_resp
+    
+
+
+@app.route('/login/timetable', methods=['POST'])
+def time_table_route():
+    username = request.form.get('username')
+    password = request.form.get('password')
+    csrf_token = fetch_csrf_token(requests_session)
+    pre_login(requests_session, csrf_token)
+    captcha = solve_captcha(fetch_and_display_captcha(requests_session))
+    login_resp=login(requests_session, csrf_token, username, password, captcha)
     if login_resp.status_code==200:
         CSRF_TOKEN = find_csrf(requests_session.get(VTOP_CONTENT_URL, headers=HEADERS).text)
         return {'timetable':get_time_table(requests_session,username,CSRF_TOKEN)}
@@ -98,7 +111,6 @@ def attendence_route():
     pre_login(requests_session, csrf_token)   
     captcha = solve_captcha(fetch_and_display_captcha(requests_session))
     login_resp=login(requests_session, csrf_token, username, password, captcha)
-    print(login_resp.status_code)
     if login_resp.status_code==200:
         CSRF_TOKEN = find_csrf(requests_session.get(VTOP_CONTENT_URL, headers=HEADERS).text)
         return {'attendence' : get_attendence(requests_session,username,CSRF_TOKEN)}
@@ -115,7 +127,6 @@ def biometric_route():
     pre_login(requests_session, csrf_token)   
     captcha = solve_captcha(fetch_and_display_captcha(requests_session))
     login_resp=login(requests_session, csrf_token, username, password, captcha)
-    print(login_resp.status_code)
     if login_resp.status_code==200:
         CSRF_TOKEN = find_csrf(requests_session.get(VTOP_CONTENT_URL, headers=HEADERS).text)
         return {'biometric_log' : get_biometric(requests_session,username,date,CSRF_TOKEN)}
