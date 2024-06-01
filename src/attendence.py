@@ -4,7 +4,7 @@ import time
 from datetime import datetime,timezone
 from .parser import attendence_parser
 
-def get_attendence(session,username,csrf_token):
+def get_attendence(session,username,semSubID,csrf_token):
       try:
         data={'verifyMenu':'true',
             'authorizedID':username,
@@ -15,7 +15,7 @@ def get_attendence(session,username,csrf_token):
           print(e)      
       try:
         data={'_csrf':csrf_token,
-            'semesterSubId':'AP2023247',
+            'semesterSubId':semSubID,
             'authorizedID':username,
             'x': datetime.now(timezone.utc).strftime("%a, %d %b %Y %H:%M:%S GMT")}
         html=session.post(VIEW_ATTENDENCE_URL,data=data,headers=HEADERS)

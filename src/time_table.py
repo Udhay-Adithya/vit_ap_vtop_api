@@ -3,14 +3,14 @@ import time
 from datetime import datetime,timezone
 from .parser import parse_time_table
 
-def get_time_table(session,username,csrf_token):
+def get_time_table(session,username,semSubID,csrf_token):
       data={'verifyMenu':'true',
           'authorizedID':username,
           '_csrf':csrf_token,
           'nocache':int(round(time.time() * 1000))}
       initial_post=session.post(TIME_TABLE_URL,data=data,headers=HEADERS)
       data={'_csrf':csrf_token,
-          'semesterSubId':'AP2023247',
+          'semesterSubId':semSubID,
           'authorizedID':username,
           'x': datetime.now(timezone.utc).strftime("%a, %d %b %Y %H:%M:%S GMT")}
       html=session.post(GET_TIME_TABLE_URL,data=data,headers=HEADERS)

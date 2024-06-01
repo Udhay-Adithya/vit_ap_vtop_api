@@ -9,12 +9,12 @@ def exam_schedule(session,username,csrf_token,semesterSubId):
           'authorizedID':username,
           '_csrf':csrf_token,
           'nocache':int(round(time.time() * 1000))}
-    session.post(EXAM_SCHEDULE_URL,data=data,headers=USER_AGENT)
+    session.post(EXAM_SCHEDULE_URL,data=data,headers=HEADERS)
     data={'authorizedID':username,
           'semesterSubId':semesterSubId,
           '_csrf':csrf_token
           }
-    html=session.post(GET_EXAM_SCHEDULE_URL,data=data,headers=USER_AGENT).text
+    html=session.post(GET_EXAM_SCHEDULE_URL,data=data,headers=HEADERS).text
     soup = BeautifulSoup(html, "html.parser")
     values = soup.find_all('td')[15:]
 

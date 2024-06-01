@@ -30,7 +30,7 @@ def login(session, csrf_token, username, password, captcha_value):
             '_csrf': csrf_token,
             'username': username,
             'password': password,
-            'captchaStr': captcha_value.upper()  # Ensure captcha is in uppercase
+            'captchaStr': captcha_value
         }
         response = session.post(VTOP_LOGIN_URL, data=data, headers=HEADERS)
         if response.url == VTOP_CONTENT_URL:

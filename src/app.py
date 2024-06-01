@@ -59,6 +59,7 @@ def captcha():
 def new_login_route():
     username = request.form.get('username')
     password = request.form.get('password')
+    semSubID = request.form.get('semSubID')
     csrf_token = fetch_csrf_token(requests_session)
     pre_login(requests_session, csrf_token)   
     captcha = solve_captcha(fetch_and_display_captcha(requests_session))
@@ -66,14 +67,14 @@ def new_login_route():
     if login_resp.status_code==200:
         CSRF_TOKEN = find_csrf(requests_session.get(VTOP_CONTENT_URL, headers=HEADERS).text)
         return {'profile': stu_profile(requests_session,username,CSRF_TOKEN),
-                'attendence' : get_attendence(requests_session,username,CSRF_TOKEN),
-                'timetable':get_time_table(requests_session,username,CSRF_TOKEN)}
+                'attendence' : get_attendence(requests_session,username,semSubID,CSRF_TOKEN),
+                'timetable':get_time_table(requests_session,username,semSubID,CSRF_TOKEN)}
     else:
         return login_resp
 
 
 @app.route('/login/profile', methods=['POST'])
-def pfp_route():
+def profile_route():
     username = request.form.get('username')
     password = request.form.get('password')
     csrf_token = fetch_csrf_token(requests_session)
@@ -92,13 +93,14 @@ def pfp_route():
 def time_table_route():
     username = request.form.get('username')
     password = request.form.get('password')
+    semSubID = request.form.get('semSubID')
     csrf_token = fetch_csrf_token(requests_session)
     pre_login(requests_session, csrf_token)
     captcha = solve_captcha(fetch_and_display_captcha(requests_session))
     login_resp=login(requests_session, csrf_token, username, password, captcha)
     if login_resp.status_code==200:
         CSRF_TOKEN = find_csrf(requests_session.get(VTOP_CONTENT_URL, headers=HEADERS).text)
-        return {'timetable':get_time_table(requests_session,username,CSRF_TOKEN)}
+        return {'timetable':get_time_table(requests_session,username,semSubID,CSRF_TOKEN)}
     else:
         return login_resp
 
@@ -107,13 +109,14 @@ def time_table_route():
 def attendence_route():
     username = request.form.get('username')
     password = request.form.get('password')
+    semSubID = request.form.get('semSubID')
     csrf_token = fetch_csrf_token(requests_session)
     pre_login(requests_session, csrf_token)   
     captcha = solve_captcha(fetch_and_display_captcha(requests_session))
     login_resp=login(requests_session, csrf_token, username, password, captcha)
     if login_resp.status_code==200:
         CSRF_TOKEN = find_csrf(requests_session.get(VTOP_CONTENT_URL, headers=HEADERS).text)
-        return {'attendence' : get_attendence(requests_session,username,CSRF_TOKEN)}
+        return {'attendence' : get_attendence(requests_session,username,semSubID,CSRF_TOKEN)}
     else:
         return login_resp
 
