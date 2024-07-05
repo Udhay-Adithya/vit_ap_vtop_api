@@ -2,71 +2,78 @@ HEADERS = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit
            'Connection':'close'}
 
 #Main URL
-VTOP_BASE_URL='https://vtop.vitap.ac.in'
-VTOP_URL='https://vtop.vitap.ac.in/vtop/open/page'
+VTOP_BASE_URL = 'https://vtop.vitap.ac.in'
+VTOP_URL = 'https://vtop.vitap.ac.in/vtop/open/page'
 
 #Login Page URL
-VTOP_PRELOGIN_URL='https://vtop.vitap.ac.in/vtop/prelogin/setup'
-VTOP_PRELOGIN_INIT_URL='https://vtop.vitap.ac.in/vtop/init/page'
-VTOP_LOGIN_URL='https://vtop.vitap.ac.in/vtop/login'
-VTOP_LOGIN_INIT_URL='https://vtop.vitap.ac.in/vtop/init/page'
-VTOP_LOGIN_ERROR_URL='https://vtop.vitap.ac.in/vtop/login/error'
+VTOP_PRELOGIN_URL = 'https://vtop.vitap.ac.in/vtop/prelogin/setup'
+VTOP_PRELOGIN_INIT_URL = 'https://vtop.vitap.ac.in/vtop/init/page'
+VTOP_LOGIN_URL = 'https://vtop.vitap.ac.in/vtop/login'
+VTOP_LOGIN_INIT_URL = 'https://vtop.vitap.ac.in/vtop/init/page'
+VTOP_LOGIN_ERROR_URL = 'https://vtop.vitap.ac.in/vtop/login/error'
 
 #Home Page URL
-VTOP_HOME_URL='https://vtop.vitap.ac.in/vtop/home'
+VTOP_HOME_URL ='https://vtop.vitap.ac.in/vtop/home'
 
 #Content Page URL
-VTOP_CONTENT_URL='https://vtop.vitap.ac.in/vtop/content'
+VTOP_CONTENT_URL ='https://vtop.vitap.ac.in/vtop/content'
 
 #Profile URL
-PROFILE_URL= 'https://vtop.vitap.ac.in/vtop/studentsRecord/StudentProfileAllView'
+PROFILE_URL = 'https://vtop.vitap.ac.in/vtop/studentsRecord/StudentProfileAllView'
+STUDENT_IMAGE_UPLOAD_URL = 'https://vtop.vitap.ac.in/vtop/others/photo/getStudentIdPhotoAndSign1'
 
 #Biometric Log URL
 BIOMETRIC_LOG_URL='https://vtop.vitap.ac.in/vtop/vtop/academics/biometriclogdisplay'
 GET_BIOMETRIC_LOG_URL='https://vtop.vitap.ac.in/vtop/getStudBioHistory'
 
-#Mentor Details URL
-MENTOR_DETAILS_URL='https://vtop.vitap.ac.in/vtop/proctor/viewProctorDetails'
+#Proctor Details URL
+MENTOR_DETAILS_URL = 'https://vtop.vitap.ac.in/vtop/proctor/viewProctorDetails'
 
 #HOD Details URL
-HOD_DETAILS_URL='https://vtop.vitap.ac.in/vtop/hrms/viewHodDeanDetails'
+HOD_DETAILS_URL = 'https://vtop.vitap.ac.in/vtop/hrms/viewHodDeanDetails'
+
+#Payment URL
+PAYMENTS_URL = 'https://vtop.vitap.ac.in/vtop/finance/Payments '
+PAYMENT_RECEIPT_URL = 'https://vtop.vitap.ac.in/vtop/p2p/getReceiptsApplno '
+VIRTUAL_ACCOUNT_URL = 'https://vtop.vitap.ac.in/vtop/admissions/studentVirtualAccountNo '
 
 #Curriculum URL
-CURRICULUM_URL='https://vtop.vitap.ac.in/vtop/academics/common/Curriculum'
+CURRICULUM_URL = 'https://vtop.vitap.ac.in/vtop/academics/common/Curriculum'
 
 #Time Table URL
-TIME_TABLE_URL='https://vtop.vitap.ac.in/vtop/academics/common/StudentTimeTable'
-GET_TIME_TABLE_URL='https://vtop.vitap.ac.in/vtop/processViewTimeTable'
+TIME_TABLE_URL = 'https://vtop.vitap.ac.in/vtop/academics/common/StudentTimeTable'
+GET_TIME_TABLE_URL = 'https://vtop.vitap.ac.in/vtop/processViewTimeTable'
+
 #Exam Schedule URL
-EXAM_SCHEDULE_URL='https://vtop.vitap.ac.in/vtop/examinations/StudExamSchedule'
-GET_EXAM_SCHEDULE_URL='https://vtop.vitap.ac.in/vtop/examinations/doSearchExamScheduleForStudent'
+EXAM_SCHEDULE_URL = 'https://vtop.vitap.ac.in/vtop/examinations/StudExamSchedule'
+GET_EXAM_SCHEDULE_URL = 'https://vtop.vitap.ac.in/vtop/examinations/doSearchExamScheduleForStudent'
 
 #Attendence URL
-ATTENDENCE_URL='https://vtop.vitap.ac.in/vtop/academics/common/StudentAttendance'
-VIEW_ATTENDENCE_URL='https://vtop.vitap.ac.in/vtop/processViewStudentAttendance'
+ATTENDENCE_URL = 'https://vtop.vitap.ac.in/vtop/academics/common/StudentAttendance'
+VIEW_ATTENDENCE_URL = 'https://vtop.vitap.ac.in/vtop/processViewStudentAttendance'
 
 #Course Page URL
-COURSE_PAGE_URL='https://vtop.vitap.ac.in/vtop/academics/common/StudentCoursePage'
+COURSE_PAGE_URL = 'https://vtop.vitap.ac.in/vtop/academics/common/StudentCoursePage'
 
 #Makrs URL
-MARKS_URL='https://vtop.vitap.ac.in/vtop/examinations/StudentMarkView'
+MARKS_URL = 'https://vtop.vitap.ac.in/vtop/examinations/StudentMarkView'
 
 #Weekend Outing URL
-WEEKEND_OUTING_URL='https://vtop.vitap.ac.in/vtop/hostel/StudentWeekendOuting'
-SAVE_WEEKEND_OUTING_URL='https://vtop.vitap.ac.in/vtop/hostel/saveOutingForm'
+WEEKEND_OUTING_URL = 'https://vtop.vitap.ac.in/vtop/hostel/StudentWeekendOuting'
+SAVE_WEEKEND_OUTING_URL = 'https://vtop.vitap.ac.in/vtop/hostel/saveOutingForm'
 
 #General Outing URL
-GENERAL_OUTING_URL='https://vtop.vitap.ac.in/vtop/hostel/StudentGeneralOuting'
+GENERAL_OUTING_URL = 'https://vtop.vitap.ac.in/vtop/hostel/StudentGeneralOuting'
 
 #Responses
-{'Success':200,
-'The origin server did not find a current representation for the target resource or is not willing to disclose that one exists':404}
+{200:"Success",
+404:'The origin server did not find a current representation for the target resource or is not willing to disclose that one exists'}
 
 #Profile image path
-PFP_PATH="https://vtop.vitap.ac.in/vtop/users/image/?id="
+PFP_PATH = "https://vtop.vitap.ac.in/vtop/users/image/?id="
 
 #Semester Sub ID's
-SemSubID={'WINTER SEM(2023-24) FRESHERS' : 'AP2023247',
+SemSubID = {'WINTER SEM(2023-24) FRESHERS' : 'AP2023247',
           'WIN SEM (2023-24)':'AP2023246',
           'INTRA SEM (2023-24':'AP2023245',
           'Preference Purpose (2023-24':'AP2022233',

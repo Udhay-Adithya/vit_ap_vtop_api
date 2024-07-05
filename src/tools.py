@@ -50,7 +50,6 @@ def find_csrf(html):
         return 'Null'
 
 
-
 def find_captcha(html):
     """
     Finds and returns the base64 code of the captcha from HTML content.
@@ -67,6 +66,7 @@ def find_captcha(html):
         return match.group(1)
     else:
         return 'Null'
+
 
 def extract_pfp_base64(html):
     """
@@ -87,3 +87,22 @@ def extract_pfp_base64(html):
             base64_code = src_value.split(",")[1]
             return base64_code
     return "Unable to find User Profile"
+
+
+def find_hod_image(html):
+    """
+    Finds and returns the base64 code of the HOD's image from HTML content.
+
+    Args:
+        html (str): The HTML content to search for the captcha.
+
+    Returns:
+        str: The base64 code of the captcha if found, otherwise 'Null'.
+    """
+    pattern = r'data:JPEG;base64,([^"]+)'
+    match=re.search(pattern, html)
+    if match:
+        return match.group(1)
+    else:
+        return 'Null'
+
