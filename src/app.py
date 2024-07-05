@@ -7,13 +7,18 @@ from .login import login
 from .captcha_solver import fetch_and_display_captcha,solve_captcha
 from .prelogin import pre_login,fetch_csrf_token,find_csrf
 from .user_profile import stu_profile
-from .time_table import get_time_table
+from .timetable import get_timetable
 from .attendence import get_attendence
 from .biometric_log import get_biometric
+from .exam_schedule import get_exam_schedule
+
+
+
+
 # Add the project directory to sys.path
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
-
 requests_session = requests.Session()
+
 
 
 app = Flask(__name__)
@@ -43,11 +48,16 @@ def check_api_key():
     pass
 '''
 @app.route('/')
-def helloworld():
+def default_route():
     return "You can acces this api on Github"
 
 
-@app.route('/getCaptcha', methods=['GET'])     
+@app.route('/helloworld')
+def helloworld_route():
+    return "Hello World"
+
+
+@app.route('/getcaptcha', methods=['GET'])
 def captcha():
     csrf_token = fetch_csrf_token(requests_session)
     if csrf_token:
@@ -68,7 +78,8 @@ def new_login_route():
         CSRF_TOKEN = find_csrf(requests_session.get(VTOP_CONTENT_URL, headers=HEADERS).text)
         return {'profile': stu_profile(requests_session,username,CSRF_TOKEN),
                 'attendence' : get_attendence(requests_session,username,semSubID,CSRF_TOKEN),
-                'timetable':get_time_table(requests_session,username,semSubID,CSRF_TOKEN)}
+                'timetable':get_timetable(requests_session,username,semSubID,CSRF_TOKEN),
+                'exam_schedule' : get_exam_schedule(requests_session,username,semSubID,CSRF_TOKEN)}
     else:
         return login_resp
 
@@ -100,7 +111,7 @@ def time_table_route():
     login_resp=login(requests_session, csrf_token, username, password, captcha)
     if login_resp.status_code==200:
         CSRF_TOKEN = find_csrf(requests_session.get(VTOP_CONTENT_URL, headers=HEADERS).text)
-        return {'timetable':get_time_table(requests_session,username,semSubID,CSRF_TOKEN)}
+        return {'timetable':get_timetable(requests_session,username,semSubID,CSRF_TOKEN)}
     else:
         return login_resp
 
@@ -120,6 +131,23 @@ def attendence_route():
     else:
         return login_resp
 
+
+
+@app.route('/login/examschedule', methods=['POST'])
+def examschedule_route():
+    username = request.form.get('username')
+    password = request.form.get('password')
+    semSubID = request.form.get('semSubID')
+    csrf_token = fetch_csrf_token(requests_session)
+    pre_login(requests_session, csrf_token)   
+    captcha = solve_captcha(fetch_and_display_captcha(requests_session))
+    login_resp=login(requests_session, csrf_token, username, password, captcha)
+    if login_resp.status_code==200:
+        CSRF_TOKEN = find_csrf(requests_session.get(VTOP_CONTENT_URL, headers=HEADERS).text)
+        return {'exam_schedule' : get_exam_schedule(requests_session,username,semSubID,CSRF_TOKEN)}
+    else:
+        return login_resp
+    
 
 @app.route('/login/biometric', methods=['POST'])
 def biometric_route():

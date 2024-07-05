@@ -2,9 +2,9 @@ from bs4 import BeautifulSoup
 from .constants import VIEW_ATTENDENCE_URL,ATTENDENCE_URL,HEADERS
 import time
 from datetime import datetime,timezone
-from .parser import attendence_parser
+from .parsers import attendence_parser
 
-def get_attendence(session,username,semSubID,csrf_token):
+def get_attendence(session,username,semSubID,csrf_token)-> (dict | str):
       try:
         data={'verifyMenu':'true',
             'authorizedID':username,
@@ -24,6 +24,6 @@ def get_attendence(session,username,semSubID,csrf_token):
       soup = BeautifulSoup(html.content,"html.parser")
       base= soup.find_all('table',id='AttendanceDetailDataTable')
       if base:
-        return attendence_parser(base)
+        return attendence_parser.parse_attendence(base)
       else:
          return f"Error : {base}"
