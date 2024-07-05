@@ -11,7 +11,7 @@ from .timetable import get_timetable
 from .attendence import get_attendence
 from .biometric_log import get_biometric
 from .exam_schedule import get_exam_schedule
-
+from .payment_receipts import get_payment_receipts
 
 
 
@@ -164,6 +164,21 @@ def biometric_route():
     else:
         return login_resp
 
+
+@app.route('/login/paymentreceipts', methods=['POST'])
+def payment_receipts_route():
+    username = request.form.get('username')
+    password = request.form.get('password')
+    csrf_token = fetch_csrf_token(requests_session)
+    pre_login(requests_session, csrf_token)   
+    captcha = solve_captcha(fetch_and_display_captcha(requests_session))
+    login_resp=login(requests_session, csrf_token, username, password, captcha)
+    if login_resp.status_code==200:
+        CSRF_TOKEN = find_csrf(requests_session.get(VTOP_CONTENT_URL, headers=HEADERS).text)
+        return {'payment_receipts' : get_payment_receipts(requests_session,username,CSRF_TOKEN)}
+    else:
+        return login_resp
+    
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))

@@ -33,8 +33,8 @@ MENTOR_DETAILS_URL = 'https://vtop.vitap.ac.in/vtop/proctor/viewProctorDetails'
 HOD_DETAILS_URL = 'https://vtop.vitap.ac.in/vtop/hrms/viewHodDeanDetails'
 
 #Payment URL
-PAYMENTS_URL = 'https://vtop.vitap.ac.in/vtop/finance/Payments '
-PAYMENT_RECEIPT_URL = 'https://vtop.vitap.ac.in/vtop/p2p/getReceiptsApplno '
+PAYMENTS_URL = 'https://vtop.vitap.ac.in/vtop/finance/Payments'
+PAYMENT_RECEIPT_URL = 'https://vtop.vitap.ac.in/vtop/p2p/getReceiptsApplno'
 VIRTUAL_ACCOUNT_URL = 'https://vtop.vitap.ac.in/vtop/admissions/studentVirtualAccountNo '
 
 #Curriculum URL
