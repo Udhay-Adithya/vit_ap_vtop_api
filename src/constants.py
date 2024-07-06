@@ -64,6 +64,9 @@ SAVE_WEEKEND_OUTING_URL = 'https://vtop.vitap.ac.in/vtop/hostel/saveOutingForm'
 
 #General Outing URL
 GENERAL_OUTING_URL = 'https://vtop.vitap.ac.in/vtop/hostel/StudentGeneralOuting'
+SAVE_GENERAL_OUTING_URL='https://vtop.vitap.ac.in/vtop/hostel/saveGeneralOutingForm'
+DELETE_GENERAL_OUTING_URL='https://vtop.vitap.ac.in/vtop/hostel/deleteGeneralOutingInfo'
+
 
 #Responses
 {200:"Success",
@@ -73,7 +76,11 @@ GENERAL_OUTING_URL = 'https://vtop.vitap.ac.in/vtop/hostel/StudentGeneralOuting'
 PFP_PATH = "https://vtop.vitap.ac.in/vtop/users/image/?id="
 
 #Semester Sub ID's
-SemSubID = {'WINTER SEM(2023-24) FRESHERS' : 'AP2023247',
+SemSubID = {'Short Summer Semester2 2023-24':'AP2023249'
+,           'Fast Track Fall 2024-25':'AP2024251',
+            'Long Summer Semester 2023-24':'AP20232410',
+            'Short Summer Semester1 2023-24':'AP2023248',
+          'WINTER SEM(2023-24) FRESHERS' : 'AP2023247',
           'WIN SEM (2023-24)':'AP2023246',
           'INTRA SEM (2023-24':'AP2023245',
           'Preference Purpose (2023-24':'AP2022233',
