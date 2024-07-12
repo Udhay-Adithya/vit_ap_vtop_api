@@ -67,6 +67,9 @@ GENERAL_OUTING_URL = 'https://vtop.vitap.ac.in/vtop/hostel/StudentGeneralOuting'
 SAVE_GENERAL_OUTING_URL='https://vtop.vitap.ac.in/vtop/hostel/saveGeneralOutingForm'
 DELETE_GENERAL_OUTING_URL='https://vtop.vitap.ac.in/vtop/hostel/deleteGeneralOutingInfo'
 
+#NCGPA Rank URL
+NCGPA_RANK_URL='https://vtop.vitap.ac.in/vtop/hostels/counsellingSlotTimings1'
+
 
 #Responses
 {200:"Success",
