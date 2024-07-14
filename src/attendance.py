@@ -4,7 +4,7 @@ import time
 from datetime import datetime,timezone
 from .parsers import attendence_parser
 
-def get_attendence(session,username,semSubID,csrf_token)-> (dict | str):
+def get_attendance(session,username,semSubID,csrf_token)-> (dict | str):
       try:
         data={'verifyMenu':'true',
             'authorizedID':username,

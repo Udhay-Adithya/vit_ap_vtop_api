@@ -8,9 +8,9 @@ def parse_payment_receipts(html) :
     for i, row in enumerate(rows, start=1):
         cols = row.find_all('td')
         data[i] = {
-            'RECEIPT NUMBER': cols[0].text.strip(),
-            'DATE': cols[1].text.strip(),
-            'AMOUNT': float(cols[2].text.strip()),
-            'CAMPUS CODE': cols[3].text.strip()
+            'receipt_number': cols[0].text.strip(),
+            'date': cols[1].text.strip(),
+            'amount': float(cols[2].text.strip()),
+            'campus_code': cols[3].text.strip()
         }
     return data

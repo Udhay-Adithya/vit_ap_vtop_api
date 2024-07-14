@@ -1,4 +1,3 @@
-from flask import jsonify,make_response
 import requests
 from .constants import VTOP_LOGIN_URL, VTOP_CONTENT_URL, VTOP_LOGIN_ERROR_URL, HEADERS
 from .tools import login_error_identifier
@@ -16,7 +15,7 @@ def login(session, csrf_token, username, password, captcha_value):
 
     Returns:
         str: A string indicating the outcome of the login attempt.
-             - If login is successful, returns "Login Successful".
+             - If login is successful, returns "Loged in Successfully as {username} with a response status code of 200".
              - If login fails due to an internal error, returns "Login failed due to some internal Error".
              - If login fails due to other reasons, returns an error message describing the issue.
 
@@ -34,17 +33,16 @@ def login(session, csrf_token, username, password, captcha_value):
         }
         response = session.post(VTOP_LOGIN_URL, data=data, headers=HEADERS)
         if response.url == VTOP_CONTENT_URL:
-                message=f'Loged in Successfully as {username}'
-                return make_response(jsonify({'message': message}), response.status_code)
+                print(response.content)
+                message=f'Logged in Successfully as {username}'
+                return {'login': message}, response.status_code
             
         elif(response.url == VTOP_LOGIN_ERROR_URL):
-            error_message = f"Login failed: {login_error_identifier(response.text)}"
-            return make_response(jsonify({'message': error_message}), response.status_code)
+            error_message = f"{login_error_identifier(response.text)}"
+            return {'login': error_message}, 401
         
         else:
-            print(response.content)
-            return make_response(jsonify({'message': f"Login failed: HTTP status code {response.status_code}"}), response.status_code)
+            return {'login': f"Login failed: HTTP status code {response.status_code}"}, 404
     except requests.RequestException as e:
-        print("Login request failed:", e)
         message="Login request failed: Network Error"
-        return make_response(jsonify({'message': message}), response.status_code)
+        return {'login': message}, 503

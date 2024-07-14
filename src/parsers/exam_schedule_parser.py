@@ -26,18 +26,18 @@ def parse_exam_schedule(html):
 
         # Construct the data dictionary
         exam_entry = {
-            "Course Code": values[1],
-            "Course Title": values[2],
-            "Type": values[3],
-            "Registration Number": values[4],
-            "Slot": values[5],
-            "Date": values[6],
-            "Session": values[7],
-            "Reporting Time": values[8],
-            "Exam Time": values[9],
-            "Venue": values[10],
-            "Room": values[11],
-            "Marks": values[12]
+            "course_code": values[1],
+            "course_title": values[2],
+            "type": values[3],
+            "registration_number": values[4],
+            "slot": values[5],
+            "date": values[6],
+            "session": values[7],
+            "reporting_time": values[8],
+            "exam_time": values[9],
+            "venue": values[10],
+            "seat_location": values[11],
+            "seat_number": values[12]
         }
 
         # Add the entry to the dictionary under the current exam type

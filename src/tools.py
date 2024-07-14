@@ -22,12 +22,11 @@ def login_error_identifier(html):
             # Return the text content of the error message
             return err_msg.get_text(strip=True)
         else:
-            return None
+            return "Unknown error occured during login"
     
     except Exception as e:
         # Handle any exceptions that may occur during parsing
-        print(f"Error occurred: {e}")
-        return None
+        return e
 
 
 
