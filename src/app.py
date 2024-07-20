@@ -134,8 +134,8 @@ def biometric_route(username, semSubID, date, CSRF_TOKEN):
 
 @app.route('/login/paymentreceipts', methods=['POST'])
 @handle_login
-def payment_receipts_route(username, semSubID, date, CSRF_TOKEN):
-    return make_response(jsonify({'payment_receipts': get_payment_receipts(requests_session, username, CSRF_TOKEN)}),200)
+def payment_receipts_route(username, semSubID, date,applno,  CSRF_TOKEN):
+    return make_response(jsonify({'payment_receipts': get_payment_receipts(requests_session, username, applno, CSRF_TOKEN)}),200)
 
 
 

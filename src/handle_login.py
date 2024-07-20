@@ -12,6 +12,7 @@ def handle_login(func):
         username = request.form.get('username')
         password = request.form.get('password')
         semSubID = request.form.get('semSubID')
+        applno = request.form.get('applno')
         date = request.form.get('date')
         csrf_token = fetch_csrf_token(requests_session)
         pre_login(requests_session, csrf_token)
@@ -19,7 +20,7 @@ def handle_login(func):
         login_resp, status_code = login(requests_session, csrf_token, username, password, captcha)
         if status_code == 200:
             CSRF_TOKEN = find_csrf(requests_session.get(VTOP_CONTENT_URL, headers=HEADERS).text)
-            return func(username, semSubID, date, CSRF_TOKEN, *args, **kwargs)
+            return func(username, semSubID, date, applno, CSRF_TOKEN, *args, **kwargs)
         else:
             return make_response(jsonify({'error': login_resp}), status_code)
     return wrapper

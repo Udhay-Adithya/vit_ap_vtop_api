@@ -23,7 +23,7 @@ PROFILE_URL = 'https://vtop.vitap.ac.in/vtop/studentsRecord/StudentProfileAllVie
 STUDENT_IMAGE_UPLOAD_URL = 'https://vtop.vitap.ac.in/vtop/others/photo/getStudentIdPhotoAndSign1'
 
 #Biometric Log URL
-BIOMETRIC_LOG_URL='https://vtop.vitap.ac.in/vtop/vtop/academics/biometriclogdisplay'
+BIOMETRIC_LOG_URL='https://vtop.vitap.ac.in/vtop/academics/biometriclogdisplay'
 GET_BIOMETRIC_LOG_URL='https://vtop.vitap.ac.in/vtop/getStudBioHistory'
 
 #Proctor Details URL
@@ -35,6 +35,7 @@ HOD_DETAILS_URL = 'https://vtop.vitap.ac.in/vtop/hrms/viewHodDeanDetails'
 #Payment URL
 PAYMENTS_URL = 'https://vtop.vitap.ac.in/vtop/finance/Payments'
 PAYMENT_RECEIPT_URL = 'https://vtop.vitap.ac.in/vtop/p2p/getReceiptsApplno'
+PRINT_PAYMENT_RECEIPT_URL = 'https://vtop.vitap.ac.in/vtop/finance/dupReceiptNewP2P'
 VIRTUAL_ACCOUNT_URL = 'https://vtop.vitap.ac.in/vtop/admissions/studentVirtualAccountNo '
 
 #Curriculum URL
