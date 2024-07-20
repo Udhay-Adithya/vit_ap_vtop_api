@@ -16,6 +16,7 @@ def parse_payment_receipts(html) :
                 'date': cols[1].text.strip(),
                 'amount': cols[2].text.strip(),
                 'campus_code': cols[3].text.strip(),
+                'payment_status' : 'Paid',
                 'receitNo': re.search(pattern,cols[4].find('button')["onclick"]).group(1),
             }
         return data
