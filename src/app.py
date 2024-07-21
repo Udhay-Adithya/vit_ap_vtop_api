@@ -50,19 +50,6 @@ def check_api_key():
     pass
 
 
-# Add the project directory to sys.path
-sys.path.append(os.path.abspath(os.path.dirname(__file__)))
-
-
-
-app = Flask(__name__)
-app.secret_key = os.urandom(24)
-app.config["SESSION_PERMANENT"] = False
-app.config["PERMANENT_SESSION_LIFETIME"] = 15 * 60
-app.config["SESSION_TYPE"] = "filesystem"
-
-
-
 @app.route('/')
 def default_route():
     return ""
@@ -86,48 +73,47 @@ def captcha_route():
 
 @app.route('/login/getalldata', methods=['POST'])
 @handle_login
-def new_login_route(username, semSubID,date,CSRF_TOKEN):
+def new_login_route(username, semSubID, date,applno,  CSRF_TOKEN):
     return make_response(jsonify({
         'profile': stu_profile(requests_session, username, CSRF_TOKEN),
         'attendance': get_attendance(requests_session, username, semSubID, CSRF_TOKEN),
         'timetable': get_timetable(requests_session, username, semSubID, CSRF_TOKEN),
         'exam_schedule': get_exam_schedule(requests_session, username, semSubID, CSRF_TOKEN),
-        'payment_receipts': get_payment_receipts(requests_session, username, CSRF_TOKEN)
     }), 200)
 
 
 
 @app.route('/login/profile', methods=['POST'])
 @handle_login
-def profile_route(username, semSubID, date, CSRF_TOKEN):
+def profile_route(username, semSubID, date,applno,  CSRF_TOKEN):
     return make_response(jsonify({'profile': stu_profile(requests_session, username, CSRF_TOKEN)}),200)
 
 
 
 @app.route('/login/timetable', methods=['POST'])
 @handle_login
-def time_table_route(username, semSubID, date, CSRF_TOKEN):
+def time_table_route(username, semSubID, date,applno,  CSRF_TOKEN):
     return make_response(jsonify({'timetable': get_timetable(requests_session, username, semSubID, CSRF_TOKEN)}),200)
 
 
 
 @app.route('/login/attendance', methods=['POST'])
 @handle_login
-def attendence_route(username, semSubID, date, CSRF_TOKEN):
+def attendence_route(username, semSubID, date,applno,  CSRF_TOKEN):
     return make_response(jsonify({'attendance': get_attendance(requests_session, username, semSubID, CSRF_TOKEN)}),200)
 
 
 
 @app.route('/login/examschedule', methods=['POST'])
 @handle_login
-def examschedule_route(username, semSubID, date, CSRF_TOKEN):
+def examschedule_route(username, semSubID, date,applno,  CSRF_TOKEN):
     return make_response(jsonify({'exam_schedule': get_exam_schedule(requests_session, username, semSubID, CSRF_TOKEN)}),200)
 
 
 
 @app.route('/login/biometric', methods=['POST'])
 @handle_login
-def biometric_route(username, semSubID, date, CSRF_TOKEN):
+def biometric_route(username, semSubID, date,applno,  CSRF_TOKEN):
     return make_response(jsonify({'biometric_log': get_biometric(requests_session, username, date, CSRF_TOKEN)}),200)
 
 
@@ -141,7 +127,7 @@ def payment_receipts_route(username, semSubID, date,applno,  CSRF_TOKEN):
 
 @app.route('/login/ncgparankdetails', methods=['POST'])
 @handle_login
-def ncgparankdetails(username, semSubID, date, CSRF_TOKEN):
+def ncgparankdetails(username, semSubID, date,applno,  CSRF_TOKEN):
     return make_response(jsonify({'ncgpa_rank_details': ncgpa_rank_details(requests_session, username, CSRF_TOKEN)}),200)
 
 
