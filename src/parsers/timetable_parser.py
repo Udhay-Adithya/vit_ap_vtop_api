@@ -57,10 +57,10 @@ def update_timetable_with_course_info(timetable_data, courses_dict):
 				# Determine if the class is a theory or lab class based on the timeslot
                 course_type = 'ETH' if timeslot in theory_timings else 'ELA'
                 timetable_data[day][timeslot] = {
-                    "CourseName": courses_dict[course_code]["Course Name"],
-                    "Venue": courses_dict[course_code]["Venue"],
-                    "CourseCode": course_code,
-                    "CourseType": course_type
+                    "course_name": courses_dict[course_code]["Course Name"],
+                    "venue": courses_dict[course_code]["Venue"],
+                    "course_code": course_code,
+                    "course_type": course_type
                 }
     return timetable_data
                 
