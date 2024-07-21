@@ -33,7 +33,6 @@ def login(session, csrf_token, username, password, captcha_value):
         }
         response = session.post(VTOP_LOGIN_URL, data=data, headers=HEADERS)
         if response.url == VTOP_CONTENT_URL:
-                print(response.content)
                 message=f'Logged in Successfully as {username}'
                 return {'login': message}, response.status_code
             

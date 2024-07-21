@@ -12,7 +12,7 @@ from .timetable import get_timetable
 from .attendance import get_attendance
 from .biometric_log import get_biometric
 from .exam_schedule import get_exam_schedule
-from .payment_receipts import get_payment_receipts
+from .payments import get_payments
 from .ncgpa_rank import ncgpa_rank_details
 from .handle_login import handle_login
 
@@ -132,10 +132,10 @@ def biometric_route(username, semSubID, date, CSRF_TOKEN):
 
 
 
-@app.route('/login/paymentreceipts', methods=['POST'])
+@app.route('/login/payments', methods=['POST'])
 @handle_login
 def payment_receipts_route(username, semSubID, date,applno,  CSRF_TOKEN):
-    return make_response(jsonify({'payment_receipts': get_payment_receipts(requests_session, username, applno, CSRF_TOKEN)}),200)
+    return make_response(jsonify({'payments': get_payments(requests_session, username, applno, CSRF_TOKEN)}),200)
 
 
 

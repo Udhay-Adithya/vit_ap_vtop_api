@@ -27,7 +27,7 @@ def parse_print_payment_receipt_page(html, receipts, index):
                 details['program_name'] = cols[0].text.strip()
 
     # Extract hostel fees details
-    details['hostel_fees'] = []
+    details['fee'] = []
     hostel_fees_table = soup.find_all('table', class_='table')[1]
     rows = hostel_fees_table.find_all('tr')[1:]  # Skip the header row
     for row in rows:
@@ -39,7 +39,7 @@ def parse_print_payment_receipt_page(html, receipts, index):
                 'description': cols[2].text.strip(),
                 'amount': cols[3].text.strip()
             }
-            details['fees'].append(fee_details)
+            details['fee'].append(fee_details)
 
     # Extract grand total and amount in words
     grand_total_div = soup.find('div', class_='text text-primary text-right')
