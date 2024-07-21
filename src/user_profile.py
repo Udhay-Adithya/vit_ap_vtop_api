@@ -11,7 +11,6 @@ def stu_profile(session,username,csrf_token):
           '_csrf':csrf_token,
           'nocache':int(round(time.time() * 1000))}
       html=(session.post(PROFILE_URL,data=data,headers=HEADERS).text)
-      print(html)
       soup = BeautifulSoup(html, "html.parser")
       user_data = soup.find_all('td')
 

@@ -26,11 +26,11 @@ def parse_attendence(base):
 		
 		# Add the data to the dictionary
 		data_dict[unique_id] = {
-			"CourseCode": course_code,
-			"CourseName": course_name,
-			"CourseType": course_type,
-			"AttendedClasses": attended_classes,
-			"TotalClasses": total_classes,
-			"AttendancePercentage": attendance_percentage,
+			"course_code": course_code,
+			"course_name": course_name,
+			"course_type": course_type,
+			"attended_classes": attended_classes,
+			"total_classes": total_classes,
+			"attendance_percentage": attendance_percentage,
 		}
 	return data_dict
