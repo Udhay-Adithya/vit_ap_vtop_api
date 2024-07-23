@@ -49,9 +49,13 @@ def get_course_info(html):
 def update_timetable_with_course_info(timetable_data, courses_dict):
     for day, timeslots in timetable_data.items():
         for timeslot, course_info in timeslots.items():
+            print(course_info)
             # Extract the course code from the course_info string
-            course_code = course_info.split('-')[1]
-
+            try:
+               course_code = course_info.split('-')[1]
+            except Exception as e:
+                course_code= "N/A"
+            print(course_code)
             # If the course code is in the courses_dict, replace the course_info string with the course name and venue
             if course_code in courses_dict:
 				# Determine if the class is a theory or lab class based on the timeslot
@@ -100,4 +104,4 @@ def parse_time_table(html):
 					del time_table_data[day][time]
 		return update_timetable_with_course_info(time_table_data,get_course_info(html))
 	else:														
-		print("No table with id 'timeTableStyle' found.")
+		return "Unable to find timetable."

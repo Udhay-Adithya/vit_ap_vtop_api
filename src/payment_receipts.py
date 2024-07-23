@@ -15,7 +15,7 @@ def get_payment_receipts(session, username, applno,csrf_token):
     if html:
         receipts = payments_receipts_parser.parse_payment_receipts(html.text)
         if receipts:
-            for i in range(1,len(receipts)):
+            for i in range(1,(len(receipts)+1)):
                 data = {
                     '_csrf': csrf_token,
                     'receitNo': receipts[i]['receitNo'],
