@@ -1,8 +1,8 @@
 from bs4 import BeautifulSoup
 
 time_table_data = {'Tuesday':{},'Wednesday':{},'Thursday':{},'Friday':{},'Saturday':{}}
-theory_timings=['DAY','TYPE','08:00 - 08:50', '09:00 - 09:50', '09:01 - 09:51', '10:00 - 10:50', '10:01 - 10:51', '11:00 - 11:50', '11:01 - 11:51', '12:00 - 12:50', '13:00 - 13:50', 'Lunch', '14:00 - 14:50', '14:01 - 14:51', '15:00 - 15:50', '15:01 - 15:51', '16:00 - 16:50', '16:01 - 16:51', '17:00 - 17:50', '18:00 - 18:50', '19:00 - 19:50']
-lab_timings=['TYPE','08:00 - 08:50', '08:50 - 09:40', '08:51 - 09:41', '10:00 - 10:50', '10:01 - 10:51', '10:50 - 11:40', '10:51 - 11:41', '12:00 - 12:50', '12:50 - 13:30', 'Lunch', '14:00 - 14:50', '14:01 - 14:51', '14:50 - 15:40', '14:51 - 15:41', '16:00 - 16:50', '16:01 - 16:51', '16:50 - 17:40', '18:00 - 18:50', '18:50 - 19:30']
+theory_timings=['DAY','TYPE','08:00 - 08:50', '09:00 - 09:50', '10:00 - 10:50', '10:00 - 10:50', '11:00 - 11:50', '11:00 - 11:50', '12:00 - 12:50','12:00 - 12:50', '13:00 - 13:50', 'Lunch', '14:00 - 14:50', '14:00 - 14:50', '15:00 - 15:50', '16:00 - 16:50', '16:00 - 16:50', '17:00 - 17:50', '17:00 - 17:50', '18:00 - 18:50', '19:00 - 19:50']
+lab_timings=['TYPE','08:00 - 08:50','09:00 - 09:50', '09:50 - 10:40', '11:00 - 11:50', '11:00 - 11:50', '11:50 - 12:40', '11:50 - 12:40', '12:50 - 13:30', 'Lunch', '14:00 - 14:50', '14:00 - 14:50', '14:50 - 15:40','16:00 - 16:50','16:00 - 16:50', '16:50 - 17:40', '16:50 - 17:40', '18:00 - 18:50', '18:50 - 19:30']
 lst_table=[]
 
 def get_course_info(html):
@@ -12,7 +12,7 @@ def get_course_info(html):
 	rows = soup.find_all('tr')
 
     # Initialize an empty dictionary to store the courses and venues
-	courses_dict = {}
+	courses_list = []
 
     # Iterate through each row
 	for row in rows:
@@ -37,35 +37,34 @@ def get_course_info(html):
 							venue = i.get_text().strip()
                     
                     # Store the course code, course name, and venue in the dictionary
-					courses_dict[course_code] = {"Course Name": course_name, "Venue": venue}
+					courses_list.append({str(course_code): {"course_name": course_name, "venue": venue}})
 			except Exception as e:
 				print(f"An error occurred: {e}")
 				continue
-	return courses_dict
+	return courses_list
 
 
 
 
-def update_timetable_with_course_info(timetable_data, courses_dict):
+def update_timetable_with_course_info(timetable_data, courses_list):
     for day, timeslots in timetable_data.items():
         for timeslot, course_info in timeslots.items():
-            print(course_info)
             # Extract the course code from the course_info string
-            try:
-               course_code = course_info.split('-')[1]
-            except Exception as e:
-                course_code= "N/A"
-            print(course_code)
-            # If the course code is in the courses_dict, replace the course_info string with the course name and venue
-            if course_code in courses_dict:
-				# Determine if the class is a theory or lab class based on the timeslot
-                course_type = 'ETH' if timeslot in theory_timings else 'ELA'
-                timetable_data[day][timeslot] = {
-                    "course_name": courses_dict[course_code]["Course Name"],
-                    "venue": courses_dict[course_code]["Venue"],
-                    "course_code": course_code,
-                    "course_type": course_type
-                }
+            course_code = course_info.split('-')[1]
+			#Extracting venue from the course_info string
+            course_venue = str(course_info.split('-')[3]+'-'+course_info.split('-')[4])
+			#Course type
+            course_type= course_info.split('-')[2]
+            # If the course code is in the courses_list, replace the course_info string with the course name and venue
+            for course in courses_list:
+                if course_code in course:
+                    if course_venue == str(course[course_code]['venue'].split('-')[0]+'-'+course[course_code]['venue'].split('-')[1]):
+                        timetable_data[day][timeslot] = {
+                            "course_name": course[course_code]["course_name"],
+                            "venue": course_venue,
+                            "course_code": course_code,
+                            "course_type": course_type
+                        }
     return timetable_data
                 
 
@@ -88,9 +87,8 @@ def parse_time_table(html):
 		#To access theory classes 	
 		for day,line in zip(['Tuesday','Wednesday','Thursday','Friday','Saturday'],lst_table[::2]):
 			for j in range(min(len(line), len(theory_timings))):
-				if len(line[j])>8:
+				if len(line[j])>8 and line[j] != 'CLUBS/ECS':
 					time_table_data[day][theory_timings[j]] = line[j]
-
 		#Labs
 		for day,line in zip(['Tuesday','Wednesday','Thursday','Friday','Saturday'],lst_table[1::2]):
 			for j in range(min(len(line), len(lab_timings))):
