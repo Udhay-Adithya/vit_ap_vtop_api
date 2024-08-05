@@ -7,7 +7,7 @@ from flask import Flask,jsonify,make_response,request
 
 from .captcha_solver import fetch_and_display_captcha
 from .prelogin import pre_login,fetch_csrf_token
-from .user_profile import stu_profile
+from .profile import stu_profile
 from .timetable import get_timetable
 from .attendance import get_attendance
 from .biometric_log import get_biometric

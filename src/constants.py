@@ -59,6 +59,9 @@ COURSE_PAGE_URL = 'https://vtop.vitap.ac.in/vtop/academics/common/StudentCourseP
 #Makrs URL
 MARKS_URL = 'https://vtop.vitap.ac.in/vtop/examinations/StudentMarkView'
 
+#Grades URL
+GRADE_HISTORY_URL = 'https://vtop.vitap.ac.in/vtop/examinations/examGradeView/StudentGradeHistory'
+
 #Weekend Outing URL
 WEEKEND_OUTING_URL = 'https://vtop.vitap.ac.in/vtop/hostel/StudentWeekendOuting'
 SAVE_WEEKEND_OUTING_URL = 'https://vtop.vitap.ac.in/vtop/hostel/saveOutingForm'

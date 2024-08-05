@@ -11,7 +11,7 @@ theory_timings=['DAY','TYPE','08:00 - 08:50', '09:00 - 09:50', '10:00 - 10:50', 
 lab_timings=['TYPE','08:00 - 08:50','09:00 - 09:50', '09:50 - 10:40','09:50 - 10:40', '11:00 - 11:50', '11:00 - 11:50', '11:50 - 12:40', '11:50 - 12:40', '12:50 - 13:30', 'Lunch', '14:00 - 14:50', '14:00 - 14:50', '14:50 - 15:40','16:00 - 16:50','16:00 - 16:50', '16:50 - 17:40', '16:50 - 17:40', '18:00 - 18:50', '18:50 - 19:30']
 lst_table=[]
 
-def get_course_info(html):
+def get_course_info(html : str) -> list:
 	soup = BeautifulSoup(html, 'html.parser')
 
     # Find all rows in the table
@@ -41,9 +41,15 @@ def get_course_info(html):
 					for i in venue_p:
 						if i is not None:
 							venue = i.get_text().strip()
+					
+					faculty_p = cells[8].find_all('p')[0]
+					for i in faculty_p:
+						if i is not None:
+							faculty = i.get_text().split("-")[0]
+							print(faculty)
                     
                     # Store the course code, course name, and venue in the dictionary
-					courses_list.append({str(course_code): {"course_name": course_name, "venue": venue}})
+					courses_list.append({str(course_code): {"course_name": course_name, "venue": venue, "faculty" : faculty}})
 			except Exception as e:
 				print(f"An error occurred: {e}")
 				continue
@@ -52,7 +58,7 @@ def get_course_info(html):
 
 
 
-def update_timetable_with_course_info(timetable_data, courses_list):
+def update_timetable_with_course_info(timetable_data : dict[str, list], courses_list : list) -> dict[str, list]:
 	for day, timeslots in timetable_data.items():
 		for slot in range(0,len(timeslots)):
 			for timeslot, course_info in timeslots[slot].items():
@@ -66,17 +72,17 @@ def update_timetable_with_course_info(timetable_data, courses_list):
 					if course_code in course:
 						if course_venue == str(course[course_code]['venue'].split('-')[0]+'-'+course[course_code]['venue'].split('-')[1]):
 							timetable_data[day][slot][timeslot] = {
-								"course_name": course[course_code]["course_name"],
-								"venue": course[course_code]['venue'],
+								"course_name" : course[course_code]["course_name"],
+								"venue" : course[course_code]['venue'],
+								"faculty" : course[course_code]['faculty'],
 								"course_code": course_code,
 								"course_type": course_type
 							}
-	print(time_table_data)
 	return timetable_data
                 
 
 
-def parse_time_table(html):
+def parse_time_table(html : str) -> dict[str, list]:
 	soup = BeautifulSoup(html, 'html.parser')
 
 	# Find the table with id 'timeTableStyle'

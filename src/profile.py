@@ -2,6 +2,7 @@ from .constants import PROFILE_URL, HEADERS
 from .tools import extract_pfp_base64
 from .mentor_details import mentor_details
 from .hod_details import hod_details
+from .grade_history import get_grade_history
 import time
 from bs4 import BeautifulSoup
 
@@ -17,14 +18,9 @@ def stu_profile(session,username,csrf_token):
       # Define a dictionary to store selected fields
       profile_data = {
         "pfp" : extract_pfp_base64(html),
-        "application_number" : "",
-        "student_name" : "",
-        "dob" : "",
-        "gender" : "",
-        "blood_group" : "",
-        "email" : "",
         "mentor_details" : mentor_details(session,username,csrf_token),
-        "hod_and_dean_info":hod_details(session,username,csrf_token)
+        "hod_and_dean_info" : hod_details(session,username,csrf_token),
+        "grade_history" : get_grade_history(session,username,csrf_token)
       }
 
       # Iterate through user_data and extract selected fields

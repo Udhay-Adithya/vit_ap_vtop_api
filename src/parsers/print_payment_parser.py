@@ -59,7 +59,7 @@ def parse_print_payment_receipt_page(html, receipts, index):
             payment_detail = {
                 'payment_mode': cols[0].text.strip(),
                 'bank_name': cols[1].text.strip(),
-                'DD_no/online_transaction_id.': cols[2].text.strip(),
+                'dd_no/online_transaction_id.': cols[2].text.strip(),
                 'amount': cols[3].text.strip()
             }
             details['payment_details'].append(payment_detail)
