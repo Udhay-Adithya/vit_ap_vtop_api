@@ -8,10 +8,10 @@ def get_timetable(session,username,semSubID,csrf_token)-> (dict[str, dict] | Non
           'authorizedID':username,
           '_csrf':csrf_token,
           'nocache':int(round(time.time() * 1000))}
-      initial_post=session.post(TIME_TABLE_URL,data=data,headers=HEADERS)
+      initial_response = session.post(TIME_TABLE_URL,data=data,headers=HEADERS)
       data={'_csrf':csrf_token,
           'semesterSubId':semSubID,
           'authorizedID':username,
           'x': datetime.now(timezone.utc).strftime("%a, %d %b %Y %H:%M:%S GMT")}
-      html=session.post(GET_TIME_TABLE_URL,data=data,headers=HEADERS)
+      html = session.post(GET_TIME_TABLE_URL,data=data,headers=HEADERS)
       return timetable_parser.parse_time_table(html.content)

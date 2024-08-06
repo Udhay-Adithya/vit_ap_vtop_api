@@ -1,16 +1,16 @@
 from bs4 import BeautifulSoup
-from .constants import VIEW_ATTENDENCE_URL,ATTENDENCE_URL,HEADERS
+from .constants import VIEW_ATTENDANCE_URL,ATTENDANCE_URL,HEADERS
 import time
 from datetime import datetime,timezone
-from .parsers import attendence_parser
+from .parsers import attendance_parser
 
-def get_attendance(session,username,semSubID,csrf_token)-> (dict | str):
+def get_attendance(session,username : str,semSubID : str,csrf_token : str)-> (dict | str):
       try:
         data={'verifyMenu':'true',
             'authorizedID':username,
             '_csrf' : csrf_token,
             'nocache':int(round(time.time() * 1000))}
-        initial_post=session.post(ATTENDENCE_URL,data=data,headers=HEADERS)
+        initial_post=session.post(ATTENDANCE_URL,data=data,headers=HEADERS)
       except Exception as e :
           print(e)      
       try:
@@ -18,12 +18,11 @@ def get_attendance(session,username,semSubID,csrf_token)-> (dict | str):
             'semesterSubId':semSubID,
             'authorizedID':username,
             'x': datetime.now(timezone.utc).strftime("%a, %d %b %Y %H:%M:%S GMT")}
-        html=session.post(VIEW_ATTENDENCE_URL,data=data,headers=HEADERS)
+        html=session.post(VIEW_ATTENDANCE_URL,data=data,headers=HEADERS)
       except Exception as e :
           print(e)
-      soup = BeautifulSoup(html.content,"html.parser")
-      base= soup.find_all('table',id='AttendanceDetailDataTable')
-      if base:
-        return attendence_parser.parse_attendence(base)
+      
+      if html:
+        return attendance_parser.parse_attendance(html.text)
       else:
-         return f"Error : {base}"
+         return f"Error : {e}"

@@ -3,7 +3,9 @@ from bs4 import BeautifulSoup
 data_list=[]
 data_dict = {}
 
-def parse_attendence(base):
+def parse_attendance(html : str) -> dict:
+	soup = BeautifulSoup(html,"html.parser")
+	base = soup.find_all('table',id='AttendanceDetailDataTable')
 	for table in base:
 			base_list=table.get_text().split('\n')[18:]
 			base_list = [item for item in base_list if item.strip()]

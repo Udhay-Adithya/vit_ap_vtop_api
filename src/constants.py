@@ -49,9 +49,9 @@ GET_TIME_TABLE_URL = 'https://vtop.vitap.ac.in/vtop/processViewTimeTable'
 EXAM_SCHEDULE_URL = 'https://vtop.vitap.ac.in/vtop/examinations/StudExamSchedule'
 GET_EXAM_SCHEDULE_URL = 'https://vtop.vitap.ac.in/vtop/examinations/doSearchExamScheduleForStudent'
 
-#Attendence URL
-ATTENDENCE_URL = 'https://vtop.vitap.ac.in/vtop/academics/common/StudentAttendance'
-VIEW_ATTENDENCE_URL = 'https://vtop.vitap.ac.in/vtop/processViewStudentAttendance'
+#Attendance URL
+ATTENDANCE_URL = 'https://vtop.vitap.ac.in/vtop/academics/common/StudentAttendance'
+VIEW_ATTENDANCE_URL = 'https://vtop.vitap.ac.in/vtop/processViewStudentAttendance'
 
 #Course Page URL
 COURSE_PAGE_URL = 'https://vtop.vitap.ac.in/vtop/academics/common/StudentCoursePage'
@@ -65,6 +65,9 @@ GRADE_HISTORY_URL = 'https://vtop.vitap.ac.in/vtop/examinations/examGradeView/St
 #Weekend Outing URL
 WEEKEND_OUTING_URL = 'https://vtop.vitap.ac.in/vtop/hostel/StudentWeekendOuting'
 SAVE_WEEKEND_OUTING_URL = 'https://vtop.vitap.ac.in/vtop/hostel/saveOutingForm'
+EDIT_WEEKEND_OUTING_FORM = 'https://vtop.vitap.ac.in/vtop/hostel/updateBookingInfo'
+DELETE_WEEKEND_OUTING_FORM = 'https://vtop.vitap.ac.in/vtop/hostel/deleteBookingInfo'
+
 
 #General Outing URL
 GENERAL_OUTING_URL = 'https://vtop.vitap.ac.in/vtop/hostel/StudentGeneralOuting'

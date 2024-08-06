@@ -17,34 +17,57 @@ def handle_login(func):
         semSubID = request.form.get("semSubID")
         applno = request.form.get("applno")
         date = request.form.get("date")
+        outPlace = request.form.get("outPlace")
+        purposeOfVisit = request.form.get("purposeOfVisit")
+        outingDate = request.form.get("outingDate")
+        outTime = request.form.get("outTime")
+        contactNumber = request.form.get("contactNumber")
         if IS_VTOP_DOWN != True:
-            if len(username < 3) or not(any(
-                char in set(string.punctuation + string.whitespace) for char in username
-            )):
-                csrf_token = fetch_csrf_token(requests_session)
-                pre_login(requests_session, csrf_token)
-                captcha = solve_captcha(fetch_and_display_captcha(requests_session))
-                login_resp, status_code = login(
-                    requests_session, csrf_token, username, password, captcha
-                )
-                if status_code == 200:
-                    CSRF_TOKEN = find_csrf(
-                        requests_session.get(VTOP_CONTENT_URL, headers=HEADERS).text
+            if len(username) > 5:
+                if (
+                    any(
+                        char in set(string.punctuation + string.whitespace)
+                        for char in username
                     )
-                    return func(
-                        username, semSubID, date, applno, CSRF_TOKEN, *args, **kwargs
+                ) == False:
+                    csrf_token = fetch_csrf_token(requests_session)
+                    pre_login(requests_session, csrf_token)
+                    captcha = solve_captcha(fetch_and_display_captcha(requests_session))
+                    login_resp, status_code = login(
+                        requests_session, csrf_token, username, password, captcha
                     )
+                    if status_code == 200:
+                        CSRF_TOKEN = find_csrf(
+                            requests_session.get(VTOP_CONTENT_URL, headers=HEADERS).text
+                        )
+                        return func(
+                            username,
+                            semSubID,
+                            date,
+                            applno,
+                            outPlace,
+                            purposeOfVisit,
+                            outingDate,
+                            outTime,
+                            contactNumber,
+                            CSRF_TOKEN,
+                            *args,
+                            **kwargs
+                        )
+                    else:
+                        return make_response(
+                            jsonify({"error": login_resp}), status_code
+                        )
                 else:
-                    return make_response(jsonify({"error": login_resp}), status_code)
+                    return make_response(
+                        jsonify(
+                            {"error": {"login": "Username contains special characters"}}
+                        ),
+                        404,
+                    )
             else:
                 return make_response(
-                    jsonify(
-                        {
-                            "error": {
-                                "login": "Username too short/Username contains special characters"
-                            }
-                        }
-                    ),
+                    jsonify({"error": {"login": "Username too short"}}),
                     404,
                 )
         else:
