@@ -46,7 +46,6 @@ def get_course_info(html : str) -> list:
 					for i in faculty_p:
 						if i is not None:
 							faculty = i.get_text().split("-")[0]
-							print(faculty)
                     
                     # Store the course code, course name, and venue in the dictionary
 					courses_list.append({str(course_code): {"course_name": course_name, "venue": venue, "faculty" : faculty}})

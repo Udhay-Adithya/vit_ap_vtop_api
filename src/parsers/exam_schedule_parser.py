@@ -6,7 +6,7 @@ def parse_exam_schedule(html):
 
     if not schedule_table:
         print("Error: Could not find the schedule table in the HTML.")
-        return
+        return {"Error: Could not find the schedule table in the HTML."}
 
     rows = schedule_table.find_all('tr')
     exam_schedule = {}
