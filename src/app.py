@@ -16,7 +16,7 @@ from .payments import get_payments
 from .ncgpa_rank import ncgpa_rank_details
 from .handle_login import handle_login
 from .weekend_outing import post_weekend_outing_form
-
+from .general_outing import post_general_outing_form
 
 # Adding the project directory to sys.path
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
@@ -80,6 +80,7 @@ def new_login_route(
     purposeOfVisit,
     outingDate,
     outTime,
+    inTime,
     contactNumber,
     CSRF_TOKEN,
 ):
@@ -113,6 +114,7 @@ def profile_route(
     purposeOfVisit,
     outingDate,
     outTime,
+    inTime,
     contactNumber,
     CSRF_TOKEN,
 ):
@@ -132,6 +134,7 @@ def time_table_route(
     purposeOfVisit,
     outingDate,
     outTime,
+    inTime,
     contactNumber,
     CSRF_TOKEN,
 ):
@@ -158,6 +161,7 @@ def attendance_route(
     purposeOfVisit,
     outingDate,
     outTime,
+    inTime,
     contactNumber,
     CSRF_TOKEN,
 ):
@@ -184,6 +188,7 @@ def examschedule_route(
     purposeOfVisit,
     outingDate,
     outTime,
+    inTime,
     contactNumber,
     CSRF_TOKEN,
 ):
@@ -210,6 +215,7 @@ def biometric_route(
     purposeOfVisit,
     outingDate,
     outTime,
+    inTime,
     contactNumber,
     CSRF_TOKEN,
 ):
@@ -236,6 +242,7 @@ def payment_receipts_route(
     purposeOfVisit,
     outingDate,
     outTime,
+    inTime,
     contactNumber,
     CSRF_TOKEN,
 ):
@@ -258,6 +265,7 @@ def ncgparankdetails(
     purposeOfVisit,
     outingDate,
     outTime,
+    inTime,
     contactNumber,
     CSRF_TOKEN,
 ):
@@ -284,6 +292,7 @@ def weekendoutingform(
     purposeOfVisit,
     outingDate,
     outTime,
+    inTime,
     contactNumber,
     CSRF_TOKEN,
 ):
@@ -298,6 +307,41 @@ def weekendoutingform(
                     purposeOfVisit,
                     outingDate,
                     outTime,
+                    contactNumber,
+                )
+            }
+        ),
+        200,
+    )
+
+
+@app.route("/login/generaloutingform", methods=["POST"])
+@handle_login
+def generaloutingform(
+    username,
+    semSubID,
+    date,
+    applno,
+    outPlace,
+    purposeOfVisit,
+    outingDate,
+    outTime,
+    inTime,
+    contactNumber,
+    CSRF_TOKEN,
+):
+    return make_response(
+        jsonify(
+            {
+                "general_outing": post_general_outing_form(
+                    requests_session,
+                    username,
+                    CSRF_TOKEN,
+                    outPlace,
+                    purposeOfVisit,
+                    outingDate,
+                    outTime,
+                    inTime,
                     contactNumber,
                 )
             }

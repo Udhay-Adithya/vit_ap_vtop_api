@@ -71,8 +71,9 @@ DELETE_WEEKEND_OUTING_FORM = 'https://vtop.vitap.ac.in/vtop/hostel/deleteBooking
 
 #General Outing URL
 GENERAL_OUTING_URL = 'https://vtop.vitap.ac.in/vtop/hostel/StudentGeneralOuting'
-SAVE_GENERAL_OUTING_URL='https://vtop.vitap.ac.in/vtop/hostel/saveGeneralOutingForm'
-DELETE_GENERAL_OUTING_URL='https://vtop.vitap.ac.in/vtop/hostel/deleteGeneralOutingInfo'
+SAVE_GENERAL_OUTING_URL ='https://vtop.vitap.ac.in/vtop/hostel/saveGeneralOutingForm'
+EDIT_GENRAL_OUTING_URL = 'https://vtop.vitap.ac.in/vtop/hostel/updateGeneralOutingInfo'
+DELETE_GENERAL_OUTING_URL ='https://vtop.vitap.ac.in/vtop/hostel/deleteGeneralOutingInfo'
 
 #NCGPA Rank URL
 NCGPA_RANK_URL='https://vtop.vitap.ac.in/vtop/hostels/counsellingSlotTimings1'

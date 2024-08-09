@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 
-def find_weekend_message(html_content : str) -> str:
+def find_outing_response(html_content : str) -> str:
     # Parse the HTML content
     soup = BeautifulSoup(html_content, 'html.parser')
 

@@ -21,6 +21,7 @@ def handle_login(func):
         purposeOfVisit = request.form.get("purposeOfVisit")
         outingDate = request.form.get("outingDate")
         outTime = request.form.get("outTime")
+        inTime = request.form.get("inTime")
         contactNumber = request.form.get("contactNumber")
         if IS_VTOP_DOWN != True:
             if len(username) > 5:
@@ -49,6 +50,7 @@ def handle_login(func):
                             purposeOfVisit,
                             outingDate,
                             outTime,
+                            inTime,
                             contactNumber,
                             CSRF_TOKEN,
                             *args,
