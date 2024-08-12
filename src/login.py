@@ -1,8 +1,16 @@
 import requests
 from .constants import VTOP_LOGIN_URL, VTOP_CONTENT_URL, VTOP_LOGIN_ERROR_URL, HEADERS
-from .tools import login_error_identifier
+from .utils import find_login_response
+from flask import jsonify, Response, make_response
 
-def login(session, csrf_token, username, password, captcha_value):
+
+def login(
+    session: requests.Session,
+    csrf_token: str,
+    username: str,
+    password: str,
+    captcha_value: str,
+) -> Response:
     """
     Attempts to log in to the VTOP system using provided credentials.
 
@@ -14,34 +22,42 @@ def login(session, csrf_token, username, password, captcha_value):
         captcha_value (str): Value of the CAPTCHA image for validation.
 
     Returns:
-        str: A string indicating the outcome of the login attempt.
-             - If login is successful, returns "Loged in Successfully as {username} with a response status code of 200".
-             - If login fails due to an internal error, returns "Login failed due to some internal Error".
-             - If login fails due to other reasons, returns an error message describing the issue.
+        Response: A Flask Response object containing a JSON-formatted message indicating the outcome of the login attempt.
+            - If login is successful, the JSON will contain "message": "Logged in Successfully as {username}".
+            - If login fails due to incorrect credentials or CAPTCHA, the JSON will contain "error": "specific error message".
+            - If a network-related issue occurs, the JSON will contain "error": "Login request failed: Network Error".
+            - The HTTP status code will reflect the result:
+                - 200 if login is successful.
+                - 401 if login fails due to incorrect credentials or CAPTCHA.
+                - 404 if an unexpected response is received (e.g., redirection to an unknown URL).
+                - 503 if a network-related error occurs.
 
     Raises:
         None
-
     """
-
     try:
         data = {
-            '_csrf': csrf_token,
-            'username': username,
-            'password': password,
-            'captchaStr': captcha_value
+            "_csrf": csrf_token,
+            "username": username,
+            "password": password,
+            "captchaStr": captcha_value,
         }
         response = session.post(VTOP_LOGIN_URL, data=data, headers=HEADERS)
         if response.url == VTOP_CONTENT_URL:
-                message=f'Logged in Successfully as {username}'
-                return {'login': message}, response.status_code
-            
-        elif(response.url == VTOP_LOGIN_ERROR_URL):
-            error_message = f"{login_error_identifier(response.text)}"
-            return {'login': error_message}, 401
-        
+            message = f"Logged in Successfully as {username}"
+            return make_response(jsonify({"message": message}), 200)
+
+        elif response.url == VTOP_LOGIN_ERROR_URL:
+            error_message = find_login_response.login_error_identifier(response.text)
+            return make_response(jsonify({"error": error_message}), 401)
+
         else:
-            return {'login': f"Login failed: HTTP status code {response.status_code}"}, 404
-    except requests.RequestException as e:
-        message="Login request failed: Network Error"
-        return {'login': message}, 503
+            return make_response(
+                jsonify(
+                    {"error": f"Login failed: HTTP status code {response.status_code}"}
+                ),
+                404,
+            )
+    except requests.RequestException:
+        message = "Login request failed: Network Error"
+        return make_response(jsonify({"error": message}), 503)

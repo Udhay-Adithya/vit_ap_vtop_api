@@ -1,10 +1,10 @@
 import requests
 from .constants import VTOP_URL,HEADERS,VTOP_PRELOGIN_URL
-from .tools import find_csrf
+from .utils import find_csrf
 
 
 
-def fetch_csrf_token(session):
+def fetch_csrf_token(session : requests.Session) -> str:
     """
     Fetches CSRF token from the VTOP website.
 
@@ -15,8 +15,8 @@ def fetch_csrf_token(session):
         str or None: CSRF token if found, None otherwise.
     """
     try:
-        response = session.get(VTOP_URL, headers=HEADERS).text
-        csrf_token = find_csrf(response)
+        response = session.get(VTOP_URL, headers=HEADERS)
+        csrf_token = find_csrf.find_csrf(response.text)
         if csrf_token is not None:
             print("Found CSRF token")
             return csrf_token
@@ -25,10 +25,10 @@ def fetch_csrf_token(session):
             fetch_csrf_token(session)
     except requests.RequestException as e:
         print("Failed to fetch CSRF token:", e)
-        return None
+        return "Unable to find CSRF token"
     
 
-def pre_login(session, csrf_token):
+def pre_login(session : requests.Session, csrf_token : str) -> None:
     """
     Sends pre-login request to VTOP website.
 
@@ -47,4 +47,4 @@ def pre_login(session, csrf_token):
         else:
             print("Pre-login failed")
     except requests.RequestException as e:
-        print("Pre-login request failed:", e)
+        print("Pre-login request failed : Network Error", e)

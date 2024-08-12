@@ -6,10 +6,10 @@ import numpy as np
 from PIL import Image
 import requests
 from .constants import VTOP_LOGIN_URL, HEADERS
-from .tools import find_captcha
+from .utils import find_captcha
 
 MAX_RETRIES=5
-def fetch_and_display_captcha(session, retries=MAX_RETRIES):
+def fetch_and_display_captcha(session : requests.Session, retries=MAX_RETRIES) -> str:
     """
     Fetches CSRF token from the VTOP website and performs pre-login request.
 
@@ -22,7 +22,7 @@ def fetch_and_display_captcha(session, retries=MAX_RETRIES):
     """
     try:
         html = session.get(VTOP_LOGIN_URL, headers=HEADERS).text
-        base64_code = find_captcha(html)
+        base64_code = find_captcha.find_captcha(html)
         if base64_code != 'Null':
             return base64_code
         elif retries > 0:
@@ -30,10 +30,10 @@ def fetch_and_display_captcha(session, retries=MAX_RETRIES):
             return fetch_and_display_captcha(session, retries - 1)
         else:
             print("Maximum retries reached. Captcha not found.")
-            return None
+            return "Maximum retries reached. Captcha not found"
     except requests.RequestException as e:
         print("Failed to fetch captcha:", e)
-        return False
+        return f"Failed to fetch captcha : {e}"
 
 
 curr_dir = os.path.dirname(__file__)
@@ -85,6 +85,5 @@ def _str_to_img(src: str) -> np.ndarray:
     # decoding the base64 string i.e string -> bytes -> image
     im = base64.b64decode(src)
     img = Image.open(io.BytesIO(im)).convert("L")
-    # img.save("./_test/saves/img.png")
     img = np.array(img)
     return img
