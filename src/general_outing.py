@@ -5,7 +5,7 @@ from .utils import outing_response_checker
 import time
 from datetime import datetime, timezone
 
-def post_general_outing_form(session: Session, username: str, csrf_token: str, outPlace: str, purposeOfVisit: str, outingDate: str, outTime: str, inTime: str, contactNumber: str) -> str:
+def post_general_outing_form(session: Session, username: str, csrf_token: str, outPlace: str, purposeOfVisit: str, outingDate: str, outTime: str,inDate: str, inTime: str,) -> str:
     """
     Submits a general outing form for a student in the VTOP system.
 
@@ -25,9 +25,11 @@ def post_general_outing_form(session: Session, username: str, csrf_token: str, o
         purposeOfVisit (str): 
             The purpose of the visit.
         outingDate (str): 
-            The date of the outing in the format 'DD-MM-YYYY'.
+            The date of the outing in the format 'DD-MMM-YYYY'.
         outTime (str): 
             The time of departure in the format 'HH:MM'.
+        inDate (str): 
+            The date of return from outing in the format 'DD-MMM-YYYY'.
         inTime (str): 
             The expected time of return in the format 'HH:MM'.
         contactNumber (str): 
@@ -48,21 +50,21 @@ def post_general_outing_form(session: Session, username: str, csrf_token: str, o
 
     data = {
         'authorizedID': form_info["register_number"],
-        'BookingId' : '',
+        'LeaveId' : '',
         'regNo' : form_info["register_number"],
         'name' : form_info["name"],
         'applicationNo' : form_info["application_no"],
         'gender' : form_info["gender"],
         'hostelBlock' : form_info["hostel_block"],
         'roomNo' : form_info["room_number"],
-        'outPlace' : outPlace,
+        'placeOfVisit' : outPlace,
         'purposeOfVisit' : purposeOfVisit,
-        'outingDate' : outingDate,
+        'outate' : outingDate,
         'outTimeHr' : outTime.split(":")[0],
         'outTimeMin' : outTime.split(":")[1],
+        'inDate' : outingDate,
         'inTimeHr' : inTime.split(":")[0],
         'inTimeMin' : inTime.split(":")[1],
-        'contactNumber' : contactNumber,
         'parentContactNumber' : form_info["parent_contact_number"],
         '_csrf' : csrf_token,
         'x': datetime.now(timezone.utc).strftime("%a, %d %b %Y %H:%M:%S GMT")
