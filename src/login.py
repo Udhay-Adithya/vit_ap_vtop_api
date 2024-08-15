@@ -45,19 +45,19 @@ def login(
         response = session.post(VTOP_LOGIN_URL, data=data, headers=HEADERS)
         if response.url == VTOP_CONTENT_URL:
             message = f"Logged in Successfully as {username}"
-            return make_response(jsonify({"message": message}), 200)
+            return make_response(jsonify({"res": message}), 200)
 
         elif response.url == VTOP_LOGIN_ERROR_URL:
             error_message = find_login_response.login_error_identifier(response.text)
-            return make_response(jsonify({"error": error_message}), 401)
+            return make_response(jsonify({"login": error_message}), 401)
 
         else:
             return make_response(
                 jsonify(
-                    {"error": f"Login failed: HTTP status code {response.status_code}"}
+                    {"login": f"Login failed: HTTP status code {response.status_code}"}
                 ),
                 404,
             )
     except requests.RequestException:
         message = "Login request failed: Network Error"
-        return make_response(jsonify({"error": message}), 503)
+        return make_response(jsonify({"login": message}), 503)

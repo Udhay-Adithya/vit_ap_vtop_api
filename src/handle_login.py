@@ -102,7 +102,8 @@ def handle_login(func):
                         )
                     else:
                         return make_response(
-                            jsonify({"error": login_resp.data}), login_resp.status_code
+                            jsonify({"error": login_resp.json}),
+                            login_resp.status_code,
                         )
                 else:
                     return make_response(
