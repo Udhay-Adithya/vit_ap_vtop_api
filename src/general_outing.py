@@ -1,6 +1,6 @@
 from requests import Session
 from .constants import HEADERS, GENERAL_OUTING_URL, SAVE_GENERAL_OUTING_URL
-from .parsers import outing_form_parser
+from .parsers import outing_form_parser,general_outing_requests_parser
 from .utils import outing_response_checker
 import time
 from datetime import datetime, timezone
@@ -72,3 +72,14 @@ def post_general_outing_form(session: Session, username: str, csrf_token: str, o
     
     response = session.post(SAVE_GENERAL_OUTING_URL, data=data, headers=HEADERS)
     return outing_response_checker.find_outing_response(response.text)
+
+def get_general_outing_response(session: Session, username: str, csrf_token: str) -> dict :
+    data = {
+            'verifyMenu': 'true',
+            'authorizedID': username,
+            '_csrf': csrf_token,
+            'nocache': int(round(time.time() * 1000))
+        }
+        # Send the initial POST request to fetch the outing form
+    initial_response = session.post(GENERAL_OUTING_URL, data=data, headers=HEADERS)
+    return general_outing_requests_parser.parse_general_outing_requests(initial_response.text)

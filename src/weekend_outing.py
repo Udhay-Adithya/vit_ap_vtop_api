@@ -2,7 +2,7 @@ from requests import Session
 from .constants import HEADERS, WEEKEND_OUTING_URL, SAVE_WEEKEND_OUTING_URL, EDIT_WEEKEND_OUTING_FORM, DELETE_WEEKEND_OUTING_FORM
 import time
 from datetime import datetime, timezone
-from .parsers import outing_form_parser
+from .parsers import outing_form_parser,weekend_outing_requests_parser
 from .utils import outing_response_checker
 
 def post_weekend_outing_form(session: Session, username: str, csrf_token: str, outPlace: str, purposeOfVisit: str, outingDate: str, outTime: str, contactNumber: str) -> str:
@@ -61,3 +61,14 @@ def post_weekend_outing_form(session: Session, username: str, csrf_token: str, o
     
     # Process and return the response message
     return outing_response_checker.find_outing_response(response.text)
+
+def get_weekend_outing_response(session: Session, username: str, csrf_token: str) -> dict :
+    data = {
+            'verifyMenu': 'true',
+            'authorizedID': username,
+            '_csrf': csrf_token,
+            'nocache': int(round(time.time() * 1000))
+        }
+        # Send the initial POST request to fetch the outing form
+    initial_response = session.post(WEEKEND_OUTING_URL, data=data, headers=HEADERS)
+    return weekend_outing_requests_parser.parse_weekend_outing_requests(initial_response.text)

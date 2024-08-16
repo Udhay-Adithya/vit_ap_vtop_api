@@ -15,8 +15,8 @@ from .exam_schedule import get_exam_schedule
 from .payments import get_payments
 from .ncgpa_rank import ncgpa_rank_details
 from .handle_login import handle_login
-from .weekend_outing import post_weekend_outing_form
-from .general_outing import post_general_outing_form
+from .weekend_outing import post_weekend_outing_form, get_weekend_outing_response
+from .general_outing import post_general_outing_form, get_general_outing_response
 
 # Adding the project directory to sys.path
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
@@ -308,7 +308,7 @@ def weekendoutingform(
     return make_response(
         jsonify(
             {
-                "weeekend_outing": post_weekend_outing_form(
+                "weekend_outing": post_weekend_outing_form(
                     requests_session,
                     username,
                     CSRF_TOKEN,
@@ -353,6 +353,62 @@ def generaloutingform(
                     outTime,
                     inDate,
                     inTime,
+                )
+            }
+        ),
+        200,
+    )
+
+
+@app.route("/login/generaloutingrequests", methods=["POST"])
+@handle_login
+def generaloutingrequests(
+    username,
+    semSubID,
+    date,
+    applno,
+    outPlace,
+    purposeOfVisit,
+    outingDate,
+    outTime,
+    inDate,
+    inTime,
+    contactNumber,
+    CSRF_TOKEN,
+):
+    return make_response(
+        jsonify(
+            {
+                "booking_requests": get_general_outing_response(
+                    requests_session, username, CSRF_TOKEN
+                )
+            }
+        ),
+        200,
+    )
+
+
+@app.route("/login/weekendoutingrequests", methods=["POST"])
+@handle_login
+def weekendoutingrequests(
+    username,
+    semSubID,
+    date,
+    applno,
+    outPlace,
+    purposeOfVisit,
+    outingDate,
+    outTime,
+    inDate,
+    inTime,
+    contactNumber,
+    CSRF_TOKEN,
+):
+    return make_response(
+        jsonify(
+            {
+                "booking_requests": get_weekend_outing_response(
+                    requests_session, username, CSRF_TOKEN
                 )
             }
         ),
