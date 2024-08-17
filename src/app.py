@@ -3,7 +3,7 @@ import sys
 
 from .session_manager import requests_session
 
-from flask import Flask, jsonify, make_response, request
+from flask import Flask, jsonify, make_response, request, send_from_directory
 
 from .captcha_solver import fetch_and_display_captcha
 from .prelogin import pre_login, fetch_csrf_token
@@ -49,6 +49,10 @@ def validate_api_key(func):
 @validate_api_key
 def check_api_key():
     pass
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory('static', 'favicon.ico')
 
 
 @app.route("/")
