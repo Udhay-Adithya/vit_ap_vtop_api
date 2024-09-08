@@ -95,15 +95,10 @@ def new_login_route(
         jsonify(
             {
                 "profile": stu_profile(requests_session, username, CSRF_TOKEN),
-                "attendance": get_attendance(
-                    requests_session, username, semSubID, CSRF_TOKEN
-                ),
-                "timetable": get_timetable(
-                    requests_session, username, semSubID, CSRF_TOKEN
-                ),
-                "exam_schedule": get_exam_schedule(
-                    requests_session, username, semSubID, CSRF_TOKEN
-                ),
+                "attendance": get_attendance(requests_session, username, semSubID, CSRF_TOKEN),
+                "timetable": get_timetable(requests_session, username, semSubID, CSRF_TOKEN),
+                "exam_schedule": get_exam_schedule( requests_session, username, semSubID, CSRF_TOKEN),
+                "marks": get_marks(requests_session, username, semSubID, CSRF_TOKEN)
             }
         ),
         200,
@@ -150,9 +145,7 @@ def time_table_route(
     return make_response(
         jsonify(
             {
-                "timetable": get_timetable(
-                    requests_session, username, semSubID, CSRF_TOKEN
-                )
+                "timetable": get_timetable(requests_session, username, semSubID, CSRF_TOKEN)
             }
         ),
         200,
@@ -178,9 +171,7 @@ def attendance_route(
     return make_response(
         jsonify(
             {
-                "attendance": get_attendance(
-                    requests_session, username, semSubID, CSRF_TOKEN
-                )
+                "attendance": get_attendance(requests_session, username, semSubID, CSRF_TOKEN)
             }
         ),
         200,
@@ -228,9 +219,7 @@ def examschedule_route(
     return make_response(
         jsonify(
             {
-                "exam_schedule": get_exam_schedule(
-                    requests_session, username, semSubID, CSRF_TOKEN
-                )
+                "exam_schedule": get_exam_schedule(requests_session, username, semSubID, CSRF_TOKEN)
             }
         ),
         200,
@@ -256,9 +245,7 @@ def biometric_route(
     return make_response(
         jsonify(
             {
-                "biometric_log": get_biometric(
-                    requests_session, username, date, CSRF_TOKEN
-                )
+                "biometric_log": get_biometric(requests_session, username, date, CSRF_TOKEN)
             }
         ),
         200,
@@ -308,9 +295,7 @@ def ncgparankdetails(
     return make_response(
         jsonify(
             {
-                "ncgpa_rank_details": ncgpa_rank_details(
-                    requests_session, username, CSRF_TOKEN
-                )
+                "ncgpa_rank_details": ncgpa_rank_details(requests_session, username, CSRF_TOKEN)
             }
         ),
         200,
@@ -336,16 +321,7 @@ def weekendoutingform(
     return make_response(
         jsonify(
             {
-                "weekend_outing": post_weekend_outing_form(
-                    requests_session,
-                    username,
-                    CSRF_TOKEN,
-                    outPlace,
-                    purposeOfVisit,
-                    outingDate,
-                    outTime,
-                    contactNumber,
-                )
+                "weekend_outing": post_weekend_outing_form(requests_session,username,CSRF_TOKEN,outPlace,purposeOfVisit,outingDate,outTime,contactNumber,)
             }
         ),
         200,
@@ -371,17 +347,7 @@ def generaloutingform(
     return make_response(
         jsonify(
             {
-                "general_outing": post_general_outing_form(
-                    requests_session,
-                    username,
-                    CSRF_TOKEN,
-                    outPlace,
-                    purposeOfVisit,
-                    outingDate,
-                    outTime,
-                    inDate,
-                    inTime,
-                )
+                "general_outing": post_general_outing_form(requests_session,username,CSRF_TOKEN,outPlace,purposeOfVisit,outingDate,outTime,inDate,inTime)
             }
         ),
         200,
@@ -407,9 +373,7 @@ def generaloutingrequests(
     return make_response(
         jsonify(
             {
-                "booking_requests": get_general_outing_response(
-                    requests_session, username, CSRF_TOKEN
-                )
+                "booking_requests": get_general_outing_response(requests_session, username, CSRF_TOKEN)
             }
         ),
         200,
@@ -435,9 +399,7 @@ def weekendoutingrequests(
     return make_response(
         jsonify(
             {
-                "booking_requests": get_weekend_outing_response(
-                    requests_session, username, CSRF_TOKEN
-                )
+                "booking_requests": get_weekend_outing_response(requests_session, username, CSRF_TOKEN)
             }
         ),
         200,
