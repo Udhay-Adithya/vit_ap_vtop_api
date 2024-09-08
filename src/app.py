@@ -17,6 +17,7 @@ from .ncgpa_rank import ncgpa_rank_details
 from .handle_login import handle_login
 from .weekend_outing import post_weekend_outing_form, get_weekend_outing_response
 from .general_outing import post_general_outing_form, get_general_outing_response
+from .marks import get_marks
 
 # Adding the project directory to sys.path
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
@@ -50,9 +51,10 @@ def validate_api_key(func):
 def check_api_key():
     pass
 
-@app.route('/favicon.ico')
+
+@app.route("/favicon.ico")
 def favicon():
-    return send_from_directory('static', 'favicon.ico')
+    return send_from_directory("static", "favicon.ico")
 
 
 @app.route("/")
@@ -181,6 +183,28 @@ def attendance_route(
                 )
             }
         ),
+        200,
+    )
+
+
+@app.route("/login/marks", methods=["POST"])
+@handle_login
+def marks_route(
+    username,
+    semSubID,
+    date,
+    applno,
+    outPlace,
+    purposeOfVisit,
+    outingDate,
+    outTime,
+    inDate,
+    inTime,
+    contactNumber,
+    CSRF_TOKEN,
+):
+    return make_response(
+        jsonify({"marks": get_marks(requests_session, username, semSubID, CSRF_TOKEN)}),
         200,
     )
 
