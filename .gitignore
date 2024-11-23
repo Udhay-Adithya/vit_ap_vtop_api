@@ -1,3 +1,7 @@
+.DS_Store
 local_test.py
-mark_test.py
+src/__pycache__/
+src/mark_test.py
+src/parsers/__pycache__/
+src/utils/__pycache__/
 test.py

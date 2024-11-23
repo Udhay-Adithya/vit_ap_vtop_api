@@ -1,6 +1,6 @@
 requests
-beautifulsoup4
-Flask
+bs4
+flask
 flask-cors
 gunicorn
 lxml
