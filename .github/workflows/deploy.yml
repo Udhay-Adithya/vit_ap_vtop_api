@@ -20,4 +20,4 @@ jobs:
       with:
         service: vtop-api
         region: asia-south1
-        image: asia-south1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/vtop-api
+        image: asia-south1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/vtop-api/vtop-api:latest
