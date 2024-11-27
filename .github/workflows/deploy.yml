@@ -18,6 +18,6 @@ jobs:
     - name: Deploy to Cloud Run
       uses: google-github-actions/deploy-cloudrun@v1
       with:
-        service: flask-app
-        region: us-south1
-        image: gcr.io/${{ secrets.GCP_PROJECT_ID }}/flask-app
+        service: vtop-api
+        region: asia-south1
+        image: gcr.io/${{ secrets.GCP_PROJECT_ID }}/vtop-api
