@@ -18,9 +18,8 @@ jobs:
     - name: Build and Push Docker Image
       run: |
         docker buildx create --use
-        docker buildx build --platform linux/amd64 -t asia-south1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/vtop-api/vtop-api:latest .
-        docker push asia-south1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/vtop-api/vtop-api:latest
-
+        docker buildx build --platform linux/amd64 -t asia-south1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/vtop-api/vtop-api:latest --push .
+    
     - name: Deploy to Cloud Run
       uses: google-github-actions/deploy-cloudrun@v1
       with:
