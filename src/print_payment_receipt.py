@@ -1,12 +1,13 @@
+from datetime import datetime
+
 import requests
-from .constants import HEADERS, PAYMENT_RECEIPT_URL
-import time
-from .parsers import payments_receipts_parser
+from .constants import HEADERS, PRINT_PAYMENT_RECEIPT_URL
+from .parsers import print_payment_parser
 
 
-def get_payment_receipts(
-    session: requests.Session, username: str, applno: str, csrf_token: str
-) -> list | dict:
+def print_payment_receipts(
+    session: requests.Session, username: str, applno: str, csrf_token: str, receitNo: str,
+) -> list:
     """
     Retrieves and processes payment receipts for a specified user from the VTOP system.
 
@@ -26,25 +27,24 @@ def get_payment_receipts(
 
     Returns:
     --------
-    list
-        A list of payment receipts and their basic details(receipt number, date, amount, campus code, payment status, receitNo).
+    dict
+        A dictionary containing the payment receipts and their details. Each receipt
+        is keyed by its receipt number and includes information like the receipt's details.
         If receipts cannot be retrieved, an error message is returned. If no receipts are
         found, a corresponding message is returned.
     """
 
     data = {
-        "verifyMenu": "true",
-        "authorizedID": username,
         "_csrf": csrf_token,
-        "nocache": int(round(time.time() * 1000)),
+        "receitNo": receitNo,
+        "applno": applno,
+        "registerNumber": username,
+        "x": datetime.now().strftime("%a, %d %b %Y %H:%M:%S GMT"),
+        "authorizedID": username,
     }
 
-    html = session.post(PAYMENT_RECEIPT_URL, data=data, headers=HEADERS)
+    html = session.post(PRINT_PAYMENT_RECEIPT_URL, data=data, headers=HEADERS)
     if html:
-        receipts = payments_receipts_parser.parse_payment_receipts(html.text)
-        if receipts:
-            return receipts
-        else:
-            return {"error": "No receipts found"}
+        return print_payment_parser.parse_print_payment_receipt_page(html.text)
     else:
         return {"error": "Unable to find payment receipts info"}

@@ -3,12 +3,12 @@ from bs4 import BeautifulSoup
 from collections import defaultdict
 
 
-def parse_exam_schedule(html: str) -> List[Dict]:
+def parse_exam_schedule(html: str) -> List[Dict] | dict:
     soup = BeautifulSoup(html, "html.parser")
     schedule_table = soup.find("table")
 
     if not schedule_table:
-        return [{"error": "No timetable found"}]
+        return {"error": "No timetable found"}
 
     rows = schedule_table.find_all("tr")
     exam_schedule = defaultdict(list)

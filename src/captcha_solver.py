@@ -26,7 +26,7 @@ def fetch_and_display_captcha(session : requests.Session, retries=MAX_RETRIES) -
         if base64_code != 'Null':
             return base64_code
         elif retries > 0:
-            print(f"Retrying... {retries} retries left.")
+            print(f"Failed to find captcha. Retrying... {retries} retries left.")
             return fetch_and_display_captcha(session, retries - 1)
         else:
             print("Maximum retries reached. Captcha not found.")

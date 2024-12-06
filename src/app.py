@@ -13,6 +13,8 @@ from .attendance import get_attendance
 from .biometric_log import get_biometric
 from .exam_schedule import get_exam_schedule
 from .payments import get_payments
+from .payment_receipts import get_payment_receipts
+from .print_payment_receipt import print_payment_receipts
 from .ncgpa_rank import ncgpa_rank_details
 from .handle_login import handle_login
 from .weekend_outing import post_weekend_outing_form, get_weekend_outing_response
@@ -90,6 +92,7 @@ def new_login_route(
     inTime,
     contactNumber,
     CSRF_TOKEN,
+    receitNo,
 ):
     return make_response(
         jsonify(
@@ -120,6 +123,7 @@ def profile_route(
     inTime,
     contactNumber,
     CSRF_TOKEN,
+    receitNo,
 ):
     return make_response(
         jsonify({"profile": stu_profile(requests_session, username, CSRF_TOKEN)}), 200
@@ -141,6 +145,7 @@ def time_table_route(
     inTime,
     contactNumber,
     CSRF_TOKEN,
+    receitNo,
 ):
     return make_response(
         jsonify(
@@ -167,6 +172,7 @@ def attendance_route(
     inTime,
     contactNumber,
     CSRF_TOKEN,
+    receitNo,
 ):
     return make_response(
         jsonify(
@@ -193,6 +199,7 @@ def marks_route(
     inTime,
     contactNumber,
     CSRF_TOKEN,
+    receitNo,
 ):
     return make_response(
         jsonify({"marks": get_marks(requests_session, username, semSubID, CSRF_TOKEN)}),
@@ -215,6 +222,7 @@ def examschedule_route(
     inTime,
     contactNumber,
     CSRF_TOKEN,
+    receitNo,
 ):
     return make_response(
         jsonify(
@@ -241,6 +249,7 @@ def biometric_route(
     inTime,
     contactNumber,
     CSRF_TOKEN,
+    receitNo,
 ):
     return make_response(
         jsonify(
@@ -253,6 +262,30 @@ def biometric_route(
 
 
 @app.route("/login/payments", methods=["POST"])
+@handle_login
+def payment_route(
+    username,
+    semSubID,
+    date,
+    applno,
+    outPlace,
+    purposeOfVisit,
+    outingDate,
+    outTime,
+    inDate,
+    inTime,
+    contactNumber,
+    CSRF_TOKEN,
+    receitNo,
+):
+    return make_response(
+        jsonify(
+            {"payments": get_payments(requests_session, username, applno, CSRF_TOKEN)}
+        ),
+        200,
+    )
+
+@app.route("/login/paymentsreceipts", methods=["POST"])
 @handle_login
 def payment_receipts_route(
     username,
@@ -267,14 +300,39 @@ def payment_receipts_route(
     inTime,
     contactNumber,
     CSRF_TOKEN,
+    receitNo,
 ):
     return make_response(
         jsonify(
-            {"payments": get_payments(requests_session, username, applno, CSRF_TOKEN)}
+            {"payment_receipts": get_payment_receipts(requests_session, username, applno, CSRF_TOKEN)}
         ),
         200,
     )
 
+
+@app.route("/login/printpaymentreceipt", methods=["POST"])
+@handle_login
+def print_payment_receipts_route(
+    username,
+    semSubID,
+    date,
+    applno,
+    outPlace,
+    purposeOfVisit,
+    outingDate,
+    outTime,
+    inDate,
+    inTime,
+    contactNumber,
+    CSRF_TOKEN,
+    receitNo,
+):
+    return make_response(
+        jsonify(
+            {"payment_receipts": print_payment_receipts(requests_session, username, applno, CSRF_TOKEN,receitNo)}
+        ),
+        200,
+    )
 
 @app.route("/login/ncgparankdetails", methods=["POST"])
 @handle_login
@@ -291,6 +349,7 @@ def ncgparankdetails(
     inTime,
     contactNumber,
     CSRF_TOKEN,
+    receitNo,
 ):
     return make_response(
         jsonify(
@@ -317,6 +376,7 @@ def weekendoutingform(
     inTime,
     contactNumber,
     CSRF_TOKEN,
+    receitNo,
 ):
     return make_response(
         jsonify(
@@ -343,6 +403,7 @@ def generaloutingform(
     inTime,
     contactNumber,
     CSRF_TOKEN,
+    receitNo,
 ):
     return make_response(
         jsonify(
@@ -369,6 +430,7 @@ def generaloutingrequests(
     inTime,
     contactNumber,
     CSRF_TOKEN,
+    receitNo,
 ):
     return make_response(
         jsonify(
@@ -395,6 +457,7 @@ def weekendoutingrequests(
     inTime,
     contactNumber,
     CSRF_TOKEN,
+    receitNo,
 ):
     return make_response(
         jsonify(

@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 
 
-def parse_print_payment_receipt_page(html: str, receipts: dict, index: int) -> dict:
+def parse_print_payment_receipt_page(html: str) -> dict:
     # Parse the HTML using BeautifulSoup
     soup = BeautifulSoup(html, "html.parser")
 
@@ -66,7 +66,6 @@ def parse_print_payment_receipt_page(html: str, receipts: dict, index: int) -> d
                     "amount": cols[3].text.strip(),
                 }
                 details["payment_details"].append(payment_detail)
-        receipts[index]["details"] = details
-        return receipts
+        return details
     except Exception as e:
-        return {"error": f"Unknown error occured while fetching payments : {e}"}
+        return {"error": f"Unknown error occured while fetching payment detail : {e}"}

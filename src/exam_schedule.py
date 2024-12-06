@@ -3,7 +3,7 @@ from .constants import *
 import time
 from .parsers import exam_schedule_parser
 
-def get_exam_schedule(session, username: str, semesterSubId: str, csrf_token) -> List[Dict]:
+def get_exam_schedule(session, username: str, semesterSubId: str, csrf_token) -> List[Dict] | dict:
     """
     Retrieves the exam schedule for a specific user and semester.
 
