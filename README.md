@@ -6,17 +6,15 @@ Welcome to the VIT-AP VTOP API documentation. This API allows students of VIT-AP
 1. [Overview](#overview)
 2. [Features](#features)
 3. [Installation](#installation)
-4. [Usage](#usage)
-5. [Endpoints](#endpoints)
-6. [Examples](#examples)
-7. [Error Handling](#error-handling)
-8. [Contributing](#contributing)
-9. [License](#license)
-10. [Future Updates](#future-updates)
-11. [Companion App](#companion-app)
+4. [Endpoints](#endpoints)
+5. [Example Usage](#example-usage)
+6. [Contributing](#contributing)
+7. [License](#license)
+8. [Future Updates](#future-updates)
+9. [Companion App](#companion-app)
 
 ## Overview
-The VIT-AP VTOP API is designed to help students access their academic information programmatically. It is built using Python and is hosted on [Fly.io](https://fly.io/). The API scrapes data from the VTOP system using the user’s credentials.
+The VIT-AP VTOP API is designed to help students access their academic information programmatically. It is built using Python and is hosted on [Fly.io](https://fly.io/). The API scrapes data from the [V-TOP](https://vtop.vitap.ac.in/vtop/) Portal using the user’s credentials.
 
 ## Features
 - **Attendance**: Fetch attendance details for the user.
@@ -32,128 +30,26 @@ To use the API, clone the repository and install the required dependencies.
 
 ```bash
 git clone https://github.com/Udhay-Adithya/VIT-AP-VTOP-API.git
+
 cd VIT-AP-VTOP-API
+
 pip install -r requirements.txt
 ```
 
-## Usage
-Run the API server locally:
+For a detailed setup information see [CONTRIBUTING.md](/CONTRIBUTING.md)
 
-```bash
-python app.py
-```
-
-Deploy the API using [Fly.io](https://fly.io/). Follow the Fly.io documentation for deployment steps.
 
 ## Endpoints
-### General
-- **GET /**
-  - Description: Returns a welcome message.
-  - Response:
-    ```text
-    You can access this API on Github
-    ```
 
-### Captcha
-- **GET /getCaptcha**
-  - Description: Fetches a captcha image required for login.
-  - Response: Captcha image.
+Refer to the main documentation [`DOCS.md`](/DOCS.md) for all endpoint related information.
 
-### Login and Data Retrieval
-- **POST /login/getalldata**
-  - Description: Logs in and retrieves profile, attendance, and timetable data.
-  - Request Body:
-    ```json
-    {
-      "username": "your_username",
-      "password": "your_password",
-      "semSubID": "your_semSubID"
-    }
-    ```
-  - Response:
-    ```json
-    {
-      "profile": {...},
-      "attendance": {...},
-      "timetable": {...}
-    }
-    ```
-
-### Individual Data Retrieval
-- **POST /login/profile**
-  - Description: Logs in and retrieves user profile information.
-  - Request Body:
-    ```json
-    {
-      "username": "your_username",
-      "password": "your_password"
-    }
-    ```
-  - Response:
-    ```json
-    {
-      "profile": {...}
-    }
-    ```
-
-- **POST /login/timetable**
-  - Description: Logs in and retrieves the class timetable.
-  - Request Body:
-    ```json
-    {
-      "username": "your_username",
-      "password": "your_password",
-      "semSubID": "your_semSubID"
-    }
-    ```
-  - Response:
-    ```json
-    {
-      "timetable": {...}
-    }
-    ```
-
-- **POST /login/attendance**
-  - Description: Logs in and retrieves attendance details.
-  - Request Body:
-    ```json
-    {
-      "username": "your_username",
-      "password": "your_password",
-      "semSubID": "your_semSubID"
-    }
-    ```
-  - Response:
-    ```json
-    {
-      "attendance": {...}
-    }
-    ```
-
-- **POST /login/biometric**
-  - Description: Logs in and retrieves biometric logs for a specific date.
-  - Request Body:
-    ```json
-    {
-      "username": "your_username",
-      "password": "your_password",
-      "date": "yyyy-mm-dd"
-    }
-    ```
-  - Response:
-    ```json
-    {
-      "biometric_log": {...}
-    }
-    ```
-
-## Examples
+## Example Usage
 ### Login and Fetch Attendance
 ```python
 import requests
 
 # Login and fetch all data
-url = 'https://your-api-url.com/login/getalldata'
+url = 'http://127.0.0.1:8000/login/getalldata'
 payload = {
     "username": "your_username",
     "password": "your_password",
@@ -164,16 +60,8 @@ data = response.json()
 print(data)
 ```
 
-## Error Handling
-The API returns appropriate HTTP status codes and error messages for invalid requests. Common errors include:
-- `400 Bad Request`: Invalid request format.
-- `401 Unauthorized`: Authentication failed.
-- `403 Forbidden`: Access denied.
-- `404 Not Found`: Resource not found.
-- `500 Internal Server Error`: Server error.
-
 ## Contributing
-Contributions are welcome! Please fork the repository and create a pull request with your changes. Ensure that your code follows the project’s coding standards and includes relevant tests.
+Contributions are welcome! Please see [CONTRIBUTING.md](/CONTRIBUTING.md) for guidelines.
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
@@ -182,7 +70,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 We are committed to improving this API and the companion app. Future updates will include new features, bug fixes, and performance improvements.
 
 ## Companion App
-I have also developed a companion app for this API. The VITAP Student App provides a user-friendly interface for accessing your academic information on your mobile device. You can find the app repository [here](https://github.com/Udhay-Adithya/VITAP-Student-App/).
+I have also developed a companion app for this API. The VITAP Student App provides a user-friendly interface for accessing your academic information on your mobile device. You can find the app repository [here](https://github.com/Udhay-Adithya/vit_ap_student_app/).
 
 We encourage users to try out the app and provide feedback. Future updates will enhance both the API and the app to better serve the needs of VIT-AP students.
 

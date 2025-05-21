@@ -5,3 +5,4 @@ src/mark_test.py
 src/parsers/__pycache__/
 src/utils/__pycache__/
 test.py
+__pycache__/
