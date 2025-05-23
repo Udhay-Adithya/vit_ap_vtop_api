@@ -1,5 +1,6 @@
 # syntax=docker/dockerfile:1
 
+# TODO: Bump python version, use poetry for dependency management
 # Specify Python version
 ARG PYTHON_VERSION=3.11.5
 FROM python:${PYTHON_VERSION}-slim
