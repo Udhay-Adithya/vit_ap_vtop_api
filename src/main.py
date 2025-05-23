@@ -20,11 +20,3 @@ app.include_router(student_data.router)
 @app.get("/")
 async def read_root():
     return {"message": "VITAP VTOP API is running. Access docs at /docs"}
-
-
-# Add a simple startup print to confirm config loading
-@app.on_event("startup")
-async def startup_event():
-    print(
-        "API Key loaded:", settings.API_KEY
-    )  # Don't print the key in production logs!
