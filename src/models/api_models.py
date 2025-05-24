@@ -5,9 +5,9 @@ from typing import List, Optional
 from vitap_vtop_client.attendance import AttendanceModel
 from vitap_vtop_client.profile import StudentProfileModel
 from vitap_vtop_client.timetable import TimetableModel
-from vitap_vtop_client.biometric import BiometricModel
 from vitap_vtop_client.grade_history import GradeHistoryModel
-from vitap_vtop_client.mentor import MentorModel
+from vitap_vtop_client.marks import MarksModel
+from vitap_vtop_client.exam_schedule import ExamScheduleModel
 
 
 # --- Request Models ---
@@ -36,6 +36,18 @@ class TimetableRequest(BaseVtopRequest):
     sem_sub_id: str
 
 
+class ExamScheduleRequest(BaseVtopRequest):
+    """Request model for fetching exam schedules."""
+
+    sem_sub_id: str
+
+
+class MarksRequest(BaseVtopRequest):
+    """Request model for fetching all marks."""
+
+    sem_sub_id: str
+
+
 class ComprehensiveDataRequest(BaseVtopRequest):
     """Request model for fetching all comprehensive student data."""
 
@@ -48,6 +60,9 @@ class ComprehensiveDataResponse(BaseModel):
     profile: StudentProfileModel
     attendance: List[AttendanceModel]
     timetable: TimetableModel
+    exam_schedule: ExamScheduleModel
+    grade_history: GradeHistoryModel
+    marks: MarksModel
 
 
 # Profile, GradeHistory, Mentor requests only need username/password

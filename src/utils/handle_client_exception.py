@@ -29,13 +29,13 @@ def handle_client_exception(e: VitapVtopClientError):
         # 502 Bad Gateway for issues connecting to VTOP
         raise HTTPException(
             status_code=status.HTTP_502_BAD_GATEWAY,
-            detail=f"Error connecting to VTOP: {e.message}",
+            detail=f"Error connecting to VTOP: {e}",
         )
     elif isinstance(e, VtopParsingError):
         # 500 Internal Server Error for scraping/parsing issues (VTOP structure changed?)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Data parsing failed: {e.message}. VTOP structure might have changed.",
+            detail=f"Data parsing failed: {e}. VTOP structure might have changed.",
         )
     elif isinstance(
         e,

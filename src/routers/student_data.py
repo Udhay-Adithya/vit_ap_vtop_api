@@ -7,6 +7,8 @@ from models.api_models import (
     AttendanceRequest,
     BiometricRequest,
     TimetableRequest,
+    ExamScheduleRequest,
+    MarksRequest,
     ComprehensiveDataRequest,
     ComprehensiveDataResponse,
 )
@@ -18,6 +20,9 @@ from vitap_vtop_client.timetable import TimetableModel
 from vitap_vtop_client.biometric import BiometricModel
 from vitap_vtop_client.grade_history import GradeHistoryModel
 from vitap_vtop_client.mentor import MentorModel
+from vitap_vtop_client.exam_schedule import ExamScheduleModel
+from vitap_vtop_client.marks import MarksModel
+from vitap_vtop_client.outing import GeneralOutingModel, WeekendOutingModel
 
 from vitap_vtop_client.exceptions import VitapVtopClientError
 
@@ -50,12 +55,27 @@ async def get_all_student_data(request: ComprehensiveDataRequest):
             profile_task = client.get_profile()
             attendance_task = client.get_attendance(sem_sub_id=request.sem_sub_id)
             timetable_task = client.get_timetable(sem_sub_id=request.sem_sub_id)
+            exam_schedule_task = client.get_exam_schedule(sem_sub_id=request.sem_sub_id)
+            grade_history_task = client.get_grade_history()
+            marks_task = client.get_marks(sem_sub_id=request.sem_sub_id)
 
             # Fetch data concurrently using asyncio.gather
             # Await all tasks concurrently. If any task raises an exception,
             # asyncio.gather will cancel the others and re-raise the first exception.
-            profile_data, attendance_data, timetable_data = await asyncio.gather(
-                profile_task, attendance_task, timetable_task
+            (
+                profile_data,
+                attendance_data,
+                timetable_data,
+                exam_schedule_data,
+                grade_history_data,
+                marks_data,
+            ) = await asyncio.gather(
+                profile_task,
+                attendance_task,
+                timetable_task,
+                exam_schedule_task,
+                grade_history_task,
+                marks_task,
             )
 
             # Construct the response object using the fetched data
@@ -63,6 +83,9 @@ async def get_all_student_data(request: ComprehensiveDataRequest):
                 profile=profile_data,
                 attendance=attendance_data,
                 timetable=timetable_data,
+                grade_history=grade_history_data,
+                exam_schedule=exam_schedule_data,
+                marks=marks_data,
             )
 
             return comprehensive_data
@@ -188,6 +211,88 @@ async def get_mentor(request: BaseVtopRequest):
         ) as client:
             mentor_details = await client.get_mentor()
             return mentor_details
+    except VitapVtopClientError as e:
+        handle_client_exception(e)
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"An unexpected error occurred: {e}",
+        )
+
+
+@router.post("/exam_schedule", response_model=ExamScheduleModel)
+async def get_exam_schedule(request: ExamScheduleRequest):
+    """
+    Fetches all exam schedule for the specified semester using VTOP credentials
+    """
+    try:
+        async with VtopClient(
+            registration_number=request.registration_number, password=request.password
+        ) as client:
+            exam_schedule = await client.get_exam_schedule(
+                sem_sub_id=request.sem_sub_id
+            )
+            return exam_schedule
+    except VitapVtopClientError as e:
+        handle_client_exception(e)
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"An unexpected error occurred: {e}",
+        )
+
+
+@router.post("/marks", response_model=MarksModel)
+async def get_marks(request: MarksRequest):
+    """
+    Fetches all the marks for the specified semester using VTOP credentials
+    """
+    try:
+        async with VtopClient(
+            registration_number=request.registration_number, password=request.password
+        ) as client:
+            exam_schedule = await client.get_marks(sem_sub_id=request.sem_sub_id)
+            return exam_schedule
+    except VitapVtopClientError as e:
+        handle_client_exception(e)
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"An unexpected error occurred: {e}",
+        )
+
+
+@router.post("/general_outing_requests", response_model=GeneralOutingModel)
+async def get_general_outing_responses(request: BaseVtopRequest):
+    """
+    Fetches all the previously submitted Genneral Outing requests.
+    """
+    try:
+        async with VtopClient(
+            registration_number=request.registration_number, password=request.password
+        ) as client:
+            exam_schedule = await client.get_general_outing_requests()
+            return exam_schedule
+    except VitapVtopClientError as e:
+        handle_client_exception(e)
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"An unexpected error occurred: {e}",
+        )
+
+
+@router.post("/weekend_outing_requests", response_model=WeekendOutingModel)
+async def get_weekend_outing_responses(request: BaseVtopRequest):
+    """
+    Fetches all the previously submitted Weekend Outing requests
+    """
+    try:
+        async with VtopClient(
+            registration_number=request.registration_number, password=request.password
+        ) as client:
+            exam_schedule = await client.get_weekend_outing_requests()
+            return exam_schedule
     except VitapVtopClientError as e:
         handle_client_exception(e)
     except Exception as e:
