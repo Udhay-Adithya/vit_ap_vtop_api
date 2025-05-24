@@ -14,7 +14,7 @@ from vitap_vtop_client.mentor import MentorModel
 class BaseVtopRequest(BaseModel):
     """Base model for requests that require VTOP credentials."""
 
-    username: str
+    registration_number: str
     password: str
 
 

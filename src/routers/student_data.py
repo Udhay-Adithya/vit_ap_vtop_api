@@ -44,7 +44,7 @@ async def get_all_student_data(request: ComprehensiveDataRequest):
     """
     try:
         async with VtopClient(
-            username=request.username, password=request.password
+            registration_number=request.registration_number, password=request.password
         ) as client:
 
             profile_task = client.get_profile()
@@ -84,7 +84,7 @@ async def get_profile(request: BaseVtopRequest):
     """
     try:
         async with VtopClient(
-            username=request.username, password=request.password
+            registration_number=request.registration_number, password=request.password
         ) as client:
             profile_data = await client.get_profile()
             return profile_data
@@ -104,7 +104,7 @@ async def get_attendance(request: AttendanceRequest):
     """
     try:
         async with VtopClient(
-            username=request.username, password=request.password
+            registration_number=request.registration_number, password=request.password
         ) as client:
             attendance_data = await client.get_attendance(sem_sub_id=request.sem_sub_id)
             return attendance_data
@@ -124,7 +124,7 @@ async def get_biometric(request: BiometricRequest):
     """
     try:
         async with VtopClient(
-            username=request.username, password=request.password
+            registration_number=request.registration_number, password=request.password
         ) as client:
             biometric_logs = await client.get_biometric(date=request.date)
             return biometric_logs
@@ -144,7 +144,7 @@ async def get_timetable(request: TimetableRequest):
     """
     try:
         async with VtopClient(
-            username=request.username, password=request.password
+            registration_number=request.registration_number, password=request.password
         ) as client:
             timetable_data = await client.get_timetable(sem_sub_id=request.sem_sub_id)
             return timetable_data
@@ -164,7 +164,7 @@ async def get_grade_history(request: BaseVtopRequest):
     """
     try:
         async with VtopClient(
-            username=request.username, password=request.password
+            registration_number=request.registration_number, password=request.password
         ) as client:
             grade_history_data = await client.get_grade_history()
             return grade_history_data
@@ -184,7 +184,7 @@ async def get_mentor(request: BaseVtopRequest):
     """
     try:
         async with VtopClient(
-            username=request.username, password=request.password
+            registration_number=request.registration_number, password=request.password
         ) as client:
             mentor_details = await client.get_mentor()
             return mentor_details
