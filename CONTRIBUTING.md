@@ -55,7 +55,7 @@ Pull Requests (PRs) are the primary way to contribute code to this project.
 
 
 ```bash
-git clone https://github.com/Udhay-Adithya/vit_ap_vtop_api.git
+git clone https://github.com/your-name/vit_ap_vtop_api.git
 ```
 
 
@@ -87,27 +87,38 @@ To set up the project for local development:
 
 1.  **Clone the repository** (if you haven't already forked and cloned):
     ```bash
-    git clone https://github.com/Udhay-Adithya/.git
+    git clone https://github.com/Udhay-Adithya/vit_ap_vtop_api.git
     cd vit_ap_vtop_api
     ```
-2.  **Create a virtual environment** (recommended):
+2.  **Ensure you have Poetry installed**. If not, follow the installation instructions on the [official Poetry website](https://python-poetry.org/docs/#installation).
+3.  **Install project dependencies using Poetry**:
+    This command will create a virtual environment if one doesn't exist and install all dependencies specified in `pyproject.toml`.
     ```bash
-    python -m venv venv
-    source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+    poetry install
     ```
-3.  **Install dependencies**:
+    To install development dependencies as well (e.g., `pytest`), ensure they are listed in the `[tool.poetry.group.dev.dependencies]` section of `pyproject.toml`. `poetry install` typically installs dev dependencies by default unless specified otherwise.
+
+4.  **Activate the virtual environment managed by Poetry** (optional, as `poetry run` handles this):
+    You can run commands within the project's virtual environment using `poetry run <command>`.
+    If you prefer to activate the shell, you can use:
     ```bash
-    pip install -r requirements.txt
+    poetry shell
     ```
-    You might also want to install development dependencies if a `requirements-dev.txt` file is available:
+5.  **Set up environment variables**:
+    Create a `.env` file in the project root directory by copying the `.env.example` file or by creating it manually. Populate it with necessary environment variables like `API_KEY`.
+    Example `.env` content:
+    ```env
+    API_KEY="your_secret_api_key_here"
+    ```
+
+6.  **Run the application**:
+    From the project root directory:
     ```bash
-    # pip install -r requirements-dev.txt
+    poetry run uvicorn src.main:app --reload
     ```
-4.  **Run the application**:
-    ```bash
-    cd src
-    uvicorn main:app --reload
-    ```
+    The application will typically be available at `http://127.0.0.1:8000`.
+    The interactive API documentation (Swagger UI) will be at `http://127.0.0.1:8000/docs`.
+
 
 ## Coding Guidelines
 
