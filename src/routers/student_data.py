@@ -1,8 +1,8 @@
 import asyncio
 from fastapi import APIRouter, Depends, HTTPException, status
 from typing import List
-from dependencies import verify_api_key
-from models.api_models import (
+from src.dependencies import verify_api_key
+from src.models.api_models import (
     BaseVtopRequest,
     AttendanceRequest,
     BiometricRequest,

@@ -2,7 +2,7 @@
 from fastapi import Header, HTTPException, Depends
 from typing import Annotated
 
-from config import settings
+from .config import settings
 
 
 async def verify_api_key(

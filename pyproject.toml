@@ -8,13 +8,12 @@ packages = [{ include = "src" }]
 
 [tool.poetry.dependencies]
 python = "^3.13.3"
-fastapi = "^0.115.12"
+fastapi = {extras = ["standard"], version = "^0.115.12"}
 uvicorn = "^0.34.2"
 python-dotenv = "^1.1.0"
 pydantic-settings = "^2.9.1"
 starlette = "^0.46.2"
 gunicorn = "^23.0.0"
-
 vitap-vtop-client = { git = "https://github.com/Udhay-Adithya/vitap-vtop-client.git", rev = "main" }
 
 [tool.poetry.group.dev.dependencies]

@@ -39,4 +39,4 @@ EXPOSE 8080
 
 # Command to run the application using Gunicorn
 # Ensure 'src.main:app' correctly points to your FastAPI application instance
-CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--workers", "1", "--threads", "8", "--timeout", "0", "src.main:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--workers", "4", "--worker-class uvicorn.workers.UvicornWorker" "--timeout", "0", "src.main:app"]

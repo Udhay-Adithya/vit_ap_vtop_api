@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from routers import student_data
+from .routers import student_data
 
 app = FastAPI(
     title="VIT-AP VTOP API",
