@@ -3,4 +3,3 @@ local_test.py
 test.py
 __pycache__/
 .env
-poetry.lock
