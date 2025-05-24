@@ -23,13 +23,13 @@ RUN pip install poetry
 COPY pyproject.toml poetry.lock ./
 
 # Install project dependencies using Poetry
-# --no-dev: Excludes development dependencies (like pytest)
+# --without dev: Excludes development dependencies (like pytest)
 # --no-root: Do not install the project package itself, only its dependencies.
 #            The project source code will be copied in a later step.
 # --no-interaction: Do not ask any interactive questions
 # --no-ansi: Disable ANSI output
 # Gunicorn will be installed as part of project dependencies if added to pyproject.toml
-RUN poetry install --no-dev --no-root --no-interaction --no-ansi
+RUN poetry install --without dev --no-root --no-interaction --no-ansi
 
 # Copy the rest of the application code into the container
 COPY . .
