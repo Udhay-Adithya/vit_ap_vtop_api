@@ -1325,14 +1325,14 @@ full = ["httpx (>=0.27.0,<0.29.0)", "itsdangerous", "jinja2", "python-multipart 
 
 [[package]]
 name = "typer"
-version = "0.15.3"
+version = "0.16.0"
 description = "Typer, build great CLIs. Easy to code. Based on Python type hints."
 optional = false
 python-versions = ">=3.7"
 groups = ["main"]
 files = [
-    {file = "typer-0.15.3-py3-none-any.whl", hash = "sha256:c86a65ad77ca531f03de08d1b9cb67cd09ad02ddddf4b34745b5008f43b239bd"},
-    {file = "typer-0.15.3.tar.gz", hash = "sha256:818873625d0569653438316567861899f7e9972f2e6e0c16dab608345ced713c"},
+    {file = "typer-0.16.0-py3-none-any.whl", hash = "sha256:1f79bed11d4d02d4310e3c1b7ba594183bcedb0ac73b27a9e5f28f6fb5b98855"},
+    {file = "typer-0.16.0.tar.gz", hash = "sha256:af377ffaee1dbe37ae9440cb4e8f11686ea5ce4e9bae01b84ae7c63b87f1dd3b"},
 ]
 
 [package.dependencies]
@@ -1461,7 +1461,7 @@ test = ["aiohttp (>=3.10.5)", "flake8 (>=5.0,<6.0)", "mypy (>=0.800)", "psutil",
 
 [[package]]
 name = "vitap-vtop-client"
-version = "0.2.1"
+version = "0.2.2"
 description = "A Pythonic interface to interact with the VIT-AP VTOP student portal."
 optional = false
 python-versions = "^3.13.3"
@@ -1483,7 +1483,7 @@ python-dotenv = "1.1.0"
 type = "git"
 url = "https://github.com/Udhay-Adithya/vitap-vtop-client.git"
 reference = "main"
-resolved_reference = "b044bc836b05d18572c5236c25ca87035299b56d"
+resolved_reference = "52346b6f2f3fafafb1344fbdbe11731c5d37cb19"
 
 [[package]]
 name = "watchfiles"
