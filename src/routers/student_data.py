@@ -23,6 +23,7 @@ from vitap_vtop_client.mentor import MentorModel
 from vitap_vtop_client.exam_schedule import ExamScheduleModel
 from vitap_vtop_client.marks import MarksModel
 from vitap_vtop_client.outing import GeneralOutingModel, WeekendOutingModel
+from vitap_vtop_client.payments import PendingPayment, PaymentReceipt
 
 from vitap_vtop_client.exceptions import VitapVtopClientError
 
@@ -302,7 +303,41 @@ async def get_weekend_outing_responses(request: BaseVtopRequest):
         )
 
 
-# Add more POST endpoints here for other client methods (marks, payments, etc.)
-# They will follow the same pattern: accept a request model (inheriting from BaseVtopRequest
-# and adding specific parameters), create client within async with, call client method,
-# handle exceptions.
+@router.post("/pending_payments", response_model=List[PendingPayment])
+async def get_pending_payments(request: BaseVtopRequest):
+    """
+    Fetches the list of pending payments.
+    """
+    try:
+        async with VtopClient(
+            registration_number=request.registration_number, password=request.password
+        ) as client:
+            pending_payments = await client.get_pending_payments()
+            return pending_payments
+    except VitapVtopClientError as e:
+        handle_client_exception(e)
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"An unexpected error occurred: {e}",
+        )
+
+
+@router.post("/payment_receipts", response_model=List[PaymentReceipt])
+async def get_payment_receipts(request: BaseVtopRequest):
+    """
+    Fetches the list of pending payments.
+    """
+    try:
+        async with VtopClient(
+            registration_number=request.registration_number, password=request.password
+        ) as client:
+            payment_receipts = await client.get_payment_receipts()
+            return payment_receipts
+    except VitapVtopClientError as e:
+        handle_client_exception(e)
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"An unexpected error occurred: {e}",
+        )
