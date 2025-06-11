@@ -1461,7 +1461,7 @@ test = ["aiohttp (>=3.10.5)", "flake8 (>=5.0,<6.0)", "mypy (>=0.800)", "psutil",
 
 [[package]]
 name = "vitap-vtop-client"
-version = "0.2.6"
+version = "0.2.7"
 description = "A Pythonic interface to interact with the VIT-AP VTOP student portal."
 optional = false
 python-versions = "^3.13.3"
@@ -1483,7 +1483,7 @@ python-dotenv = "1.1.0"
 type = "git"
 url = "https://github.com/Udhay-Adithya/vitap-vtop-client.git"
 reference = "main"
-resolved_reference = "bc153a00771cd2e352b199d13f49b2215d353f2f"
+resolved_reference = "bb30cecafb36b686d3808bd98a696979d4ec5d73"
 
 [[package]]
 name = "watchfiles"
