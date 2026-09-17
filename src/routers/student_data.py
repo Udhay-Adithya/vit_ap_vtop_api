@@ -24,6 +24,7 @@ from vitap_vtop_client.exam_schedule import ExamScheduleModel
 from vitap_vtop_client.marks import MarksModel
 from vitap_vtop_client.outing import GeneralOutingModel, WeekendOutingModel
 from vitap_vtop_client.payments import PendingPayment, PaymentReceipt
+from vitap_vtop_client.semester import SemesterData
 
 from vitap_vtop_client.exceptions import VitapVtopClientError
 
@@ -36,6 +37,29 @@ router = APIRouter(
     # API Key dependency to apply to all routes in this router
     dependencies=[Depends(verify_api_key)],
 )
+
+
+@router.post("/semesters", response_model=SemesterData)
+async def get_semesters(request: BaseVtopRequest):
+    """
+    Fetches the semesters available to the student.
+
+    The ids returned here are what every sem_sub_id parameter on the other
+    endpoints expects, so prefer this over hardcoding semester ids.
+    """
+    try:
+        async with VtopClient(
+            registration_number=request.registration_number, password=request.password
+        ) as client:
+            semesters = await client.get_semesters()
+            return semesters
+    except VitapVtopClientError as e:
+        handle_client_exception(e)
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"An unexpected error occurred: {e}",
+        )
 
 
 # All data endpoints will taking credentials in the body.
