@@ -18,6 +18,9 @@ Welcome to the detailed documentation for the VIT-AP VTOP API. This API, built w
    - [Get Marks](#9-get-marks)
    - [Get General Outing Requests](#10-get-general-outing-requests)
    - [Get Weekend Outing Requests](#11-get-weekend-outing-requests)
+   - [Get Pending Payments](#12-get-pending-payments)
+   - [Get Payment Receipts](#13-get-payment-receipts)
+   - [Get Semesters](#14-get-semesters)
 5. [Error Handling](#error-handling)
 
 ## Introduction
@@ -233,13 +236,65 @@ All endpoints listed below are `POST` requests, prefixed with `/student/`, and r
     { /* WeekendOutingModel structure from vitap_vtop_client.outing */ }
     ```
 
+### 12. Get Pending Payments
+- **POST /student/pending_payments**
+  - **Description**: Fetches the list of payments the student still owes.
+  - **Request Body** (`application/json`):
+    ```json
+    {
+      "registration_number": "your_registration_number",
+      "password": "your_vtop_password"
+    }
+    ```
+  - **Response** (`application/json`):
+    ```json
+    [
+      { /* PendingPayment structure from vitap_vtop_client.payments */ }
+    ]
+    ```
+
+### 13. Get Payment Receipts
+- **POST /student/payment_receipts**
+  - **Description**: Fetches the list of receipts for payments already made.
+  - **Request Body** (`application/json`):
+    ```json
+    {
+      "registration_number": "your_registration_number",
+      "password": "your_vtop_password"
+    }
+    ```
+  - **Response** (`application/json`):
+    ```json
+    [
+      { /* PaymentReceipt structure from vitap_vtop_client.payments */ }
+    ]
+    ```
+
+### 14. Get Semesters
+- **POST /student/semesters**
+  - **Description**: Fetches the semesters available to the student. The ids
+    returned here are what every `sem_sub_id` parameter above expects, so
+    prefer this over hardcoding semester ids.
+  - **Request Body** (`application/json`):
+    ```json
+    {
+      "registration_number": "your_registration_number",
+      "password": "your_vtop_password"
+    }
+    ```
+  - **Response** (`application/json`):
+    ```json
+    { /* SemesterData structure from vitap_vtop_client.semester */ }
+    ```
+
 ## Error Handling
 The API returns appropriate HTTP status codes and error messages for invalid requests or server-side issues. Common errors include:
 - `400 Bad Request`: Invalid request format, missing parameters, or validation errors from Pydantic models. The response body will often contain details about the validation error.
-- `401 Unauthorized`: Authentication failed (Invalid or missing `API-KEY`).
-- `403 Forbidden`: VTOP authentication failed (e.g., invalid `registration_number` or `password`, CAPTCHA issues, account locked, or other VTOP-side errors). The response detail may provide more specific information from the `vitap-vtop-client` library.
+- `401 Unauthorized`: Either the `X-API-Key` is missing or invalid, or VTOP rejected the `registration_number` and `password`, the CAPTCHA could not be solved, or a login OTP was wrong or expired. The response detail says which.
+- `409 Conflict`: VTOP accepted the credentials but wants a login OTP before it will finish authenticating. It asks for one after a period of inactivity or when the login comes from a new IP address. Retrying with the same credentials cannot resolve this.
 - `422 Unprocessable Entity`: If the request body is syntactically correct JSON but fails Pydantic model validation (e.g., wrong data types).
-- `500 Internal Server Error`: An unexpected error occurred on the server or within the `vitap-vtop-client` library during scraping.
+- `500 Internal Server Error`: An unexpected error occurred on the server, or the `vitap-vtop-client` library failed while scraping (a parsing failure usually means VTOP changed its page structure).
+- `502 Bad Gateway`: The server could not reach VTOP.
 
 Error responses are typically in JSON format:
 ```json
@@ -247,4 +302,4 @@ Error responses are typically in JSON format:
   "detail": "Error message or validation details"
 }
 ```
-For VTOP client errors (often resulting in a 403 or 500 status), the detail message will reflect the exception raised by the `vitap-vtop-client`.
+For VTOP client errors, the detail message will reflect the exception raised by the `vitap-vtop-client`.
