@@ -1,13 +1,20 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import HTTPException, status
 from vitap_vtop_client.exceptions import (
     VitapVtopClientError,
     VtopLoginError,
+    VtopLoginOtpRequiredError,
+    VtopLoginOtpIncorrectError,
+    VtopLoginOtpExpiredError,
     VtopAttendanceError,
     VtopBiometricError,
     VtopTimetableError,
     VtopGradeHistoryError,
     VtopMentorError,
     VtopProfileError,
+    VtopExamScheduleError,
+    VtopMarksError,
+    VtopGeneralOutingError,
+    VtopWeekendOutingError,
     VtopParsingError,
     VtopSessionError,
     VtopConnectionError,
@@ -18,7 +25,24 @@ from vitap_vtop_client.exceptions import (
 # Helper function to map client exceptions to HTTP exceptions
 def handle_client_exception(e: VitapVtopClientError):
     """Maps specific client exceptions to appropriate HTTPExceptions."""
-    if isinstance(e, (VtopLoginError, VtopCaptchaError)):
+    # The OTP errors subclass VtopLoginError, so they have to be matched first
+    # or they all collapse into a 401 that says the credentials were wrong.
+    if isinstance(e, VtopLoginOtpRequiredError):
+        # Credentials and captcha were accepted; VTOP wants an OTP before it
+        # will finish the login. 409 rather than 401, because retrying with the
+        # same credentials cannot resolve it.
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e))
+    elif isinstance(e, VtopLoginOtpExpiredError):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=f"Login OTP expired: {e}",
+        )
+    elif isinstance(e, VtopLoginOtpIncorrectError):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=f"Login OTP incorrect: {e}",
+        )
+    elif isinstance(e, (VtopLoginError, VtopCaptchaError)):
         # Invalid credentials or captcha failure means unauthorized
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=str(e))
     elif isinstance(e, VtopSessionError):
@@ -46,6 +70,10 @@ def handle_client_exception(e: VitapVtopClientError):
             VtopGradeHistoryError,
             VtopMentorError,
             VtopProfileError,
+            VtopExamScheduleError,
+            VtopMarksError,
+            VtopGeneralOutingError,
+            VtopWeekendOutingError,
         ),
     ):
         # Catch specific data fetching errors (might indicate invalid parameters or VTOP internal error)
