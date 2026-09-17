@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "vitap-vtop-api"
-version = "0.2.0"
+version = "0.3.0"
 description = "A FastAPI wrapper for vitap-vtop-client."
 authors = ["Udhay Adithya udhayxd@gmail.com"]
 readme = "README.md"

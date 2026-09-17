@@ -1,6 +1,8 @@
 from pydantic import BaseModel
 from typing import List, Optional
 
+from src.models.auth_models import SessionRequest
+
 # Import models from your client library for responses
 from vitap_vtop_client.attendance import AttendanceModel
 from vitap_vtop_client.profile import StudentProfileModel
@@ -11,11 +13,13 @@ from vitap_vtop_client.exam_schedule import ExamScheduleModel
 
 
 # --- Request Models ---
-class BaseVtopRequest(BaseModel):
-    """Base model for requests that require VTOP credentials."""
-
-    registration_number: str
-    password: str
+# Data endpoints take the session from /auth/login rather than credentials.
+# VTOP's login is captcha gated and costs around a dozen requests, so repeating
+# it on every call was slow and hard on a portal that is not built for it. It
+# also could not work at all once VTOP started challenging for an OTP, because
+# the challenge is raised while answering one request and answered on the next.
+class BaseVtopRequest(SessionRequest):
+    """Base model for requests that act on an existing VTOP session."""
 
 
 class AttendanceRequest(BaseVtopRequest):

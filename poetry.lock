@@ -1484,7 +1484,7 @@ python-dotenv = "1.1.0"
 type = "git"
 url = "https://github.com/Udhay-Adithya/vitap-vtop-client.git"
 reference = "main"
-resolved_reference = "cf56da580d8717cfa0a32de94c3d6ef52f4a97c6"
+resolved_reference = "62a26e4093ee5a810eea16831ad878b96dfa2e7d"
 
 [[package]]
 name = "watchfiles"

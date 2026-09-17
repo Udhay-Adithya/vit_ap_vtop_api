@@ -1,4 +1,6 @@
 import asyncio
+from contextlib import asynccontextmanager
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from typing import List
 from src.dependencies import verify_api_key
@@ -12,7 +14,7 @@ from src.models.api_models import (
     ComprehensiveDataRequest,
     ComprehensiveDataResponse,
 )
-from vitap_vtop_client.client import VtopClient
+from vitap_vtop_client import RestorableSession, VtopClient
 
 from vitap_vtop_client.attendance import AttendanceModel
 from vitap_vtop_client.profile import StudentProfileModel
@@ -39,6 +41,27 @@ router = APIRouter(
 )
 
 
+@asynccontextmanager
+async def _client_for(session: RestorableSession):
+    """Rebuilds the caller's VTOP session for the life of one request.
+
+    VTOP holds the session server side against its cookie, so this costs no
+    requests and no login. The client carries no password, so if the session has
+    expired it raises rather than silently logging in again -- the caller has to
+    go back through /auth/login, which may need an OTP only they can answer.
+    """
+    client = VtopClient.restore(
+        registration_number=session.registration_number,
+        cookie=session.cookie,
+        csrf_token=session.csrf_token,
+        user_agent=session.user_agent,
+    )
+    try:
+        yield client
+    finally:
+        await client.close()
+
+
 @router.post("/semesters", response_model=SemesterData)
 async def get_semesters(request: BaseVtopRequest):
     """
@@ -48,9 +71,7 @@ async def get_semesters(request: BaseVtopRequest):
     endpoints expects, so prefer this over hardcoding semester ids.
     """
     try:
-        async with VtopClient(
-            registration_number=request.registration_number, password=request.password
-        ) as client:
+        async with _client_for(request.session) as client:
             semesters = await client.get_semesters()
             return semesters
     except VitapVtopClientError as e:
@@ -73,9 +94,7 @@ async def get_all_student_data(request: ComprehensiveDataRequest):
     for efficient initial data loading/caching in frontend applications.
     """
     try:
-        async with VtopClient(
-            registration_number=request.registration_number, password=request.password
-        ) as client:
+        async with _client_for(request.session) as client:
 
             # get_profile fetches grade history itself to populate its nested
             # field, and we fetch it again below for the top level one. That is
@@ -139,9 +158,7 @@ async def get_profile(request: BaseVtopRequest):
     Fetches the student's profile information using VTOP credentials.
     """
     try:
-        async with VtopClient(
-            registration_number=request.registration_number, password=request.password
-        ) as client:
+        async with _client_for(request.session) as client:
             profile_data = await client.get_profile()
             return profile_data
     except VitapVtopClientError as e:
@@ -159,9 +176,7 @@ async def get_attendance(request: AttendanceRequest):
     Fetches attendance data for the specified semester using VTOP credentials.
     """
     try:
-        async with VtopClient(
-            registration_number=request.registration_number, password=request.password
-        ) as client:
+        async with _client_for(request.session) as client:
             attendance_data = await client.get_attendance(sem_sub_id=request.sem_sub_id)
             return attendance_data
     except VitapVtopClientError as e:
@@ -179,9 +194,7 @@ async def get_biometric(request: BiometricRequest):
     Fetches biometric (entry/exit) logs for a specific date using VTOP credentials.
     """
     try:
-        async with VtopClient(
-            registration_number=request.registration_number, password=request.password
-        ) as client:
+        async with _client_for(request.session) as client:
             biometric_logs = await client.get_biometric(date=request.date)
             return biometric_logs
     except VitapVtopClientError as e:
@@ -199,9 +212,7 @@ async def get_timetable(request: TimetableRequest):
     Fetches the timetable for the specified semester using VTOP credentials.
     """
     try:
-        async with VtopClient(
-            registration_number=request.registration_number, password=request.password
-        ) as client:
+        async with _client_for(request.session) as client:
             timetable_data = await client.get_timetable(sem_sub_id=request.sem_sub_id)
             return timetable_data
     except VitapVtopClientError as e:
@@ -219,9 +230,7 @@ async def get_grade_history(request: BaseVtopRequest):
     Fetches the student's grade history (CGPA, credits registered/earned) using VTOP credentials.
     """
     try:
-        async with VtopClient(
-            registration_number=request.registration_number, password=request.password
-        ) as client:
+        async with _client_for(request.session) as client:
             grade_history_data = await client.get_grade_history()
             return grade_history_data
     except VitapVtopClientError as e:
@@ -239,9 +248,7 @@ async def get_mentor(request: BaseVtopRequest):
     Fetches details of the student's assigned mentor using VTOP credentials.
     """
     try:
-        async with VtopClient(
-            registration_number=request.registration_number, password=request.password
-        ) as client:
+        async with _client_for(request.session) as client:
             mentor_details = await client.get_mentor()
             return mentor_details
     except VitapVtopClientError as e:
@@ -259,9 +266,7 @@ async def get_exam_schedule(request: ExamScheduleRequest):
     Fetches all exam schedule for the specified semester using VTOP credentials
     """
     try:
-        async with VtopClient(
-            registration_number=request.registration_number, password=request.password
-        ) as client:
+        async with _client_for(request.session) as client:
             exam_schedule = await client.get_exam_schedule(
                 sem_sub_id=request.sem_sub_id
             )
@@ -281,9 +286,7 @@ async def get_marks(request: MarksRequest):
     Fetches all the marks for the specified semester using VTOP credentials
     """
     try:
-        async with VtopClient(
-            registration_number=request.registration_number, password=request.password
-        ) as client:
+        async with _client_for(request.session) as client:
             exam_schedule = await client.get_marks(sem_sub_id=request.sem_sub_id)
             return exam_schedule
     except VitapVtopClientError as e:
@@ -301,9 +304,7 @@ async def get_general_outing_responses(request: BaseVtopRequest):
     Fetches all the previously submitted Genneral Outing requests.
     """
     try:
-        async with VtopClient(
-            registration_number=request.registration_number, password=request.password
-        ) as client:
+        async with _client_for(request.session) as client:
             exam_schedule = await client.get_general_outing_requests()
             return exam_schedule
     except VitapVtopClientError as e:
@@ -321,9 +322,7 @@ async def get_weekend_outing_responses(request: BaseVtopRequest):
     Fetches all the previously submitted Weekend Outing requests
     """
     try:
-        async with VtopClient(
-            registration_number=request.registration_number, password=request.password
-        ) as client:
+        async with _client_for(request.session) as client:
             exam_schedule = await client.get_weekend_outing_requests()
             return exam_schedule
     except VitapVtopClientError as e:
@@ -341,9 +340,7 @@ async def get_pending_payments(request: BaseVtopRequest):
     Fetches the list of pending payments.
     """
     try:
-        async with VtopClient(
-            registration_number=request.registration_number, password=request.password
-        ) as client:
+        async with _client_for(request.session) as client:
             pending_payments = await client.get_pending_payments()
             return pending_payments
     except VitapVtopClientError as e:
@@ -361,9 +358,7 @@ async def get_payment_receipts(request: BaseVtopRequest):
     Fetches the list of pending payments.
     """
     try:
-        async with VtopClient(
-            registration_number=request.registration_number, password=request.password
-        ) as client:
+        async with _client_for(request.session) as client:
             payment_receipts = await client.get_payment_receipts()
             return payment_receipts
     except VitapVtopClientError as e:
