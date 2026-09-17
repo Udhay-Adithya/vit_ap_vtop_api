@@ -3,3 +3,7 @@ local_test.py
 test.py
 __pycache__/
 .env
+
+# Sphinx build output, and the OpenAPI schema it generates from the app.
+docs/_build/
+docs/openapi.json

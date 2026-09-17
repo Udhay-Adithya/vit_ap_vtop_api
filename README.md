@@ -76,47 +76,55 @@ To run the FastAPI application locally for development:
 
 ## Endpoints
 
-All API endpoints are documented in detail in the [DOCS.md](DOCS.md) file. This includes information on request parameters, response formats, and authentication.
+All 33 endpoints are documented at **[udhay-adithya.github.io/vit_ap_vtop_api](https://udhay-adithya.github.io/vit_ap_vtop_api/)**, generated from the service's own OpenAPI schema so it cannot drift from the routes. A running instance serves the same thing interactively at `/docs`.
+
+Start with the [authentication guide](https://udhay-adithya.github.io/vit_ap_vtop_api/guide/authentication.html): credentials are sent once to `/auth/login`, and every call after that carries the session it returns.
 
 ## Example Usage
 ### Fetch All Student Data
-Here's an example of how to fetch comprehensive data for a student using Python's `requests` library. Remember to replace placeholders with actual values and include your `API-KEY` in the headers.
+
+Credentials go to `/auth/login` once. Everything after that carries the session it
+returns — which is both far faster and the only way the OTP flow can work, since
+VTOP raises the challenge on one request and receives the answer on the next.
 
 ```python
 import requests
-import json
 
-api_url = 'http://127.0.0.1:8000/student/all_data'
-api_key = 'YOUR_API_KEY' # Replace with your actual API key
+BASE = "http://127.0.0.1:8000"
+HEAD = {"X-API-Key": "YOUR_API_KEY", "Content-Type": "application/json"}
 
-payload = {
-    "registration_number": "YOUR_REGISTRATION_NUMBER", # e.g., "21BCE0001"
+# 1. log in once
+login = requests.post(f"{BASE}/auth/login", headers=HEAD, json={
+    "registration_number": "YOUR_REGISTRATION_NUMBER",
     "password": "YOUR_VTOP_PASSWORD",
-    "sem_sub_id": "YOUR_SEMESTER_ID" # e.g., "VL20232405" for Fall Semester 2023-24
-}
+}).json()
 
-headers = {
-    'X-API-KEY': api_key,
-    'Content-Type': 'application/json'
-}
+# VTOP asks for an OTP after inactivity, or from an IP it has not seen before.
+# That is a normal outcome rather than an error, so it comes back as a 200.
+if login["status"] == "otp_required":
+    otp = input("OTP sent to your registered email: ")
+    login = requests.post(f"{BASE}/auth/verify_otp", headers=HEAD, json={
+        "otp_challenge": login["otp_challenge"],
+        "otp": otp,
+    }).json()
 
-try:
-    response = requests.post(api_url, headers=headers, data=json.dumps(payload))
-    response.raise_for_status()  # Raises an HTTPError for bad responses (4XX or 5XX)
-    data = response.json()
-    print(json.dumps(data, indent=2))
-except requests.exceptions.HTTPError as errh:
-    print(f"Http Error: {errh}")
-    print(f"Response content: {response.text}")
-except requests.exceptions.ConnectionError as errc:
-    print(f"Error Connecting: {errc}")
-except requests.exceptions.Timeout as errt:
-    print(f"Timeout Error: {errt}")
-except requests.exceptions.RequestException as err:
-    print(f"Oops: Something Else: {err}")
-    if response:
-        print(f"Response content: {response.text}")
+session = login["session"]
 
+# 2. ask VTOP which semesters exist rather than hardcoding an id: an unknown one
+#    comes back empty rather than failing, so a stale id fails silently.
+semesters = requests.post(f"{BASE}/student/semesters", headers=HEAD,
+                          json={"session": session}).json()
+sem_id = semesters["semesters"][0]["id"]
+
+# 3. every data call carries the session
+data = requests.post(f"{BASE}/student/all_data", headers=HEAD,
+                     json={"session": session, "sem_sub_id": sem_id})
+
+if data.status_code == 401:
+    # the session expired; log in again, which may need another OTP
+    ...
+
+print(data.json())
 ```
 
 ## Contributing

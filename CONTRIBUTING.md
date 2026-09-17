@@ -148,8 +148,11 @@ To set up the project for local development:
 -   Use a testing framework like `pytest` or Python's built-in `unittest`.
 
 ## Documentation
--   Keep the `README.md` and other documentation files up-to-date with your changes.
--   If you add new features or change existing ones, update the relevant sections of the documentation.
+-   The endpoint reference at [udhay-adithya.github.io/vit_ap_vtop_api](https://udhay-adithya.github.io/vit_ap_vtop_api/) is generated from the app's own OpenAPI schema, so there is no endpoint list to keep in step by hand. Give every route a docstring and a `response_model`, and it documents itself.
+-   A **new route** does need adding to `docs/api/endpoints.rst`, which lists paths by section so the reference stays grouped rather than alphabetical.
+-   Add or update a page under `docs/guide/` when the change is about how the service behaves rather than what a route takes — authentication, sessions and error handling all live there.
+-   Build the docs locally with `poetry install --with docs` then `poetry run sphinx-build -b html -W docs docs/_build/html`. CI builds with `-W`, so a broken reference or a renamed route fails the build.
+-   Keep the `README.md` up-to-date with your changes.
 -   For API changes, ensure the endpoint descriptions, request/response formats, and examples are accurate.
 
 ## Community
