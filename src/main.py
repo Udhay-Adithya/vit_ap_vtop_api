@@ -9,7 +9,7 @@ from .routers import student_data
 app = FastAPI(
     title="VIT-AP VTOP API",
     description="A FastAPI wrapper for the vitap-vtop-client library, designed to help students access their academic information programmatically",
-    version="0.1.0",
+    version="0.2.0",
     contact={
         "name": "Know more about VITAP Student Project",
         "url": "https://vitap.udhay-adithya.me",
