@@ -19,6 +19,13 @@ vitap-vtop-client = { git = "https://github.com/Udhay-Adithya/vitap-vtop-client.
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.5"
 
+
+[tool.poetry.group.docs.dependencies]
+sphinx = "^9.1.0"
+furo = "^2025.12.19"
+sphinx-copybutton = "^0.5.2"
+sphinxcontrib-openapi = "^0.9.0"
+
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
