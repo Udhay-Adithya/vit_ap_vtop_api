@@ -28,7 +28,6 @@ RUN poetry config virtualenvs.create false && \
 # Copy application code
 COPY . .
 
-# Service must listen to $PORT environment variable for Cloud Run
 CMD ["gunicorn", "--bind", "0.0.0.0:8080", \
     "--worker-class", "uvicorn.workers.UvicornWorker", \
     "--timeout", "120", \
