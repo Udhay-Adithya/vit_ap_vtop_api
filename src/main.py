@@ -4,7 +4,14 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from .routers import auth, student_data
+from .routers import (
+    auth,
+    calendar,
+    course_page,
+    digital_assignments,
+    faculty,
+    student_data,
+)
 
 app = FastAPI(
     title="VIT-AP VTOP API",
@@ -31,6 +38,10 @@ app.add_middleware(
 
 app.include_router(auth.router)
 app.include_router(student_data.router)
+app.include_router(calendar.router)
+app.include_router(faculty.router)
+app.include_router(course_page.router)
+app.include_router(digital_assignments.router)
 
 
 @app.get("/")

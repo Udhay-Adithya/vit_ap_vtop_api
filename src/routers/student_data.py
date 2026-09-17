@@ -2,9 +2,13 @@ import asyncio
 from contextlib import asynccontextmanager
 
 from fastapi import APIRouter, Depends, HTTPException, status
-from typing import List
+from typing import List, Optional
 from src.dependencies import verify_api_key
 from src.models.api_models import (
+    AttendanceDetailRequest,
+    CapstoneAttendanceRequest,
+    GradeViewRequest,
+    GradeViewDetailRequest,
     BaseVtopRequest,
     AttendanceRequest,
     BiometricRequest,
@@ -16,7 +20,12 @@ from src.models.api_models import (
 )
 from vitap_vtop_client import RestorableSession, VtopClient
 
-from vitap_vtop_client.attendance import AttendanceModel
+from vitap_vtop_client.attendance import (
+    AttendanceDetailModel,
+    AttendanceModel,
+    CapstoneAttendanceModel,
+)
+from vitap_vtop_client.grade_view import GradeViewCourse, GradeViewDetail
 from vitap_vtop_client.profile import StudentProfileModel
 from vitap_vtop_client.timetable import TimetableModel
 from vitap_vtop_client.biometric import BiometricModel
@@ -30,6 +39,7 @@ from vitap_vtop_client.semester import SemesterData
 
 from vitap_vtop_client.exceptions import VitapVtopClientError
 
+from src.routers._common import vtop_errors
 from src.utils.handle_client_exception import handle_client_exception
 
 
@@ -368,3 +378,61 @@ async def get_payment_receipts(request: BaseVtopRequest):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"An unexpected error occurred: {e}",
         )
+
+
+@router.post("/attendance_detail", response_model=List[AttendanceDetailModel])
+async def get_attendance_detail(request: AttendanceDetailRequest):
+    """
+    Fetches the per-class register behind one course's attendance row.
+
+    `course_id` and `course_type` come from an entry in /student/attendance --
+    its `course_id` and `course_type_code`. Neither is the course code.
+    """
+    async with vtop_errors():
+        async with _client_for(request.session) as client:
+            return await client.get_attendance_detail(
+                sem_sub_id=request.sem_sub_id,
+                course_id=request.course_id,
+                course_type=request.course_type,
+            )
+
+
+@router.post("/capstone_attendance", response_model=Optional[CapstoneAttendanceModel])
+async def get_capstone_attendance(request: CapstoneAttendanceRequest):
+    """
+    Fetches capstone/SDP attendance for a semester.
+
+    Kept apart from /student/attendance because VTOP counts it per semester
+    rather than per course. Students without a capstone get null, which is a
+    normal answer rather than an error.
+    """
+    async with vtop_errors():
+        async with _client_for(request.session) as client:
+            return await client.get_capstone_attendance(sem_sub_id=request.sem_sub_id)
+
+
+@router.post("/grade_view", response_model=List[GradeViewCourse])
+async def get_grade_view(request: GradeViewRequest):
+    """
+    Fetches the graded courses of a semester.
+
+    Grades appear only once a semester has ended, so the current semester
+    returns an empty list until results publish. That is expected.
+    """
+    async with vtop_errors():
+        async with _client_for(request.session) as client:
+            return await client.get_grade_view(sem_sub_id=request.sem_sub_id)
+
+
+@router.post("/grade_view_detail", response_model=GradeViewDetail)
+async def get_grade_view_detail(request: GradeViewDetailRequest):
+    """
+    Fetches one course's mark breakdown and class statistics.
+
+    `course_id` comes from an entry in /student/grade_view.
+    """
+    async with vtop_errors():
+        async with _client_for(request.session) as client:
+            return await client.get_grade_view_detail(
+                sem_sub_id=request.sem_sub_id, course_id=request.course_id
+            )
