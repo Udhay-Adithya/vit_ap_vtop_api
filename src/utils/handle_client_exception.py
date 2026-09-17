@@ -5,86 +5,71 @@ from vitap_vtop_client.exceptions import (
     VtopLoginOtpRequiredError,
     VtopLoginOtpIncorrectError,
     VtopLoginOtpExpiredError,
-    VtopAttendanceError,
-    VtopBiometricError,
-    VtopTimetableError,
-    VtopGradeHistoryError,
-    VtopMentorError,
-    VtopProfileError,
-    VtopExamScheduleError,
-    VtopMarksError,
-    VtopGeneralOutingError,
-    VtopWeekendOutingError,
+    VtopMenuUnavailableError,
     VtopParsingError,
     VtopSessionError,
     VtopConnectionError,
-    VtopCaptchaError,
 )
 
 
-# Helper function to map client exceptions to HTTP exceptions
-def handle_client_exception(e: VitapVtopClientError):
-    """Maps specific client exceptions to appropriate HTTPExceptions."""
-    # The OTP errors subclass VtopLoginError, so they have to be matched first
-    # or they all collapse into a 401 that says the credentials were wrong.
+# The client sets a status_code on most of what it raises, and it knows more
+# about the failure than we do -- a malformed semester id and a dead session are
+# both VtopSessionError, but it marks the first 400 and the second 401. Mapping
+# by exception type alone collapses those into one answer, so the carried code
+# wins wherever the client supplied one.
+#
+# These are the cases where the type has to override it, because the right HTTP
+# answer differs from what the client records for its own purposes.
+_STATUS_OVERRIDES: tuple[tuple[type[Exception], int], ...] = (
+    # The client marks this 401 because the credentials leg is unfinished. Over
+    # HTTP it is a 409: the credentials were accepted, and retrying them cannot
+    # resolve it -- only supplying the OTP can.
+    (VtopLoginOtpRequiredError, status.HTTP_409_CONFLICT),
+)
+
+# Used only when the client did not set a status code.
+_TYPE_DEFAULTS: tuple[tuple[type[Exception], int], ...] = (
+    (VtopLoginError, status.HTTP_401_UNAUTHORIZED),
+    (VtopSessionError, status.HTTP_401_UNAUTHORIZED),
+    (VtopConnectionError, status.HTTP_502_BAD_GATEWAY),
+    (VtopMenuUnavailableError, status.HTTP_502_BAD_GATEWAY),
+    (VtopParsingError, status.HTTP_500_INTERNAL_SERVER_ERROR),
+)
+
+
+def _describe(e: VitapVtopClientError) -> str:
+    """Prefixes the client's message with what the failure means for a caller."""
     if isinstance(e, VtopLoginOtpRequiredError):
-        # Credentials and captcha were accepted; VTOP wants an OTP before it
-        # will finish the login. 409 rather than 401, because retrying with the
-        # same credentials cannot resolve it.
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e))
-    elif isinstance(e, VtopLoginOtpExpiredError):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail=f"Login OTP expired: {e}",
-        )
-    elif isinstance(e, VtopLoginOtpIncorrectError):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail=f"Login OTP incorrect: {e}",
-        )
-    elif isinstance(e, (VtopLoginError, VtopCaptchaError)):
-        # Invalid credentials or captcha failure means unauthorized
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=str(e))
-    elif isinstance(e, VtopSessionError):
-        # If a session *somehow* becomes invalid mid-request (less likely with per-request client)
-        # still 401 might be appropriate.
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=str(e))
-    elif isinstance(e, VtopConnectionError):
-        # 502 Bad Gateway for issues connecting to VTOP
-        raise HTTPException(
-            status_code=status.HTTP_502_BAD_GATEWAY,
-            detail=f"Error connecting to VTOP: {e}",
-        )
-    elif isinstance(e, VtopParsingError):
-        # 500 Internal Server Error for scraping/parsing issues (VTOP structure changed?)
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Data parsing failed: {e}. VTOP structure might have changed.",
-        )
-    elif isinstance(
-        e,
-        (
-            VtopAttendanceError,
-            VtopBiometricError,
-            VtopTimetableError,
-            VtopGradeHistoryError,
-            VtopMentorError,
-            VtopProfileError,
-            VtopExamScheduleError,
-            VtopMarksError,
-            VtopGeneralOutingError,
-            VtopWeekendOutingError,
-        ),
-    ):
-        # Catch specific data fetching errors (might indicate invalid parameters or VTOP internal error)
-        # 400 Bad Request if clearly invalid input, 500 otherwise
-        # More granular checking of the error message 'str(e)' might be needed for 400 vs 500
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
-        )  # Default to 500 for VTOP internal issues
-    else:
-        # Generic client error or unhandled exception
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"An internal client error occurred: {e}",
-        )
+        return f"VTOP requires a login OTP to continue: {e}"
+    if isinstance(e, VtopLoginOtpExpiredError):
+        return f"Login OTP expired: {e}"
+    if isinstance(e, VtopLoginOtpIncorrectError):
+        return f"Login OTP incorrect: {e}"
+    if isinstance(e, VtopConnectionError):
+        return f"Error connecting to VTOP: {e}"
+    if isinstance(e, VtopMenuUnavailableError):
+        return f"VTOP refused the request: {e}"
+    if isinstance(e, VtopParsingError):
+        return f"Data parsing failed: {e}. VTOP structure might have changed."
+    return str(e)
+
+
+def _status_for(e: VitapVtopClientError) -> int:
+    for exc_type, code in _STATUS_OVERRIDES:
+        if isinstance(e, exc_type):
+            return code
+
+    carried = getattr(e, "status_code", None)
+    if isinstance(carried, int) and 400 <= carried <= 599:
+        return carried
+
+    for exc_type, code in _TYPE_DEFAULTS:
+        if isinstance(e, exc_type):
+            return code
+
+    return status.HTTP_500_INTERNAL_SERVER_ERROR
+
+
+def handle_client_exception(e: VitapVtopClientError):
+    """Maps a vitap-vtop-client exception onto an HTTPException."""
+    raise HTTPException(status_code=_status_for(e), detail=_describe(e))

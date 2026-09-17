@@ -77,7 +77,11 @@ async def get_all_student_data(request: ComprehensiveDataRequest):
             registration_number=request.registration_number, password=request.password
         ) as client:
 
-            profile_task = client.get_profile()
+            # get_profile fetches grade history itself to populate its nested
+            # field, and we fetch it again below for the top level one. That is
+            # the same 137KB page twice in one request, so ask the profile to
+            # skip it and attach the copy we already have.
+            profile_task = client.get_profile(include_grade_history=False)
             attendance_task = client.get_attendance(sem_sub_id=request.sem_sub_id)
             timetable_task = client.get_timetable(sem_sub_id=request.sem_sub_id)
             exam_schedule_task = client.get_exam_schedule(sem_sub_id=request.sem_sub_id)
@@ -102,6 +106,10 @@ async def get_all_student_data(request: ComprehensiveDataRequest):
                 grade_history_task,
                 marks_task,
             )
+
+            # The profile was fetched without its grade history; it is the
+            # same data we fetched separately, so fill it back in.
+            profile_data.grade_history = grade_history_data
 
             # Construct the response object using the fetched data
             comprehensive_data = ComprehensiveDataResponse(
